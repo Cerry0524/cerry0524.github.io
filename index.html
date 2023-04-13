@@ -12,6 +12,46 @@
             text-align: center;
             text-overflow: clip;
         }
+
+        .container {
+            display: flex;           
+            justify-content: space-around;
+        }
+        .container-in{
+             flex-wrap: wrap;
+        }
+        .item{
+
+        }
+        .item-left {
+            background: linear-gradient(270deg,rgb(173, 188, 230),rgb(177, 80, 0),rgb(71, 32, 0),rgb(95, 43, 0));
+            width: 10vw;            
+            /* border: 4px solid gray; */
+            box-shadow: 2px 2px 10px gray;
+        }
+        .item-right {
+            background: linear-gradient(90deg,lightblue,white);
+            box-shadow: 2px 2px 10px gray;
+            width: 90vw;            
+            /* border: 4px solid gray; */
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .item-in {
+            background: linear-gradient(135deg,rgb(255, 219, 241),rgb(214, 183, 255));
+            box-shadow: 2px 2px 10px rgb(168, 0, 247);
+            flex-basis: 200px;
+            height: 200px;
+            border: 4px solid gray;
+            margin-bottom: 20px;
+            font-size: 40px;
+            color: rgb(85, 255, 204);
+            text-shadow: 2px 2px 4px rgb(10, 93, 248);
+            text-align: center;
+        }
+        strong{
+            color:rgb(90, 247, 58)
+        }
     </style>
 </head>
 
@@ -19,6 +59,29 @@
     <H1>Cerry的GitHub作品集</H1>
     <a href="https://github.com/cerry0524/">專案原始碼</a>
     <div>這是新手網頁的內容</div>
+    <div class="container container-out">
+        <div class="item-left">
+            範例
+        </div>
+        <div class="item-right">
+            <div class="container container-in">
+                <div class="item-in">
+                    20230412<br>
+                    <strong>CSS <br>FlexBox</strong><br>
+                    <img src="" alt="">
+                    <a href="https://cerry0524.github.io/20230412-CSS/">網頁</a>
+                </div>
+                <div class="item-in">
+                    20230413<br>
+                    <strong>CSS <br>FlexBox</strong><br>
+                    <a href="https://cerry0524.github.io/20230413-CSS/20230413_04.html">訂菜菜單</a>
+                </div>
+                <div class="item-in">
+                    20230413
+                </div>
+            </div>
+        </div>
+    </div>
     <table>
         <tr>
             <td>課目</td>
