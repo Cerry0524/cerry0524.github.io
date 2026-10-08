@@ -1,4 +1,3 @@
-# cerry0524.github.io
+# Cerry0524
 
-### 歡迎參觀我的網頁
-* [新手網頁](https://cerry0524.github.io/)
+共用網站：說了算（/notypegood/）與隨便打（/suibianda/）。舊的 2023 首頁移到 old/。

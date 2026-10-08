@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F4EFE6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12110F" media="(prefers-color-scheme: dark)">
+<title>第三方授權・說了算 NoTypeGood</title>
+<meta name="description" content="第三方授權">
+<style>
+:root {
+  color-scheme: light dark;
+  --paper: #F4EFE6; --paper2: #ECE5D8; --card: #FBF8F2; --rule: #DCD3C4;
+  --text: #1B1916; --text2: #5C564C; --ink: #1B1916; --haze: #D2CABC;
+  --sky-top: #F8F4EC; --sky-bottom: #EDE6D9; --sun: #C4472C; --sun-glow: rgba(196, 71, 44, .16);
+  --accent: #B23C26; --on-accent: #FBF6EE; --mist: 244, 239, 230; --cloud: rgba(60, 54, 46, .10); --bird: #2A2622;
+  --shadow: 0 18px 50px -24px rgba(40, 30, 20, .35);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #12110F; --paper2: #1A1916; --card: #1C1A17; --rule: #34302A;
+    --text: #ECE6DA; --text2: #ADA595; --ink: #050504; --haze: #4C463E;
+    --sky-top: #0C0B0A; --sky-bottom: #2A2621; --sun: #E9D9AE; --sun-glow: rgba(233, 217, 174, .18);
+    --accent: #D9573B; --on-accent: #160F0C; --mist: 26, 24, 21; --cloud: rgba(200, 190, 170, .06); --bird: #9C9384;
+    --shadow: 0 18px 50px -20px rgba(0, 0, 0, .7);
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
+body { margin: 0; background: var(--paper); color: var(--text); overflow-x: clip;
+  font: 17px/1.75 -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif; }
+/* 宣紙紋理：整頁固定一層極淡的雜訊 */
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .5; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+@media (prefers-color-scheme: dark) { body::before { mix-blend-mode: screen; opacity: .35; } }
+a { color: var(--accent); text-underline-offset: 4px; }
+a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.song { font-family: "Songti TC", "STSong", "Noto Serif TC", "Source Han Serif TC", serif; font-weight: 700; }
+.wrap { width: min(1080px, 100% - 40px); margin: 0 auto; }
+.narrow { width: min(760px, 100% - 40px); margin: 0 auto; }
+
+/* ---------- 首屏：高遠山水 ---------- */
+.hero { position: relative; height: max(calc(100svh - 3.4rem), 640px); overflow: hidden; isolation: isolate;
+  background: linear-gradient(to bottom, var(--sky-top), var(--sky-bottom) 70%, var(--paper)); }
+.hero .layer, .hero .mist, .band .layer { position: absolute; inset: 0; pointer-events: none; will-change: transform; }
+.hero .layer svg, .band .layer svg, .river .layer svg { display: block; width: 100%; height: 100%; }
+.sun { position: absolute; top: 15%; left: 63%; width: clamp(70px, 9vw, 130px); aspect-ratio: 1; border-radius: 50%;
+  background: var(--sun); opacity: .8; box-shadow: 0 0 80px 40px var(--sun-glow); filter: blur(.6px); }
+.mist { background: radial-gradient(60% 40% at 30% 60%, rgba(var(--mist), .95), rgba(var(--mist), 0) 70%),
+  radial-gradient(50% 30% at 78% 55%, rgba(var(--mist), .85), rgba(var(--mist), 0) 70%); }
+.mist.m1 { top: 30%; height: 40%; animation: drift 70s ease-in-out infinite alternate; }
+.mist.m2 { top: 48%; height: 34%; animation: drift 54s ease-in-out infinite alternate-reverse; opacity: .9; }
+.mist.m3 { top: 66%; height: 30%; animation: drift 80s ease-in-out infinite alternate; opacity: .8; }
+@keyframes drift { from { transform: translateX(-6%); } to { transform: translateX(6%); } }
+.cloud { position: absolute; width: clamp(280px, 38vw, 620px); fill: var(--cloud); pointer-events: none; }
+.cloud.c1 { top: 8%; left: -40%; animation: cloud 140s linear infinite; }
+.cloud.c2 { top: 26%; left: -40%; width: clamp(200px, 26vw, 420px); animation: cloud 190s linear infinite; animation-delay: -95s; }
+@keyframes cloud { to { transform: translateX(260vw); } }
+.flock { position: absolute; top: 20%; left: -12%; width: clamp(90px, 9vw, 150px); animation: fly 46s linear infinite; animation-delay: -12s; pointer-events: none; }
+.flock .birds { display: block; width: 100%; fill: var(--bird); }
+.flock.f2 { top: 31%; width: clamp(60px, 6vw, 100px); animation-duration: 64s; animation-delay: -40s; opacity: .7; }
+@keyframes fly { 0% { transform: translate(0, 0); } 50% { transform: translate(62vw, -4vh); } 100% { transform: translate(128vw, 2vh); } }
+.wing { transform-origin: 0 0; animation: flap 1.1s ease-in-out infinite; }
+@keyframes flap { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(-.45); } }
+.hero-fade { position: absolute; inset: auto 0 0; height: 22%; background: linear-gradient(to bottom, rgba(var(--mist), 0), var(--paper)); }
+.hero-text { position: absolute; inset: 0; z-index: 2; display: grid; grid-template-columns: 1fr auto; align-items: start; align-content: start; gap: 40px;
+  width: min(1080px, 100% - 40px); margin: 0 auto; padding-top: clamp(84px, 14vh, 150px); }
+.hero-copy { max-width: 30em; padding-top: 8px; }
+.brand { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--text2); letter-spacing: .08em; margin-bottom: 26px; }
+.brand .seal { width: 34px; height: 34px; }
+.seal { display: inline-grid; place-items: center; background: var(--accent); color: var(--on-accent); border-radius: 5px; transform: rotate(-3deg);
+  box-shadow: inset 0 0 0 2px var(--accent), inset 0 0 0 3px rgba(255, 255, 255, .35); }
+.seal svg { width: 74%; height: 74%; }
+.lead { margin: 0 0 30px; font-size: clamp(17px, 1.6vw, 20px); color: var(--text2); }
+.lead strong { color: var(--text); font-weight: 600; }
+.title { writing-mode: vertical-rl; margin: 0; font-size: clamp(46px, 5.4vw, 76px); line-height: 1.25; letter-spacing: .18em; color: var(--text);
+  display: flex; flex-direction: column; gap: .35em; align-items: flex-start; }
+.title .col { display: block; white-space: nowrap; }
+.title .col:nth-child(2) { margin-top: 1.6em; }
+.title .chop { writing-mode: horizontal-tb; width: .5em; height: .5em; align-self: flex-end; margin-bottom: .2em; }
+.actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 26px; border-radius: 4px; text-decoration: none; font-size: 17px;
+  font-family: "Songti TC", "STSong", serif; font-weight: 700; letter-spacing: .06em; transition: transform .3s, box-shadow .3s, background .3s; }
+.btn.primary { background: var(--accent); color: var(--on-accent); box-shadow: inset 0 0 0 3px var(--accent), inset 0 0 0 4px rgba(255, 255, 255, .4), var(--shadow); }
+.btn.primary:hover { transform: translateY(-2px); }
+.btn.ghost { color: var(--text); border: 1px solid color-mix(in srgb, var(--text) 35%, transparent); background: rgba(var(--mist), .5); backdrop-filter: blur(4px); }
+.btn.ghost:hover { background: rgba(var(--mist), .9); }
+.req { margin-top: 18px; font-size: 14px; color: var(--text2); }
+.scroll-hint { position: absolute; z-index: 3; left: 50%; bottom: 26px; transform: translateX(-50%); font-size: 13px; letter-spacing: .3em; color: var(--text2);
+  writing-mode: vertical-rl; text-decoration: none; }
+.scroll-hint::after { content: ""; display: block; width: 1px; height: 46px; margin: 10px auto 0; background: linear-gradient(var(--text2), transparent); animation: drip 2.4s ease-in-out infinite; }
+@keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* ---------- 段落之間：遠山霧帶淡入淡出 ---------- */
+.band { position: relative; height: clamp(180px, 26vw, 340px); margin: -40px 0; pointer-events: none; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 34%, #000 62%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 34%, #000 62%, transparent); }
+.band .mist { inset: 30% -10% 0; animation: drift 60s ease-in-out infinite alternate; opacity: .8; }
+.band .flock { top: 18%; }
+
+/* ---------- 段落 ---------- */
+section.sec { position: relative; padding: 40px 0; }
+.sec-head { display: grid; grid-template-columns: auto 1fr; column-gap: 22px; align-items: start; margin-bottom: 34px; }
+.chap { writing-mode: vertical-rl; font-size: 15px; letter-spacing: .4em; color: var(--accent); padding-top: 6px; border-right: 1px solid color-mix(in srgb, var(--accent) 50%, transparent); padding-right: 8px; }
+.sec-head h2 { margin: 0; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.3; letter-spacing: .04em; }
+.sec-head .stroke { display: block; width: clamp(140px, 22vw, 240px); height: 16px; margin: 10px 0 14px; fill: color-mix(in srgb, var(--text) 82%, transparent); }
+.sec-head p { margin: 0; max-width: 40em; color: var(--text2); }
+.badge { display: inline-block; font-size: 13px; letter-spacing: .2em; color: var(--accent); border: 1px solid var(--accent); padding: 0 10px; border-radius: 3px; margin-bottom: 12px; }
+
+/* 特色：四欄，中間用淡墨直線分隔 */
+.points { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.point { padding: 6px 26px 10px; border-left: 1px solid; border-image: linear-gradient(transparent, var(--rule), transparent) 1; }
+.point:first-child { border-left: 0; padding-left: 0; }
+.point .ic { width: 30px; height: 30px; color: var(--accent); margin-bottom: 12px; }
+.point h3 { margin: 0 0 6px; font-size: 21px; }
+.point p { margin: 0; font-size: 15px; color: var(--text2); }
+
+/* 截圖：像裱好的畫，背後一抹淡墨暈染 */
+figure.shot { position: relative; margin: 0; }
+figure.shot::before { content: ""; position: absolute; inset: 8% -6% -8% 6%; z-index: -1; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--ink) 14%, transparent), transparent); filter: blur(24px); }
+figure.shot a { display: block; padding: clamp(8px, 1.2vw, 14px); background: var(--card); border: 1px solid var(--rule); border-radius: 6px; box-shadow: var(--shadow); }
+figure.shot img { display: block; width: 100%; height: auto; border-radius: 8px; }
+figure.shot figcaption { margin-top: 12px; font-size: 14px; color: var(--text2); text-align: center; }
+figure.tall { max-width: 520px; }
+.zoom { display: none; }
+
+/* 四個步驟：圖文左右交錯 */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(48px, 7vw, 96px); }
+.steps li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.steps li:nth-child(even) > .copy { order: 2; }
+.steps li:nth-child(even) figure.tall { justify-self: start; }
+.steps li:nth-child(odd) figure.tall { justify-self: end; }
+.steps h3 { margin: 12px 0 8px; font-size: clamp(20px, 2vw, 25px); line-height: 1.45; }
+.steps p { margin: 0; color: var(--text2); }
+kbd { display: inline-block; white-space: nowrap; font: inherit; font-size: .82em; background: var(--paper2); border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 5px; padding: 0 7px; color: var(--text); }
+.enso { position: relative; display: inline-grid; place-items: center; width: 64px; height: 64px; }
+.enso svg { position: absolute; inset: 0; stroke: var(--accent); opacity: .85; }
+.enso b { font-family: "Songti TC", "STSong", serif; font-size: 26px; color: var(--text); }
+.note { margin: clamp(48px, 6vw, 72px) auto 0; max-width: 46em; text-align: center; color: var(--text2); font-size: 15px; padding: 18px 24px;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.single { max-width: 980px; margin: 0 auto; }
+.hud { max-width: 720px; margin: 0 auto; }
+
+/* 版本說明：像一卷冊頁 */
+.releases { display: grid; gap: 18px; }
+.release { background: var(--card); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 4px; padding: 20px 24px; }
+.release h3 { margin: 0 0 8px; font-size: 22px; display: flex; align-items: baseline; gap: 12px; }
+.release time { font-family: -apple-system, sans-serif; font-weight: 400; font-size: 14px; color: var(--text2); }
+.release ul { margin: 0; padding-left: 1.2em; columns: 2 300px; column-gap: 36px; }
+.release li { margin: 3px 0; break-inside: avoid; font-size: 15.5px; }
+.release li.fix { color: var(--text2); }
+
+/* 頁尾：夜江 */
+.river { position: relative; height: clamp(260px, 32vw, 420px); margin-top: 40px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40%); mask-image: linear-gradient(to bottom, transparent, #000 40%); }
+.river .layer { position: absolute; inset: 0; }
+.river .moon { position: absolute; top: 22%; left: 22%; width: clamp(40px, 5vw, 70px); aspect-ratio: 1; border-radius: 50%; background: var(--sun); opacity: .55; box-shadow: 0 0 60px 26px var(--sun-glow); }
+.boat { position: absolute; left: 58%; bottom: 14%; width: clamp(70px, 8vw, 120px); stroke: var(--text); fill: none; opacity: .7; animation: bob 6s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translate(6px, 2px) rotate(-1deg); } }
+footer.foot { position: relative; padding: 0 0 56px; margin-top: -60px; text-align: center; font-size: 14px; color: var(--text2); }
+footer.foot .seal { width: 40px; height: 40px; margin-bottom: 14px; }
+footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+
+/* 墨的暈開：捲到眼前時由模糊、淡變清楚 */
+@property --r { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+.reveal { opacity: 0; filter: blur(14px); transform: translateY(26px);
+  -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 var(--r), transparent calc(var(--r) + 35%)); mask-image: radial-gradient(circle at 50% 40%, #000 var(--r), transparent calc(var(--r) + 35%));
+  transition: opacity 1.6s ease, filter 1.8s ease, transform 1.6s cubic-bezier(.2, .7, .2, 1), --r 2.2s ease; }
+.reveal.in { opacity: 1; filter: none; transform: none; --r: 160%; }
+.reveal.in.done { -webkit-mask-image: none; mask-image: none; }
+.ink-in { opacity: 0; filter: blur(10px); animation: inkIn 2.4s ease forwards; }
+.ink-in.d1 { animation-delay: .3s; } .ink-in.d2 { animation-delay: .8s; } .ink-in.d3 { animation-delay: 1.3s; }
+@keyframes inkIn { to { opacity: 1; filter: none; } }
+
+/* 文件頁（隱私、授權） */
+.doc-top { position: relative; height: 200px; overflow: hidden; background: linear-gradient(var(--sky-top), var(--paper));
+  -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); }
+.doc-top .layer { position: absolute; inset: 0; }
+main.doc { padding: 0 0 40px; }
+main.doc h1 { font-family: "Songti TC", "STSong", serif; font-size: 34px; margin: 0 0 12px; }
+main.doc h2 { margin-top: 32px; font-size: 22px; }
+main.doc code, main.doc pre { background: var(--paper2); border-radius: 6px; }
+main.doc code { padding: 1px 5px; font-size: 14px; word-break: break-word; }
+main.doc pre { padding: 12px; overflow-x: auto; }
+.table { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--rule); }
+
+
+/* 共用網站的頂端分頁列（Cerry0524：說了算／隨便打）。原始碼與「隨便打」共用同一份（2026-10-08 定案）；
+   這裡不載入 Google Fonts（下載頁不載入任何外部資源），字型退回系統的宋體與楷體。 */
+/* 楷體子集（霞鶩文楷 TC，SIL OFL 1.1；只含「隨便打手」4 字，約 2 KB）：從本站載入，不連外部字型服務。
+   宋體用 macOS 內建的 Songti TC；楷體不是每台 Mac 都有，所以自備。授權聲明見網站根目錄。 */
+@font-face {
+  font-family: "Cerry Kai Bar";
+  src: url("/assets/fonts/cerry-kai-bar.woff2") format("woff2");
+  font-weight: 100 900; /* 只有一個字重：宣告整個範圍，避免瀏覽器硬加粗 */
+  font-display: swap;
+  unicode-range: U+96A8, U+4FBF, U+6253, U+624B; /* 隨便打手 */
+}
+.cerry-bar {
+  --cb-paper: #F5F0E7; --cb-rule: #DED5C6; --cb-text: #1B1916; --cb-text2: #615A50;
+  --cb-seal: #B8402A; --cb-seal-text: #F6F3EE;
+  --cb-ntg: #B23C26;   /* 朱砂：說了算 */
+  --cb-sbd: #2E5B3F;   /* 墨綠：隨便打 */
+  position: sticky; top: 0; z-index: 50;
+  background: var(--cb-paper); border-bottom: 1px solid var(--cb-rule);
+  padding-top: env(safe-area-inset-top, 0px); padding-inline: 16px;
+  font-family: "PingFang TC", "Noto Sans TC", "Heiti TC", sans-serif; line-height: 1.4;
+  view-transition-name: cerry-bar;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .cerry-bar {
+    --cb-paper: #14130F; --cb-rule: #34302A; --cb-text: #ECE6DA; --cb-text2: #A9A190;
+    --cb-seal: #E36A50; --cb-seal-text: #191816; --cb-ntg: #D9573B; --cb-sbd: #8DBF9C;
+  }
+}
+:root[data-theme="dark"] .cerry-bar {
+  --cb-paper: #14130F; --cb-rule: #34302A; --cb-text: #ECE6DA; --cb-text2: #A9A190;
+  --cb-seal: #E36A50; --cb-seal-text: #191816; --cb-ntg: #D9573B; --cb-sbd: #8DBF9C;
+}
+.cerry-bar-in { max-width: 68rem; margin-inline: auto; display: flex; align-items: center; gap: .4rem 1rem; min-height: 3.4rem; flex-wrap: wrap; }
+.cerry-brand { font-family: "Songti TC", "Noto Serif TC", serif; font-weight: 700; letter-spacing: .04em; font-size: .95rem; color: var(--cb-text2); text-decoration: none; margin-right: .5rem; }
+.cerry-brand:hover { color: var(--cb-text); }
+.cerry-tab { position: relative; display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .75rem .7rem; color: var(--cb-text2); text-decoration: none; border-radius: 6px; font-weight: 700; letter-spacing: .06em; }
+.cerry-tab:hover { color: var(--cb-text); }
+.cerry-tab:focus-visible, .cerry-brand:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.cerry-ntg .cerry-name { font-family: "Songti TC", "Noto Serif TC", serif; }
+.cerry-sbd .cerry-name { font-family: "Cerry Kai Bar", "LXGW WenKai TC", "Kaiti TC", "STKaiti", serif; font-size: 1.08em; }
+.cerry-seal { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 4px; transform: rotate(-3deg); font-size: .9rem; line-height: 1; color: var(--cb-seal); box-shadow: inset 0 0 0 1.5px var(--cb-seal); flex: none; }
+.cerry-ntg .cerry-seal { font-family: "Songti TC", "Noto Serif TC", serif; }
+.cerry-sbd .cerry-seal { font-family: "Cerry Kai Bar", "LXGW WenKai TC", "Kaiti TC", "STKaiti", serif; }
+.cerry-tab[aria-current="page"] { color: var(--cb-text); }
+.cerry-tab[aria-current="page"] .cerry-seal { background: var(--cb-seal); color: var(--cb-seal-text); box-shadow: inset 0 0 0 1.5px var(--cb-seal), inset 0 0 0 2.5px rgba(255, 255, 255, .35); }
+.cerry-tab[aria-current="page"]::after {
+  content: ""; position: absolute; left: .55rem; right: .55rem; bottom: .1rem; height: .55rem;
+  background: var(--cb-ntg); view-transition-name: cerry-stroke;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 14' preserveAspectRatio='none'%3E%3Cpath d='M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 14' preserveAspectRatio='none'%3E%3Cpath d='M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.cerry-sbd[aria-current="page"]::after { background: var(--cb-sbd); }
+/* 贊助：一般連結（不嵌入 Buy Me a Coffee 的官方按鈕程式，維持不載入外部資源）。 */
+.cerry-sponsor { margin-left: auto; font-size: .85rem; color: var(--cb-text2); text-decoration: none; border: 1px solid color-mix(in srgb, var(--cb-text) 25%, transparent); border-radius: 999px; padding: .25rem .85rem; white-space: nowrap; }
+.cerry-sponsor:hover { color: var(--cb-text); border-color: var(--cb-seal); }
+.cerry-sponsor:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: .18s ease both cerry-ink-out; }
+::view-transition-new(root) { animation: .4s ease both cerry-ink-in; }
+::view-transition-group(cerry-stroke) { animation-duration: .32s; }
+@keyframes cerry-ink-in { from { opacity: 0; filter: blur(6px); } }
+@keyframes cerry-ink-out { to { opacity: 0; filter: blur(4px); } }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
+/* ---------- 窄螢幕 ---------- */
+@media (max-width: 860px) {
+  .points { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+  .point:nth-child(3) { border-left: 0; padding-left: 0; }
+  .steps li { grid-template-columns: 1fr; gap: 22px; }
+  .steps li:nth-child(even) > .copy { order: 0; }
+  .steps li figure.tall { justify-self: center !important; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .hero { height: max(100svh, 720px); }
+  .hero-text { grid-template-columns: 1fr; gap: 0; padding-top: 70px; }
+  .title { writing-mode: horizontal-tb; flex-direction: column; gap: 0; font-size: clamp(38px, 11vw, 48px); letter-spacing: .06em; order: -1; margin-bottom: 18px; }
+  .title .col:nth-child(2) { margin-top: 0; }
+  .title .chop { display: none; }
+  .brand { margin-bottom: 18px; }
+  .sun { top: 9%; left: 72%; }
+  .scroll-hint { display: none; }
+  .points { grid-template-columns: 1fr; }
+  .point, .point:first-child, .point:nth-child(3) { border-left: 0; padding: 0 0 22px; border-bottom: 1px solid; border-image: linear-gradient(to right, transparent, var(--rule), transparent) 1; }
+  .sec-head { column-gap: 14px; }
+  .zoom { display: inline; }
+  .table table { min-width: 560px; }
+  .release ul { columns: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal, .ink-in { opacity: 1; filter: none; transform: none; -webkit-mask-image: none; mask-image: none; }
+  .flock, .cloud { display: none; }
+}
+</style>
+</head>
+<body>
+<nav class="cerry-bar" aria-label="Cerry0524 的作品"><div class="cerry-bar-in"><a class="cerry-brand" href="/">Cerry0524</a><a class="cerry-tab cerry-ntg" href="/notypegood/" aria-current="page"><span class="cerry-seal" aria-hidden="true">言</span><span class="cerry-name">說了算</span></a><a class="cerry-tab cerry-sbd" href="/suibianda/"><span class="cerry-seal" aria-hidden="true">手</span><span class="cerry-name">隨便打</span></a><a class="cerry-sponsor" href="https://buymeacoffee.com/cerry0524" rel="noopener" title="Buy Me a Coffee">贊助</a></div></nav>
+<div class="doc-top" aria-hidden="true"><div class="layer"><svg viewBox="0 0 1600 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><defs><linearGradient id="gdoc" gradientUnits="userSpaceOnUse" x1="0" y1="161" x2="0" y2="360"><stop offset="0" style="stop-color:color-mix(in srgb, var(--ink) 22%, var(--haze))"/><stop offset=".5" style="stop-color:color-mix(in srgb, var(--ink) 22%, var(--haze));stop-opacity:.82"/><stop offset="1" style="stop-color:var(--paper);stop-opacity:0"/></linearGradient><filter id="fdoc" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".02 .12" numOctaves="3" seed="21" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="1.5"/></filter></defs><path d="M0,360 L0.0,343.2 L5.0,342.0 L10.0,340.7 L15.0,339.6 L20.0,338.6 L25.0,337.5 L30.0,336.2 L35.0,334.3 L40.0,331.7 L45.0,328.2 L50.0,324.1 L55.0,319.6 L60.0,315.1 L65.0,310.8 L70.0,306.6 L75.0,302.5 L80.0,298.2 L85.0,293.4 L90.0,288.4 L95.0,283.1 L100.0,277.7 L105.0,272.1 L110.0,266.6 L115.0,261.1 L120.0,255.6 L125.0,250.2 L130.0,245.3 L135.0,240.9 L140.0,237.4 L145.0,234.4 L150.0,231.7 L155.0,228.8 L160.0,224.9 L165.0,220.1 L170.0,214.7 L175.0,208.8 L180.0,202.9 L185.0,196.0 L190.0,188.1 L195.0,179.9 L200.0,172.3 L205.0,166.4 L210.0,163.5 L215.0,163.1 L220.0,163.9 L225.0,164.0 L230.0,162.7 L235.0,161.5 L240.0,161.0 L245.0,161.2 L250.0,162.3 L255.0,165.0 L260.0,169.1 L265.0,173.7 L270.0,177.8 L275.0,180.6 L280.0,182.3 L285.0,183.5 L290.0,184.9 L295.0,187.1 L300.0,190.1 L305.0,192.1 L310.0,193.6 L315.0,195.8 L320.0,200.2 L325.0,207.4 L330.0,216.2 L335.0,225.5 L340.0,234.2 L345.0,241.8 L350.0,247.7 L355.0,252.3 L360.0,255.9 L365.0,258.8 L370.0,262.2 L375.0,265.7 L380.0,269.0 L385.0,272.3 L390.0,275.8 L395.0,279.6 L400.0,284.1 L405.0,289.0 L410.0,293.7 L415.0,298.0 L420.0,301.4 L425.0,304.4 L430.0,307.2 L435.0,310.0 L440.0,312.8 L445.0,315.8 L450.0,319.2 L455.0,322.6 L460.0,325.8 L465.0,328.7 L470.0,331.3 L475.0,333.7 L480.0,336.0 L485.0,338.0 L490.0,339.9 L495.0,341.4 L500.0,342.6 L505.0,343.7 L510.0,344.4 L515.0,344.4 L520.0,344.5 L525.0,344.6 L530.0,344.6 L535.0,344.6 L540.0,344.6 L545.0,344.7 L550.0,344.7 L555.0,344.7 L560.0,344.7 L565.0,344.7 L570.0,344.6 L575.0,344.4 L580.0,344.2 L585.0,344.0 L590.0,343.9 L595.0,343.8 L600.0,343.7 L605.0,343.6 L610.0,343.6 L615.0,343.7 L620.0,343.9 L625.0,344.1 L630.0,344.3 L635.0,344.4 L640.0,344.4 L645.0,344.4 L650.0,344.3 L655.0,344.2 L660.0,344.2 L665.0,344.1 L670.0,344.1 L675.0,344.0 L680.0,343.9 L685.0,343.6 L690.0,343.1 L695.0,342.7 L700.0,342.4 L705.0,342.3 L710.0,342.5 L715.0,342.8 L720.0,343.1 L725.0,343.3 L730.0,343.3 L735.0,343.2 L740.0,343.0 L745.0,342.8 L750.0,342.7 L755.0,342.7 L760.0,342.7 L765.0,342.8 L770.0,343.0 L775.0,343.1 L780.0,343.3 L785.0,343.5 L790.0,343.7 L795.0,343.9 L800.0,344.1 L805.0,344.2 L810.0,344.3 L815.0,344.4 L820.0,344.6 L825.0,344.8 L830.0,344.8 L835.0,344.8 L840.0,344.7 L845.0,344.7 L850.0,344.9 L855.0,345.1 L860.0,345.3 L865.0,345.5 L870.0,345.6 L875.0,345.6 L880.0,345.7 L885.0,345.8 L890.0,345.9 L895.0,346.0 L900.0,346.0 L905.0,345.9 L910.0,345.8 L915.0,345.8 L920.0,345.8 L925.0,345.8 L930.0,345.8 L935.0,345.9 L940.0,345.9 L945.0,346.0 L950.0,346.1 L955.0,346.1 L960.0,346.2 L965.0,346.3 L970.0,346.5 L975.0,346.6 L980.0,346.6 L985.0,346.2 L990.0,345.8 L995.0,345.2 L1000.0,344.6 L1005.0,344.0 L1010.0,343.3 L1015.0,342.5 L1020.0,341.6 L1025.0,340.5 L1030.0,339.4 L1035.0,338.2 L1040.0,336.8 L1045.0,335.1 L1050.0,333.0 L1055.0,330.7 L1060.0,328.3 L1065.0,326.0 L1070.0,323.6 L1075.0,321.1 L1080.0,318.4 L1085.0,315.6 L1090.0,312.9 L1095.0,310.6 L1100.0,308.5 L1105.0,306.6 L1110.0,304.4 L1115.0,302.1 L1120.0,300.4 L1125.0,298.8 L1130.0,296.8 L1135.0,294.2 L1140.0,290.5 L1145.0,285.8 L1150.0,280.6 L1155.0,275.5 L1160.0,271.0 L1165.0,266.8 L1170.0,262.7 L1175.0,258.6 L1180.0,254.4 L1185.0,250.2 L1190.0,246.5 L1195.0,243.7 L1200.0,241.5 L1205.0,239.7 L1210.0,238.3 L1215.0,237.9 L1220.0,238.2 L1225.0,238.7 L1230.0,239.2 L1235.0,239.0 L1240.0,238.1 L1245.0,237.5 L1250.0,237.8 L1255.0,239.2 L1260.0,240.4 L1265.0,241.0 L1270.0,241.6 L1275.0,242.9 L1280.0,245.4 L1285.0,249.0 L1290.0,252.8 L1295.0,256.1 L1300.0,258.3 L1305.0,259.5 L1310.0,261.0 L1315.0,262.5 L1320.0,263.8 L1325.0,264.8 L1330.0,265.6 L1335.0,266.7 L1340.0,267.9 L1345.0,269.1 L1350.0,270.5 L1355.0,270.9 L1360.0,270.5 L1365.0,270.0 L1370.0,270.3 L1375.0,272.1 L1380.0,275.5 L1385.0,279.9 L1390.0,284.5 L1395.0,288.7 L1400.0,291.7 L1405.0,294.0 L1410.0,295.8 L1415.0,297.7 L1420.0,299.9 L1425.0,302.4 L1430.0,304.7 L1435.0,306.5 L1440.0,308.0 L1445.0,309.1 L1450.0,310.1 L1455.0,311.2 L1460.0,312.3 L1465.0,313.5 L1470.0,314.7 L1475.0,316.4 L1480.0,318.7 L1485.0,321.1 L1490.0,323.2 L1495.0,324.9 L1500.0,326.3 L1505.0,327.6 L1510.0,328.9 L1515.0,330.3 L1520.0,331.7 L1525.0,332.7 L1530.0,333.6 L1535.0,334.4 L1540.0,335.3 L1545.0,336.4 L1550.0,337.7 L1555.0,339.1 L1560.0,340.2 L1565.0,341.1 L1570.0,341.8 L1575.0,342.3 L1580.0,342.8 L1585.0,342.7 L1590.0,342.7 L1595.0,342.8 L1600.0,343.0 L1600,360 Z" fill="url(#gdoc)" filter="url(#fdoc)"/><path d="M0.0,344.0 L5.0,342.8 L10.0,341.5 L15.0,340.4 L20.0,339.4 L25.0,338.3 L30.0,337.0 L35.0,335.1 L40.0,332.5 L45.0,329.0 L50.0,324.9 L55.0,320.4 L60.0,315.9 L65.0,311.6 L70.0,307.4 L75.0,303.3 L80.0,299.0 L85.0,294.2 L90.0,289.2 L95.0,283.9 L100.0,278.5 L105.0,272.9 L110.0,267.4 L115.0,261.9 L120.0,256.4 L125.0,251.0 L130.0,246.1 L135.0,241.7 L140.0,238.2 L145.0,235.2 L150.0,232.5 L155.0,229.6 L160.0,225.7 L165.0,220.9 L170.0,215.5 L175.0,209.6 L180.0,203.7 L185.0,196.8 L190.0,188.9 L195.0,180.7 L200.0,173.1 L205.0,167.2 L210.0,164.3 L215.0,163.9 L220.0,164.7 L225.0,164.8 L230.0,163.5 L235.0,162.3 L240.0,161.8 L245.0,162.0 L250.0,163.1 L255.0,165.8 L260.0,169.9 L265.0,174.5 L270.0,178.6 L275.0,181.4 L280.0,183.1 L285.0,184.3 L290.0,185.7 L295.0,187.9 L300.0,190.9 L305.0,192.9 L310.0,194.4 L315.0,196.6 L320.0,201.0 L325.0,208.2 L330.0,217.0 L335.0,226.3 L340.0,235.0 L345.0,242.6 L350.0,248.5 L355.0,253.1 L360.0,256.7 L365.0,259.6 L370.0,263.0 L375.0,266.5 L380.0,269.8 L385.0,273.1 L390.0,276.6 L395.0,280.4 L400.0,284.9 L405.0,289.8 L410.0,294.5 L415.0,298.8 L420.0,302.2 L425.0,305.2 L430.0,308.0 L435.0,310.8 L440.0,313.6 L445.0,316.6 L450.0,320.0 L455.0,323.4 L460.0,326.6 L465.0,329.5 L470.0,332.1 L475.0,334.5 L480.0,336.8 L485.0,338.8 L490.0,340.7 L495.0,342.2 L500.0,343.4 L505.0,344.5 L510.0,345.2 L515.0,345.2 L520.0,345.3 L525.0,345.4 L530.0,345.4 L535.0,345.4 L540.0,345.4 L545.0,345.5 L550.0,345.5 L555.0,345.5 L560.0,345.5 L565.0,345.5 L570.0,345.4 L575.0,345.2 L580.0,345.0 L585.0,344.8 L590.0,344.7 L595.0,344.6 L600.0,344.5 L605.0,344.4 L610.0,344.4 L615.0,344.5 L620.0,344.7 L625.0,344.9 L630.0,345.1 L635.0,345.2 L640.0,345.2 L645.0,345.2 L650.0,345.1 L655.0,345.0 L660.0,345.0 L665.0,344.9 L670.0,344.9 L675.0,344.8 L680.0,344.7 L685.0,344.4 L690.0,343.9 L695.0,343.5 L700.0,343.2 L705.0,343.1 L710.0,343.3 L715.0,343.6 L720.0,343.9 L725.0,344.1 L730.0,344.1 L735.0,344.0 L740.0,343.8 L745.0,343.6 L750.0,343.5 L755.0,343.5 L760.0,343.5 L765.0,343.6 L770.0,343.8 L775.0,343.9 L780.0,344.1 L785.0,344.3 L790.0,344.5 L795.0,344.7 L800.0,344.9 L805.0,345.0 L810.0,345.1 L815.0,345.2 L820.0,345.4 L825.0,345.6 L830.0,345.6 L835.0,345.6 L840.0,345.5 L845.0,345.5 L850.0,345.7 L855.0,345.9 L860.0,346.1 L865.0,346.3 L870.0,346.4 L875.0,346.4 L880.0,346.5 L885.0,346.6 L890.0,346.7 L895.0,346.8 L900.0,346.8 L905.0,346.7 L910.0,346.6 L915.0,346.6 L920.0,346.6 L925.0,346.6 L930.0,346.6 L935.0,346.7 L940.0,346.7 L945.0,346.8 L950.0,346.9 L955.0,346.9 L960.0,347.0 L965.0,347.1 L970.0,347.3 L975.0,347.4 L980.0,347.4 L985.0,347.0 L990.0,346.6 L995.0,346.0 L1000.0,345.4 L1005.0,344.8 L1010.0,344.1 L1015.0,343.3 L1020.0,342.4 L1025.0,341.3 L1030.0,340.2 L1035.0,339.0 L1040.0,337.6 L1045.0,335.9 L1050.0,333.8 L1055.0,331.5 L1060.0,329.1 L1065.0,326.8 L1070.0,324.4 L1075.0,321.9 L1080.0,319.2 L1085.0,316.4 L1090.0,313.7 L1095.0,311.4 L1100.0,309.3 L1105.0,307.4 L1110.0,305.2 L1115.0,302.9 L1120.0,301.2 L1125.0,299.6 L1130.0,297.6 L1135.0,295.0 L1140.0,291.3 L1145.0,286.6 L1150.0,281.4 L1155.0,276.3 L1160.0,271.8 L1165.0,267.6 L1170.0,263.5 L1175.0,259.4 L1180.0,255.2 L1185.0,251.0 L1190.0,247.3 L1195.0,244.5 L1200.0,242.3 L1205.0,240.5 L1210.0,239.1 L1215.0,238.7 L1220.0,239.0 L1225.0,239.5 L1230.0,240.0 L1235.0,239.8 L1240.0,238.9 L1245.0,238.3 L1250.0,238.6 L1255.0,240.0 L1260.0,241.2 L1265.0,241.8 L1270.0,242.4 L1275.0,243.7 L1280.0,246.2 L1285.0,249.8 L1290.0,253.6 L1295.0,256.9 L1300.0,259.1 L1305.0,260.3 L1310.0,261.8 L1315.0,263.3 L1320.0,264.6 L1325.0,265.6 L1330.0,266.4 L1335.0,267.5 L1340.0,268.7 L1345.0,269.9 L1350.0,271.3 L1355.0,271.7 L1360.0,271.3 L1365.0,270.8 L1370.0,271.1 L1375.0,272.9 L1380.0,276.3 L1385.0,280.7 L1390.0,285.3 L1395.0,289.5 L1400.0,292.5 L1405.0,294.8 L1410.0,296.6 L1415.0,298.5 L1420.0,300.7 L1425.0,303.2 L1430.0,305.5 L1435.0,307.3 L1440.0,308.8 L1445.0,309.9 L1450.0,310.9 L1455.0,312.0 L1460.0,313.1 L1465.0,314.3 L1470.0,315.5 L1475.0,317.2 L1480.0,319.5 L1485.0,321.9 L1490.0,324.0 L1495.0,325.7 L1500.0,327.1 L1505.0,328.4 L1510.0,329.7 L1515.0,331.1 L1520.0,332.5 L1525.0,333.5 L1530.0,334.4 L1535.0,335.2 L1540.0,336.1 L1545.0,337.2 L1550.0,338.5 L1555.0,339.9 L1560.0,341.0 L1565.0,341.9 L1570.0,342.6 L1575.0,343.1 L1580.0,343.6 L1585.0,343.5 L1590.0,343.5 L1595.0,343.6 L1600.0,343.8" fill="none" style="stroke:color-mix(in srgb, var(--ink) 22%, var(--haze))" stroke-opacity=".6" stroke-width="0.8" stroke-linecap="round" filter="url(#fdoc)"/></svg></div></div><main class="narrow doc"><p><a href="./">← 說了算 NoTypeGood</a></p><h2>NoTypeGood v2 第三方元件與模型</h2>
+<p>這份清單只列 v2 <strong>隨 app 出貨</strong>或<strong>首次啟動時下載</strong>的東西（v1 的清單在根目錄 <code>THIRD_PARTY_NOTICES.md</code>，v1 使用 whisper.cpp、Breeze-ASR-25 等，v2 都不再包含）。各元件維持上游授權；列在這裡不代表重新授權。</p>
+<h3>模型（首次啟動時由 app 下載，約 4.2 GB）</h3>
+<p>下載只連到 <code>models.json</code> 列出的 Hugging Face 網址，每個檔案都釘住 commit（revision）並以 SHA-256 與位元組數驗證；驗證不符會刪除重下一次。授權以 Hugging Face 模型卡標示為準，並已逐一核對原模型。</p>
+<div class="table"><table><thead><tr><th>模型</th><th>用途</th><th>來源（釘住的 revision）</th><th>授權</th></tr></thead><tbody><tr><td>Qwen3-ASR-1.7B</td><td>語音辨識模型</td><td><code>mlx-community/Qwen3-ASR-1.7B-8bit</code> @ <code>a8379a2e2f9e313c9292cdf1af4055ab56d50d55</code></td><td>Apache-2.0（原模型：Qwen／Alibaba Cloud。MLX 轉換：mlx-community。）</td></tr><tr><td>Qwen3.5-2B</td><td>文字整理模型</td><td><code>mlx-community/Qwen3.5-2B-MLX-4bit</code> @ <code>93760be4f1f69842a46bc13dbdc0f19e291392a3</code></td><td>Apache-2.0（原模型：Qwen／Alibaba Cloud。MLX 轉換：mlx-community。）</td></tr></tbody></table></div>
+<p>已移除（2026-10-07，不再下載或使用）：Breeze-ASR-25、Qwen3-ASR-0.6B、Qwen3.5-4B、Apple Foundation Models 整理選項、whisper.cpp。</p>
+<h3>Swift 套件（編譯進 app，版本鎖定於 <code>Package.swift</code> 的 <code>exact:</code>，實際版本記錄在 <code>v2/Packages/NoTypeGoodKit/Package.resolved</code>）</h3>
+<div class="table"><table><thead><tr><th>套件</th><th>版本</th><th>用途</th><th>授權</th><th>隨 app 出貨</th></tr></thead><tbody><tr><td><a href="https://github.com/ml-explore/mlx-swift">mlx-swift</a></td><td>0.31.6</td><td>MLX 的 Swift 介面（間接依賴）</td><td>MIT</td><td>是</td></tr><tr><td><a href="https://github.com/ml-explore/mlx-swift-lm">mlx-swift-lm</a></td><td>3.31.4</td><td>文字整理模型的載入與推論</td><td>MIT</td><td>是</td></tr><tr><td><a href="https://github.com/Blaizzy/mlx-audio-swift">mlx-audio-swift</a></td><td>0.1.3</td><td>Qwen3-ASR 語音辨識推論</td><td>MIT</td><td>是</td></tr><tr><td><a href="https://github.com/huggingface/swift-transformers">swift-transformers</a></td><td>1.3.4</td><td>tokenizer</td><td>Apache-2.0</td><td>是</td></tr><tr><td><a href="https://github.com/ddddxxx/SwiftyOpenCC">SwiftyOpenCC</a></td><td>2.0.0-beta</td><td>簡體轉台灣繁體（s2twp）的 Swift 介面</td><td>MIT</td><td>是</td></tr><tr><td><a href="https://github.com/huggingface/swift-huggingface">swift-huggingface</a></td><td>0.12.0</td><td>Hugging Face 的 Swift 用戶端（間接依賴）</td><td>Apache-2.0</td><td>是</td></tr><tr><td><a href="https://github.com/huggingface/swift-jinja">swift-jinja</a></td><td>2.5.1</td><td>tokenizer 的聊天範本（間接依賴）</td><td>Apache-2.0</td><td>是</td></tr><tr><td><a href="https://github.com/apple/swift-collections">swift-collections</a></td><td>1.7.1</td><td>資料結構（間接依賴）</td><td>Apache-2.0（含 Swift Runtime Library Exception）</td><td>是</td></tr><tr><td><a href="https://github.com/apple/swift-crypto">swift-crypto</a></td><td>4.5.2</td><td>雜湊與加密（間接依賴）</td><td>Apache-2.0</td><td>是</td></tr><tr><td><a href="https://github.com/apple/swift-asn1">swift-asn1</a></td><td>1.7.3</td><td>ASN.1 解析（間接依賴）</td><td>Apache-2.0</td><td>是</td></tr><tr><td><a href="https://github.com/apple/swift-numerics">swift-numerics</a></td><td>1.1.1</td><td>數值運算（間接依賴）</td><td>Apache-2.0</td><td>是</td></tr><tr><td><a href="https://github.com/ibireme/yyjson">yyjson</a></td><td>0.12.0</td><td>JSON 解析（間接依賴）</td><td>MIT</td><td>是</td></tr><tr><td><a href="https://github.com/mattt/EventSource">EventSource</a></td><td>1.5.1</td><td>伺服器推送事件（間接依賴）</td><td>MIT</td><td>是</td></tr><tr><td><a href="https://github.com/apple/swift-argument-parser">swift-argument-parser</a></td><td>1.8.2</td><td>命令列參數解析；只用在評測工具 ntg-bench 與 mlx-swift 的建置，不進 app</td><td>Apache-2.0</td><td>否（建置或評測工具）</td></tr><tr><td><a href="https://github.com/swiftlang/swift-syntax">swift-syntax</a></td><td>603.0.2</td><td>Swift 巨集的編譯期函式庫（mlx-swift-lm 的巨集用）；只在建置時使用，不進 app</td><td>Apache-2.0（含 Runtime Library Exception）</td><td>否（建置或評測工具）</td></tr></tbody></table></div>
+<p>測試 <code>NTGSessionTests/LicenseManifestTests</code> 確認 <code>Package.resolved</code> 的每個套件（含版本）都在 manifest 裡。</p>
+<h3>套件內含的第三方程式碼</h3>
+<div class="table"><table><thead><tr><th>元件</th><th>內含於</th><th>用途</th><th>授權</th></tr></thead><tbody><tr><td><a href="https://github.com/BYVoid/OpenCC">OpenCC</a></td><td>SwiftyOpenCC</td><td>簡繁轉換引擎與詞庫</td><td>Apache-2.0</td></tr><tr><td><a href="https://github.com/s-yata/darts-clone">darts-clone</a></td><td>SwiftyOpenCC</td><td>OpenCC 內含的雙陣列字典樹</td><td>BSD 2-Clause</td></tr><tr><td><a href="https://github.com/s-yata/marisa-trie">marisa-trie</a></td><td>SwiftyOpenCC</td><td>OpenCC 內含的字典樹</td><td>BSD 2-Clause（上游為 BSD 2-Clause 與 LGPL 雙授權，本 app 採用 BSD 2-Clause）</td></tr><tr><td><a href="https://github.com/Tencent/rapidjson">RapidJSON</a></td><td>SwiftyOpenCC</td><td>OpenCC 內含的 JSON 解析</td><td>MIT</td></tr><tr><td><a href="https://github.com/ml-explore/mlx">MLX</a></td><td>mlx-swift</td><td>機器學習運算核心（mlx-swift 內含）</td><td>MIT</td></tr><tr><td><a href="https://github.com/ml-explore/mlx-c">mlx-c</a></td><td>mlx-swift</td><td>MLX 的 C 介面（mlx-swift 內含）</td><td>MIT</td></tr><tr><td><a href="https://github.com/fmtlib/fmt">{fmt}</a></td><td>mlx-swift</td><td>文字格式化（mlx-swift 內含）</td><td>MIT</td></tr><tr><td><a href="https://github.com/nlohmann/json">JSON for Modern C++</a></td><td>mlx-swift</td><td>JSON 解析（mlx-swift 內含）</td><td>MIT</td></tr><tr><td><a href="https://developer.apple.com/metal/cpp/">metal-cpp</a></td><td>mlx-swift</td><td>Metal 的 C++ 介面（mlx-swift 內含）</td><td>Apache-2.0</td></tr></tbody></table></div>
+<h3>Apple 系統框架</h3>
+<p>Speech（<code>SpeechAnalyzer</code>／<code>SpeechTranscriber</code>，即時預覽與效能優先模式；語言資產由系統用 <code>AssetInventory</code> 管理）、SwiftUI、SwiftData、AppKit、AVFoundation、ApplicationServices（輔助使用、事件監聽）、ServiceManagement、WidgetKit、AppIntents、UserNotifications。為作業系統的一部分，受 macOS 授權條款約束。</p></main><div class="river" aria-hidden="true"><div class="moon"></div><div class="layer"><svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><defs><linearGradient id="gr0" gradientUnits="userSpaceOnUse" x1="0" y1="135" x2="0" y2="395"><stop offset="0" style="stop-color:color-mix(in srgb, var(--ink) 12%, var(--haze))"/><stop offset=".5" style="stop-color:color-mix(in srgb, var(--ink) 12%, var(--haze));stop-opacity:.82"/><stop offset="1" style="stop-color:var(--paper);stop-opacity:0"/></linearGradient><filter id="fr0" x="-5%" y="-10%" width="110%" height="120%"><feOffset result="d"/><feGaussianBlur in="d" stdDeviation="3.5"/></filter></defs><path d="M0,520 L0.0,353.4 L5.0,353.6 L10.0,353.8 L15.0,353.9 L20.0,353.9 L25.0,353.8 L30.0,353.7 L35.0,353.5 L40.0,353.4 L45.0,353.5 L50.0,353.5 L55.0,353.6 L60.0,353.8 L65.0,353.9 L70.0,354.1 L75.0,354.3 L80.0,354.5 L85.0,354.7 L90.0,354.8 L95.0,354.9 L100.0,355.0 L105.0,355.2 L110.0,355.3 L115.0,355.4 L120.0,355.5 L125.0,355.6 L130.0,355.6 L135.0,355.6 L140.0,355.6 L145.0,355.4 L150.0,355.3 L155.0,355.1 L160.0,354.9 L165.0,354.8 L170.0,354.8 L175.0,354.7 L180.0,354.6 L185.0,354.5 L190.0,354.5 L195.0,354.4 L200.0,354.4 L205.0,354.3 L210.0,354.3 L215.0,354.3 L220.0,354.4 L225.0,354.5 L230.0,354.6 L235.0,354.6 L240.0,354.5 L245.0,354.2 L250.0,354.0 L255.0,353.8 L260.0,353.7 L265.0,353.9 L270.0,354.2 L275.0,354.5 L280.0,354.7 L285.0,354.7 L290.0,354.6 L295.0,354.5 L300.0,354.3 L305.0,354.2 L310.0,354.2 L315.0,354.2 L320.0,354.2 L325.0,354.2 L330.0,354.1 L335.0,354.0 L340.0,353.7 L345.0,353.5 L350.0,353.2 L355.0,352.9 L360.0,352.6 L365.0,352.3 L370.0,351.9 L375.0,351.7 L380.0,351.5 L385.0,351.3 L390.0,351.1 L395.0,350.8 L400.0,350.6 L405.0,350.4 L410.0,350.3 L415.0,350.2 L420.0,350.1 L425.0,349.9 L430.0,349.4 L435.0,348.9 L440.0,348.3 L445.0,347.9 L450.0,347.8 L455.0,348.1 L460.0,348.7 L465.0,349.4 L470.0,350.1 L475.0,350.7 L480.0,351.3 L485.0,351.9 L490.0,352.4 L495.0,352.8 L500.0,353.1 L505.0,353.2 L510.0,353.2 L515.0,353.0 L520.0,352.8 L525.0,352.6 L530.0,352.5 L535.0,352.4 L540.0,352.3 L545.0,352.2 L550.0,352.0 L555.0,352.0 L560.0,352.0 L565.0,352.2 L570.0,352.4 L575.0,352.5 L580.0,352.6 L585.0,352.6 L590.0,352.6 L595.0,352.7 L600.0,352.8 L605.0,352.9 L610.0,352.9 L615.0,352.7 L620.0,352.3 L625.0,351.7 L630.0,350.9 L635.0,350.2 L640.0,349.8 L645.0,349.7 L650.0,349.9 L655.0,350.2 L660.0,350.6 L665.0,350.8 L670.0,350.9 L675.0,350.9 L680.0,351.0 L685.0,351.1 L690.0,351.1 L695.0,351.1 L700.0,351.0 L705.0,350.9 L710.0,350.8 L715.0,350.7 L720.0,350.6 L725.0,350.5 L730.0,350.5 L735.0,350.5 L740.0,350.5 L745.0,350.5 L750.0,350.6 L755.0,350.7 L760.0,350.8 L765.0,350.9 L770.0,350.9 L775.0,351.0 L780.0,351.0 L785.0,351.2 L790.0,351.3 L795.0,351.5 L800.0,351.8 L805.0,352.1 L810.0,352.6 L815.0,352.9 L820.0,353.2 L825.0,353.5 L830.0,353.7 L835.0,353.9 L840.0,354.1 L845.0,354.2 L850.0,354.3 L855.0,354.2 L860.0,354.0 L865.0,353.8 L870.0,353.5 L875.0,353.2 L880.0,353.1 L885.0,353.1 L890.0,353.3 L895.0,353.6 L900.0,353.9 L905.0,354.2 L910.0,354.3 L915.0,354.4 L920.0,354.5 L925.0,354.7 L930.0,354.3 L935.0,353.7 L940.0,353.0 L945.0,352.1 L950.0,351.0 L955.0,349.6 L960.0,347.8 L965.0,345.7 L970.0,343.4 L975.0,341.1 L980.0,338.8 L985.0,336.5 L990.0,334.2 L995.0,331.8 L1000.0,329.3 L1005.0,326.9 L1010.0,324.7 L1015.0,322.6 L1020.0,320.4 L1025.0,318.0 L1030.0,315.5 L1035.0,313.2 L1040.0,310.9 L1045.0,308.5 L1050.0,305.8 L1055.0,302.8 L1060.0,299.6 L1065.0,296.4 L1070.0,293.2 L1075.0,290.2 L1080.0,287.2 L1085.0,284.3 L1090.0,281.7 L1095.0,279.6 L1100.0,278.5 L1105.0,278.2 L1110.0,278.2 L1115.0,277.4 L1120.0,275.2 L1125.0,271.6 L1130.0,266.8 L1135.0,260.9 L1140.0,254.6 L1145.0,248.2 L1150.0,241.5 L1155.0,234.3 L1160.0,226.5 L1165.0,218.3 L1170.0,209.3 L1175.0,198.8 L1180.0,187.6 L1185.0,176.5 L1190.0,166.8 L1195.0,159.1 L1200.0,153.1 L1205.0,148.2 L1210.0,144.1 L1215.0,140.2 L1220.0,137.3 L1225.0,135.9 L1230.0,135.4 L1235.0,135.7 L1240.0,137.1 L1245.0,140.1 L1250.0,144.4 L1255.0,149.8 L1260.0,155.9 L1265.0,162.6 L1270.0,170.4 L1275.0,178.6 L1280.0,186.3 L1285.0,192.2 L1290.0,194.8 L1295.0,193.7 L1300.0,190.8 L1305.0,188.2 L1310.0,188.1 L1315.0,191.0 L1320.0,195.8 L1325.0,201.7 L1330.0,208.5 L1335.0,215.2 L1340.0,221.9 L1345.0,228.8 L1350.0,236.0 L1355.0,243.4 L1360.0,250.9 L1365.0,257.6 L1370.0,263.2 L1375.0,268.0 L1380.0,272.0 L1385.0,276.3 L1390.0,277.3 L1395.0,275.5 L1400.0,273.8 L1405.0,271.4 L1410.0,268.0 L1415.0,264.6 L1420.0,261.6 L1425.0,259.3 L1430.0,257.5 L1435.0,255.0 L1440.0,251.4 L1445.0,247.6 L1450.0,244.2 L1455.0,241.9 L1460.0,240.6 L1465.0,240.2 L1470.0,240.7 L1475.0,242.3 L1480.0,244.5 L1485.0,246.7 L1490.0,249.4 L1495.0,252.8 L1500.0,257.4 L1505.0,263.1 L1510.0,269.2 L1515.0,275.6 L1520.0,282.0 L1525.0,288.5 L1530.0,295.9 L1535.0,303.9 L1540.0,311.8 L1545.0,318.9 L1550.0,324.8 L1555.0,329.8 L1560.0,334.0 L1565.0,337.8 L1570.0,341.3 L1575.0,344.5 L1580.0,347.4 L1585.0,349.8 L1590.0,352.0 L1595.0,353.7 L1600.0,353.7 L1600,520 Z" fill="url(#gr0)" filter="url(#fr0)"/></svg></div><div class="layer"><svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><defs><linearGradient id="gr1" gradientUnits="userSpaceOnUse" x1="0" y1="286" x2="0" y2="437"><stop offset="0" style="stop-color:color-mix(in srgb, var(--ink) 30%, var(--haze))"/><stop offset=".5" style="stop-color:color-mix(in srgb, var(--ink) 30%, var(--haze));stop-opacity:.82"/><stop offset="1" style="stop-color:var(--paper);stop-opacity:0"/></linearGradient><filter id="fr1" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".02 .12" numOctaves="3" seed="14" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="1.5" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="1.6"/></filter></defs><path d="M0,520 L0.0,299.1 L5.0,298.9 L10.0,297.4 L15.0,296.1 L20.0,295.6 L25.0,296.0 L30.0,297.2 L35.0,299.2 L40.0,301.7 L45.0,304.2 L50.0,306.2 L55.0,307.2 L60.0,306.4 L65.0,304.0 L70.0,300.6 L75.0,297.2 L80.0,294.7 L85.0,292.2 L90.0,289.3 L95.0,286.9 L100.0,285.7 L105.0,286.4 L110.0,289.0 L115.0,292.1 L120.0,295.3 L125.0,297.8 L130.0,299.8 L135.0,302.9 L140.0,306.7 L145.0,310.7 L150.0,314.2 L155.0,317.0 L160.0,319.5 L165.0,321.8 L170.0,324.2 L175.0,327.1 L180.0,330.1 L185.0,332.9 L190.0,335.7 L195.0,338.8 L200.0,342.1 L205.0,345.9 L210.0,350.3 L215.0,354.6 L220.0,358.7 L225.0,362.1 L230.0,364.8 L235.0,367.1 L240.0,369.3 L245.0,371.6 L250.0,374.1 L255.0,375.8 L260.0,373.9 L265.0,371.9 L270.0,369.8 L275.0,367.8 L280.0,366.2 L285.0,364.8 L290.0,363.3 L295.0,361.5 L300.0,359.0 L305.0,355.9 L310.0,352.6 L315.0,349.7 L320.0,347.8 L325.0,346.7 L330.0,346.1 L335.0,345.8 L340.0,345.4 L345.0,344.9 L350.0,345.0 L355.0,345.8 L360.0,347.4 L365.0,349.3 L370.0,351.2 L375.0,353.1 L380.0,355.3 L385.0,357.8 L390.0,360.8 L395.0,364.1 L400.0,367.3 L405.0,370.6 L410.0,373.9 L415.0,377.2 L420.0,380.6 L425.0,383.9 L430.0,386.9 L435.0,389.5 L440.0,391.5 L445.0,393.3 L450.0,394.8 L455.0,396.0 L460.0,397.1 L465.0,398.1 L470.0,398.1 L475.0,397.9 L480.0,397.8 L485.0,397.6 L490.0,397.3 L495.0,397.0 L500.0,396.7 L505.0,396.5 L510.0,396.5 L515.0,396.5 L520.0,396.5 L525.0,396.4 L530.0,396.4 L535.0,396.4 L540.0,396.3 L545.0,396.2 L550.0,396.2 L555.0,396.1 L560.0,396.1 L565.0,396.1 L570.0,396.2 L575.0,396.3 L580.0,396.3 L585.0,396.4 L590.0,396.6 L595.0,396.7 L600.0,396.8 L605.0,396.9 L610.0,396.8 L615.0,396.6 L620.0,396.4 L625.0,396.3 L630.0,396.2 L635.0,396.2 L640.0,396.3 L645.0,396.4 L650.0,396.4 L655.0,396.5 L660.0,396.6 L665.0,396.6 L670.0,396.7 L675.0,396.7 L680.0,396.8 L685.0,397.0 L690.0,397.2 L695.0,397.4 L700.0,397.5 L705.0,397.5 L710.0,397.5 L715.0,397.4 L720.0,397.4 L725.0,397.4 L730.0,397.4 L735.0,397.5 L740.0,397.5 L745.0,397.6 L750.0,397.7 L755.0,397.7 L760.0,397.6 L765.0,397.6 L770.0,397.5 L775.0,397.5 L780.0,397.5 L785.0,397.5 L790.0,397.5 L795.0,397.4 L800.0,397.4 L805.0,397.5 L810.0,397.6 L815.0,397.8 L820.0,397.8 L825.0,397.7 L830.0,397.7 L835.0,397.6 L840.0,397.7 L845.0,397.8 L850.0,397.9 L855.0,398.0 L860.0,398.2 L865.0,398.3 L870.0,398.5 L875.0,398.5 L880.0,398.6 L885.0,398.5 L890.0,398.4 L895.0,398.3 L900.0,397.9 L905.0,397.5 L910.0,397.1 L915.0,396.7 L920.0,396.5 L925.0,396.5 L930.0,396.5 L935.0,396.7 L940.0,396.8 L945.0,396.8 L950.0,397.0 L955.0,397.1 L960.0,397.2 L965.0,397.4 L970.0,397.6 L975.0,397.7 L980.0,397.8 L985.0,397.8 L990.0,397.8 L995.0,397.6 L1000.0,397.4 L1005.0,397.2 L1010.0,397.0 L1015.0,396.9 L1020.0,396.8 L1025.0,396.7 L1030.0,396.7 L1035.0,396.8 L1040.0,397.1 L1045.0,397.4 L1050.0,397.8 L1055.0,398.1 L1060.0,398.3 L1065.0,398.5 L1070.0,398.7 L1075.0,398.8 L1080.0,398.8 L1085.0,398.7 L1090.0,398.4 L1095.0,398.0 L1100.0,397.5 L1105.0,397.1 L1110.0,396.9 L1115.0,396.7 L1120.0,396.6 L1125.0,396.5 L1130.0,396.5 L1135.0,396.6 L1140.0,396.7 L1145.0,396.9 L1150.0,397.1 L1155.0,397.2 L1160.0,397.3 L1165.0,397.3 L1170.0,397.3 L1175.0,397.2 L1180.0,397.2 L1185.0,397.3 L1190.0,397.6 L1195.0,397.8 L1200.0,397.9 L1205.0,398.0 L1210.0,398.0 L1215.0,397.9 L1220.0,397.9 L1225.0,397.8 L1230.0,397.8 L1235.0,397.7 L1240.0,397.7 L1245.0,397.7 L1250.0,397.7 L1255.0,397.6 L1260.0,397.4 L1265.0,397.3 L1270.0,397.2 L1275.0,397.2 L1280.0,397.3 L1285.0,397.4 L1290.0,397.6 L1295.0,397.7 L1300.0,397.9 L1305.0,398.0 L1310.0,398.1 L1315.0,398.1 L1320.0,398.1 L1325.0,398.1 L1330.0,398.1 L1335.0,397.9 L1340.0,397.8 L1345.0,397.6 L1350.0,397.5 L1355.0,397.4 L1360.0,397.3 L1365.0,397.4 L1370.0,397.5 L1375.0,397.6 L1380.0,397.9 L1385.0,398.2 L1390.0,398.4 L1395.0,398.6 L1400.0,398.7 L1405.0,398.8 L1410.0,398.9 L1415.0,399.0 L1420.0,399.0 L1425.0,399.1 L1430.0,399.2 L1435.0,399.3 L1440.0,399.4 L1445.0,399.6 L1450.0,399.7 L1455.0,399.8 L1460.0,400.0 L1465.0,400.0 L1470.0,400.0 L1475.0,399.9 L1480.0,399.6 L1485.0,399.4 L1490.0,399.2 L1495.0,399.1 L1500.0,399.0 L1505.0,398.9 L1510.0,398.9 L1515.0,398.8 L1520.0,398.8 L1525.0,398.9 L1530.0,399.0 L1535.0,399.1 L1540.0,399.1 L1545.0,399.0 L1550.0,398.9 L1555.0,398.8 L1560.0,398.7 L1565.0,398.6 L1570.0,398.6 L1575.0,398.7 L1580.0,398.7 L1585.0,398.8 L1590.0,398.8 L1595.0,398.7 L1600.0,398.6 L1600,520 Z" fill="url(#gr1)" filter="url(#fr1)"/></svg></div><div class="layer"><svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><defs><linearGradient id="gr2" gradientUnits="userSpaceOnUse" x1="0" y1="395" x2="0" y2="510"><stop offset="0" style="stop-color:color-mix(in srgb, var(--ink) 62%, var(--haze))"/><stop offset=".5" style="stop-color:color-mix(in srgb, var(--ink) 62%, var(--haze));stop-opacity:.82"/><stop offset="1" style="stop-color:var(--paper);stop-opacity:0"/></linearGradient><filter id="fr2" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".02 .12" numOctaves="3" seed="14" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="3.5" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="0.3"/></filter></defs><path d="M0,520 L0.0,470.5 L5.0,470.3 L10.0,470.2 L15.0,470.1 L20.0,470.1 L25.0,470.1 L30.0,470.0 L35.0,470.0 L40.0,470.0 L45.0,470.1 L50.0,470.1 L55.0,470.1 L60.0,470.1 L65.0,470.1 L70.0,470.3 L75.0,470.5 L80.0,470.8 L85.0,471.0 L90.0,471.1 L95.0,471.1 L100.0,470.9 L105.0,470.7 L110.0,470.6 L115.0,470.6 L120.0,470.7 L125.0,470.9 L130.0,471.1 L135.0,471.3 L140.0,471.4 L145.0,471.4 L150.0,471.5 L155.0,471.5 L160.0,471.5 L165.0,471.6 L170.0,471.8 L175.0,471.9 L180.0,472.1 L185.0,472.2 L190.0,472.2 L195.0,472.2 L200.0,472.1 L205.0,472.1 L210.0,472.1 L215.0,472.0 L220.0,471.8 L225.0,471.5 L230.0,471.3 L235.0,471.0 L240.0,470.8 L245.0,470.5 L250.0,470.2 L255.0,470.0 L260.0,469.8 L265.0,469.7 L270.0,469.5 L275.0,469.4 L280.0,469.3 L285.0,469.3 L290.0,469.3 L295.0,469.3 L300.0,469.4 L305.0,469.4 L310.0,469.3 L315.0,469.3 L320.0,469.3 L325.0,469.2 L330.0,469.2 L335.0,469.1 L340.0,469.1 L345.0,469.0 L350.0,469.0 L355.0,469.1 L360.0,469.3 L365.0,469.5 L370.0,469.8 L375.0,470.0 L380.0,470.2 L385.0,470.4 L390.0,470.5 L395.0,470.6 L400.0,470.7 L405.0,470.7 L410.0,470.6 L415.0,470.6 L420.0,470.5 L425.0,470.5 L430.0,470.6 L435.0,470.7 L440.0,470.9 L445.0,471.1 L450.0,471.4 L455.0,471.6 L460.0,471.7 L465.0,471.9 L470.0,472.2 L475.0,472.6 L480.0,472.9 L485.0,473.2 L490.0,473.5 L495.0,473.7 L500.0,473.9 L505.0,474.0 L510.0,474.2 L515.0,474.3 L520.0,474.4 L525.0,474.5 L530.0,474.6 L535.0,474.7 L540.0,474.8 L545.0,474.9 L550.0,474.9 L555.0,475.0 L560.0,475.1 L565.0,475.1 L570.0,475.2 L575.0,475.2 L580.0,475.2 L585.0,475.2 L590.0,475.3 L595.0,475.3 L600.0,475.3 L605.0,475.4 L610.0,475.4 L615.0,475.4 L620.0,475.3 L625.0,475.3 L630.0,475.2 L635.0,475.2 L640.0,475.1 L645.0,475.0 L650.0,474.8 L655.0,474.6 L660.0,474.5 L665.0,474.3 L670.0,474.2 L675.0,474.1 L680.0,474.0 L685.0,473.9 L690.0,473.8 L695.0,473.8 L700.0,473.8 L705.0,473.8 L710.0,473.8 L715.0,473.6 L720.0,473.4 L725.0,473.2 L730.0,473.0 L735.0,472.9 L740.0,472.8 L745.0,472.9 L750.0,473.0 L755.0,473.1 L760.0,473.1 L765.0,473.2 L770.0,473.2 L775.0,473.2 L780.0,473.2 L785.0,473.2 L790.0,473.3 L795.0,473.3 L800.0,473.4 L805.0,473.4 L810.0,473.4 L815.0,473.3 L820.0,473.2 L825.0,473.1 L830.0,473.0 L835.0,472.8 L840.0,472.1 L845.0,471.5 L850.0,470.8 L855.0,470.0 L860.0,469.2 L865.0,468.4 L870.0,467.7 L875.0,466.9 L880.0,466.0 L885.0,464.8 L890.0,463.5 L895.0,462.0 L900.0,460.5 L905.0,459.0 L910.0,457.6 L915.0,456.3 L920.0,454.9 L925.0,453.7 L930.0,452.6 L935.0,451.9 L940.0,451.5 L945.0,451.4 L950.0,451.4 L955.0,451.5 L960.0,451.8 L965.0,452.1 L970.0,452.4 L975.0,452.7 L980.0,452.9 L985.0,453.1 L990.0,453.2 L995.0,453.2 L1000.0,453.3 L1005.0,453.2 L1010.0,453.1 L1015.0,453.2 L1020.0,453.5 L1025.0,454.1 L1030.0,455.1 L1035.0,456.3 L1040.0,457.5 L1045.0,458.6 L1050.0,459.6 L1055.0,460.4 L1060.0,461.2 L1065.0,462.0 L1070.0,463.0 L1075.0,464.0 L1080.0,464.9 L1085.0,465.8 L1090.0,466.6 L1095.0,467.5 L1100.0,468.3 L1105.0,469.2 L1110.0,470.0 L1115.0,470.7 L1120.0,471.3 L1125.0,471.7 L1130.0,472.1 L1135.0,472.5 L1140.0,473.0 L1145.0,473.5 L1150.0,474.0 L1155.0,474.1 L1160.0,474.1 L1165.0,474.0 L1170.0,474.0 L1175.0,473.9 L1180.0,473.9 L1185.0,473.9 L1190.0,473.9 L1195.0,473.9 L1200.0,473.9 L1205.0,474.0 L1210.0,474.0 L1215.0,474.0 L1220.0,473.9 L1225.0,473.8 L1230.0,473.7 L1235.0,473.5 L1240.0,473.4 L1245.0,473.4 L1250.0,473.3 L1255.0,473.3 L1260.0,473.2 L1265.0,473.1 L1270.0,472.7 L1275.0,472.1 L1280.0,471.4 L1285.0,470.8 L1290.0,470.0 L1295.0,469.1 L1300.0,468.2 L1305.0,467.3 L1310.0,466.4 L1315.0,465.4 L1320.0,464.3 L1325.0,463.2 L1330.0,462.1 L1335.0,461.1 L1340.0,460.3 L1345.0,459.6 L1350.0,458.9 L1355.0,458.1 L1360.0,457.2 L1365.0,456.3 L1370.0,455.2 L1375.0,454.0 L1380.0,452.6 L1385.0,451.3 L1390.0,450.2 L1395.0,449.0 L1400.0,447.7 L1405.0,446.1 L1410.0,443.8 L1415.0,440.9 L1420.0,437.6 L1425.0,434.2 L1430.0,431.3 L1435.0,428.3 L1440.0,425.2 L1445.0,422.0 L1450.0,418.9 L1455.0,416.0 L1460.0,413.6 L1465.0,411.5 L1470.0,409.5 L1475.0,407.2 L1480.0,404.5 L1485.0,401.6 L1490.0,398.8 L1495.0,396.5 L1500.0,395.0 L1505.0,395.1 L1510.0,396.9 L1515.0,399.8 L1520.0,402.7 L1525.0,404.4 L1530.0,404.5 L1535.0,403.7 L1540.0,402.8 L1545.0,402.5 L1550.0,403.5 L1555.0,404.6 L1560.0,405.8 L1565.0,407.3 L1570.0,409.2 L1575.0,411.3 L1580.0,413.3 L1585.0,415.0 L1590.0,416.6 L1595.0,418.0 L1600.0,420.0 L1600,520 Z" fill="url(#gr2)" filter="url(#fr2)"/><path d="M0.0,471.3 L5.0,471.1 L10.0,471.0 L15.0,470.9 L20.0,470.9 L25.0,470.9 L30.0,470.8 L35.0,470.8 L40.0,470.8 L45.0,470.9 L50.0,470.9 L55.0,470.9 L60.0,470.9 L65.0,470.9 L70.0,471.1 L75.0,471.3 L80.0,471.6 L85.0,471.8 L90.0,471.9 L95.0,471.9 L100.0,471.7 L105.0,471.5 L110.0,471.4 L115.0,471.4 L120.0,471.5 L125.0,471.7 L130.0,471.9 L135.0,472.1 L140.0,472.2 L145.0,472.2 L150.0,472.3 L155.0,472.3 L160.0,472.3 L165.0,472.4 L170.0,472.6 L175.0,472.7 L180.0,472.9 L185.0,473.0 L190.0,473.0 L195.0,473.0 L200.0,472.9 L205.0,472.9 L210.0,472.9 L215.0,472.8 L220.0,472.6 L225.0,472.3 L230.0,472.1 L235.0,471.8 L240.0,471.6 L245.0,471.3 L250.0,471.0 L255.0,470.8 L260.0,470.6 L265.0,470.5 L270.0,470.3 L275.0,470.2 L280.0,470.1 L285.0,470.1 L290.0,470.1 L295.0,470.1 L300.0,470.2 L305.0,470.2 L310.0,470.1 L315.0,470.1 L320.0,470.1 L325.0,470.0 L330.0,470.0 L335.0,469.9 L340.0,469.9 L345.0,469.8 L350.0,469.8 L355.0,469.9 L360.0,470.1 L365.0,470.3 L370.0,470.6 L375.0,470.8 L380.0,471.0 L385.0,471.2 L390.0,471.3 L395.0,471.4 L400.0,471.5 L405.0,471.5 L410.0,471.4 L415.0,471.4 L420.0,471.3 L425.0,471.3 L430.0,471.4 L435.0,471.5 L440.0,471.7 L445.0,471.9 L450.0,472.2 L455.0,472.4 L460.0,472.5 L465.0,472.7 L470.0,473.0 L475.0,473.4 L480.0,473.7 L485.0,474.0 L490.0,474.3 L495.0,474.5 L500.0,474.7 L505.0,474.8 L510.0,475.0 L515.0,475.1 L520.0,475.2 L525.0,475.3 L530.0,475.4 L535.0,475.5 L540.0,475.6 L545.0,475.7 L550.0,475.7 L555.0,475.8 L560.0,475.9 L565.0,475.9 L570.0,476.0 L575.0,476.0 L580.0,476.0 L585.0,476.0 L590.0,476.1 L595.0,476.1 L600.0,476.1 L605.0,476.2 L610.0,476.2 L615.0,476.2 L620.0,476.1 L625.0,476.1 L630.0,476.0 L635.0,476.0 L640.0,475.9 L645.0,475.8 L650.0,475.6 L655.0,475.4 L660.0,475.3 L665.0,475.1 L670.0,475.0 L675.0,474.9 L680.0,474.8 L685.0,474.7 L690.0,474.6 L695.0,474.6 L700.0,474.6 L705.0,474.6 L710.0,474.6 L715.0,474.4 L720.0,474.2 L725.0,474.0 L730.0,473.8 L735.0,473.7 L740.0,473.6 L745.0,473.7 L750.0,473.8 L755.0,473.9 L760.0,473.9 L765.0,474.0 L770.0,474.0 L775.0,474.0 L780.0,474.0 L785.0,474.0 L790.0,474.1 L795.0,474.1 L800.0,474.2 L805.0,474.2 L810.0,474.2 L815.0,474.1 L820.0,474.0 L825.0,473.9 L830.0,473.8 L835.0,473.6 L840.0,472.9 L845.0,472.3 L850.0,471.6 L855.0,470.8 L860.0,470.0 L865.0,469.2 L870.0,468.5 L875.0,467.7 L880.0,466.8 L885.0,465.6 L890.0,464.3 L895.0,462.8 L900.0,461.3 L905.0,459.8 L910.0,458.4 L915.0,457.1 L920.0,455.7 L925.0,454.5 L930.0,453.4 L935.0,452.7 L940.0,452.3 L945.0,452.2 L950.0,452.2 L955.0,452.3 L960.0,452.6 L965.0,452.9 L970.0,453.2 L975.0,453.5 L980.0,453.7 L985.0,453.9 L990.0,454.0 L995.0,454.0 L1000.0,454.1 L1005.0,454.0 L1010.0,453.9 L1015.0,454.0 L1020.0,454.3 L1025.0,454.9 L1030.0,455.9 L1035.0,457.1 L1040.0,458.3 L1045.0,459.4 L1050.0,460.4 L1055.0,461.2 L1060.0,462.0 L1065.0,462.8 L1070.0,463.8 L1075.0,464.8 L1080.0,465.7 L1085.0,466.6 L1090.0,467.4 L1095.0,468.3 L1100.0,469.1 L1105.0,470.0 L1110.0,470.8 L1115.0,471.5 L1120.0,472.1 L1125.0,472.5 L1130.0,472.9 L1135.0,473.3 L1140.0,473.8 L1145.0,474.3 L1150.0,474.8 L1155.0,474.9 L1160.0,474.9 L1165.0,474.8 L1170.0,474.8 L1175.0,474.7 L1180.0,474.7 L1185.0,474.7 L1190.0,474.7 L1195.0,474.7 L1200.0,474.7 L1205.0,474.8 L1210.0,474.8 L1215.0,474.8 L1220.0,474.7 L1225.0,474.6 L1230.0,474.5 L1235.0,474.3 L1240.0,474.2 L1245.0,474.2 L1250.0,474.1 L1255.0,474.1 L1260.0,474.0 L1265.0,473.9 L1270.0,473.5 L1275.0,472.9 L1280.0,472.2 L1285.0,471.6 L1290.0,470.8 L1295.0,469.9 L1300.0,469.0 L1305.0,468.1 L1310.0,467.2 L1315.0,466.2 L1320.0,465.1 L1325.0,464.0 L1330.0,462.9 L1335.0,461.9 L1340.0,461.1 L1345.0,460.4 L1350.0,459.7 L1355.0,458.9 L1360.0,458.0 L1365.0,457.1 L1370.0,456.0 L1375.0,454.8 L1380.0,453.4 L1385.0,452.1 L1390.0,451.0 L1395.0,449.8 L1400.0,448.5 L1405.0,446.9 L1410.0,444.6 L1415.0,441.7 L1420.0,438.4 L1425.0,435.0 L1430.0,432.1 L1435.0,429.1 L1440.0,426.0 L1445.0,422.8 L1450.0,419.7 L1455.0,416.8 L1460.0,414.4 L1465.0,412.3 L1470.0,410.3 L1475.0,408.0 L1480.0,405.3 L1485.0,402.4 L1490.0,399.6 L1495.0,397.3 L1500.0,395.8 L1505.0,395.9 L1510.0,397.7 L1515.0,400.6 L1520.0,403.5 L1525.0,405.2 L1530.0,405.3 L1535.0,404.5 L1540.0,403.6 L1545.0,403.3 L1550.0,404.3 L1555.0,405.4 L1560.0,406.6 L1565.0,408.1 L1570.0,410.0 L1575.0,412.1 L1580.0,414.1 L1585.0,415.8 L1590.0,417.4 L1595.0,418.8 L1600.0,420.8" fill="none" style="stroke:color-mix(in srgb, var(--ink) 62%, var(--haze))" stroke-opacity=".6" stroke-width="1.1" stroke-linecap="round" filter="url(#fr2)"/></svg></div><svg class="boat" viewBox="0 0 120 40" aria-hidden="true"><path d="M8,26 Q58,38 112,24" stroke-width="2.4" stroke-linecap="round"/><path d="M60,26 L62,4" stroke-width="1.4"/><path d="M62,6 Q74,12 70,22" stroke-width="1" opacity=".7"/><path d="M0,34 L40,34 M78,37 L120,37" stroke-width=".8" opacity=".45"/></svg></div><footer class="foot"><span class="seal" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M7.83,0.34 C9,0.52 9.9,1.06 9.9,1.78 C9.9,2.86 8.46,1.96 7.83,0.34Z M3.4,3.01 C9,2.75 13.6,2.66 14.6,2.83 C15.15,2.92 15,3.94 14.2,3.94 C9,4.11 4.4,4.71 3.4,4.71 C2.9,4.28 2.9,3.09 3.4,3.01Z M5.4,5.47 C9,5.23 11.6,5.12 12.6,5.25 C13.15,5.32 13,6.13 12.2,6.13 C9,6.31 6.4,6.82 5.4,6.82 C4.9,6.44 4.9,5.5 5.4,5.47Z" fill="currentColor" stroke="none"/><path d="M3.6,10.6 C3.6,16 14.4,16 14.4,10.6 M9,14.6 L9,16" stroke-width="0.8"/><rect x="3.8" y="16" width="10.4" height="1.8" rx="0.9" fill="currentColor" stroke="none"/><rect x="5.4" y="7.7" width="7.2" height="6.4" rx="2.4" stroke-width="1.35"/><path d="M7.5,10.5 L10.5,10.5" stroke-width="1.2"/></svg></span><div class="song">說了算 NoTypeGood</div><nav><span>免費軟體・© 2026 KO-JUI CHEN</span><a href="privacy.html">隱私說明</a><a href="licenses.html">第三方授權</a><a href="https://github.com/Cerry0524/NoTypeGood-releases/releases">所有版本</a></nav></footer>
+<script>
+(() => {
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = document.querySelectorAll('.reveal');
+  if (still || !('IntersectionObserver' in window)) { items.forEach(e => e.classList.add('in', 'done')); return; }
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('in'); io.unobserve(en.target);
+    setTimeout(() => en.target.classList.add('done'), 2300);
+  }), { rootMargin: '0px 0px -12% 0px', threshold: .08 });
+  items.forEach(e => io.observe(e));
+  // 視差：越近的山移動越多，霧帶跟著慢慢浮動
+  const layers = [...document.querySelectorAll('[data-depth]')];
+  let ticking = false;
+  const update = () => {
+    const y = scrollY;
+    for (const el of layers) {
+      const d = +el.dataset.depth, top = el.closest('.band, .hero').offsetTop;
+      el.style.transform = `translate3d(0, ${((y - top) * d * .35).toFixed(1)}px, 0)`;
+    }
+    ticking = false;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+})();
+</script>
+</body>
+</html>
