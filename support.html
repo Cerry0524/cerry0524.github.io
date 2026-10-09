@@ -59,8 +59,7 @@
 }
 .cerry-sbd[aria-current="page"]::after { background: var(--cb-sbd); }
 /* 贊助：連到本站兩個作品共用的贊助頁 /support.html（不嵌入收款平台的按鈕程式，維持不載入外部資源）。在贊助頁上加 aria-current="page"。
-   使用者 2026-10-09：贊助開放（Polar 可以收款）之前先不放這個連結；開放時在 nav 最後加回
-   <a class="cerry-sponsor" href="/support.html" title="贊助">贊助</a>。 */
+   贊助已開放（2026-10-09，Polar 審核通過）。 */
 .cerry-sponsor { margin-left: auto; font-size: .85rem; color: var(--cb-text2); text-decoration: none; border: 1px solid color-mix(in srgb, var(--cb-text) 25%, transparent); border-radius: 999px; padding: .25rem .85rem; white-space: nowrap; }
 .cerry-sponsor:hover { color: var(--cb-text); border-color: var(--cb-seal); }
 .cerry-sponsor:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
@@ -145,6 +144,9 @@ p { margin: 0 0 1rem; }
 .work-sbd { box-shadow: inset 3px 0 0 var(--sbd); }
 .work-note { display: block; font-size: .85rem; color: var(--text2); font-weight: 400; letter-spacing: 0; font-family: "PingFang TC", "Noto Sans TC", "Heiti TC", sans-serif; }
 .give { margin: 2rem 0 .75rem; }
+.gives { display: flex; flex-wrap: wrap; gap: .75rem; margin: 2rem 0 .75rem; }
+.gives .give { margin: 0; flex: 1 1 13rem; }
+.gives .btn { width: 100%; text-align: center; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; min-height: 3rem;
   padding: .7rem 1.6rem; border-radius: 999px; font-size: 1.05rem; font-weight: 700; letter-spacing: .06em;
@@ -171,6 +173,7 @@ footer a { color: var(--text2); }
     <a class="cerry-brand" href="/">Cerry Chen</a>
     <a class="cerry-tab cerry-ntg" href="/notypegood/"><span class="cerry-seal" aria-hidden="true">言</span><span class="cerry-name">說了算</span></a>
     <a class="cerry-tab cerry-sbd" href="/suibianda/"><span class="cerry-seal" aria-hidden="true">手</span><span class="cerry-name">隨便打</span></a>
+    <a class="cerry-sponsor" aria-current="page" href="/support.html" title="贊助">贊助</a>
   </div>
 </nav>
 
@@ -178,16 +181,21 @@ footer a { color: var(--text2); }
   <div class="seals" aria-hidden="true"><span class="seal ntg">言</span><span class="seal sbd">手</span></div>
   <h1>贊助</h1>
   <p class="lead">說了算和隨便打都是免費軟體，所有功能都可以直接使用，沒有付費版本。</p>
-  <p>贊助會在之後開放，金額由你決定。贊助是對開發者的支持，不是購買軟體，也不會解鎖任何功能；你的支持會用在兩個作品的持續改進。</p>
+  <p>如果它們幫你省下打字的時間，歡迎贊助，金額由你決定。贊助是對開發者的支持，不是購買軟體，也不會解鎖任何功能；你的支持會用在兩個作品的持續改進。</p>
 
   <div class="works">
     <a class="work work-ntg" href="/notypegood/"><span class="seal ntg" aria-hidden="true">言</span><span class="work-name">說了算<span class="work-note">說話，就是打字</span></span></a>
     <a class="work work-sbd" href="/suibianda/"><span class="seal sbd" aria-hidden="true">手</span><span class="work-name">隨便打<span class="work-note">中英混打，不用選字</span></span></a>
   </div>
 
-  <!-- 開放贊助時的做法見 Tools/site/SPONSOR.md。 -->
-  <p class="give"><a class="btn" role="link" aria-disabled="true">後續開放</a></p>
-  <p class="muted">目前還不能贊助，開放時會在這個頁面更新。</p>
+  <div class="gives">
+    <p class="give"><a class="btn" href="https://buy.polar.sh/polar_cl_fDPieXqTtIXr8vjF2NOFvjBdLW767cfukup862edxhQ">贊助說了算</a></p>
+    <p class="give"><a class="btn" href="https://buy.polar.sh/polar_cl_iytcenhNkPTAEY2MuA0h33UXrPGBZuWSN8EzV3bLWSI">贊助隨便打</a></p>
+  </div>
+  <p class="muted">會開啟 Polar 的付款頁，付款完成後可以按返回回到這裡。</p>
+
+  <h2>怎麼付款</h2>
+  <p>付款由 Polar 處理，付款頁是英文：填 email、輸入金額（新台幣，最低 NT$99）、用信用卡付款。Polar 會寄英文收據；兩個作品都不經手你的付款資料。</p>
 
   <h2>其他支持方式</h2>
   <p>把說了算或隨便打推薦給需要的朋友、回報問題或提出建議，對我一樣是很大的幫助。</p>
