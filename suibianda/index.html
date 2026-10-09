@@ -423,7 +423,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
 .ai-flow li + li::before { content: "→"; margin-right: 4px; color: var(--rule); }
 .ai-flow li.now { color: var(--text); font-weight: 600; background: color-mix(in srgb, var(--accent) 14%, transparent); }
 .ai-flow li.done { color: var(--text); }
-.ai-stage { position: relative; height: 470px; }
+.ai-stage { position: relative; height: 482px; }
 .ai-win { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--win-shadow); overflow: hidden;
   opacity: 0; transform: translateX(18px); transition: opacity .45s, transform .45s; }
 .ai-win.on { opacity: 1; transform: none; z-index: 1; }
@@ -502,7 +502,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
 .steps4 h4 { font-size: 17px; line-height: 1.4; } .steps4 p { font-size: 14px; color: var(--text2); }
 .ai-also { text-align: center; margin-top: 14px; font-size: 14px; color: var(--text2); }
 @media (max-width: 860px) { .steps4 { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 560px) { .steps4 { grid-template-columns: 1fr; } .ai-stage { height: 520px; } .ai-item .clue { margin-left: 25px; } }
+@media (max-width: 560px) { .steps4 { grid-template-columns: 1fr; } .ai-stage { height: 540px; } .ai-item .clue { margin-left: 25px; } }
 @media (prefers-reduced-motion: reduce) { .ai-win, .bubble, .ai-notes span { transition: none; } }
 
 /* ---------- 一屏一個主題（像 Apple 官網：大標題置中、一句說明、一個焦點；捲到時依序浮上來） ---------- */
@@ -555,7 +555,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
     <div class="hero-copy">
       <div class="brand ink-in"><span class="seal" aria-hidden="true">手</span><span>隨便打・Suibianda</span></div>
       <p class="lead ink-in d2">為 macOS 而做的注音輸入法。照自己的節奏打，<strong>中文、英文、打錯的字都交給它判斷</strong>，一般句子不用手動選字。</p>
-      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.2.0/Suibianda-0.2.0.zip">下載 0.2.0（17 MB）</a><a class="btn" href="#ai-context">用 AI 建立情境</a></div>
+      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.3.0/Suibianda-0.3.0.zip">下載 0.3.0（18 MB）</a><a class="btn" href="#ai-context">用 AI 建立情境</a></div>
       <p class="req ink-in d3">需要 macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
     </div>
     <h1 class="title ink-in d1" aria-label="胸有成竹"><span class="col">胸有</span><span class="col">成竹</span><span class="chop"><span class="seal" aria-hidden="true">手</span></span></h1>
@@ -628,10 +628,10 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
               <h4>匯入「咖啡烘豆」</h4><p class="sub">注音由隨便打推算，破音字請你確認・可以逐項取消</p>
               <div class="grp">專有名詞</div>
               <div class="ai-item"><span class="box"></span><b>耶加雪菲</b><span class="zy">ㄧㄝ ㄐㄧㄚ ㄒㄩㄝˇ ㄈㄟ</span></div>
-              <div class="ai-item"><span class="box"></span><b>悶蒸</b><span class="zy">ㄇㄣ ㄓㄥ</span></div>
-              <div class="ai-item"><span class="box"></span><b>單品</b><span class="zy">ㄉㄢ ㄆㄧㄣˇ</span><span class="pick">破音字「單」：已選 ㄉㄢ</span></div>
+              <div class="ai-item"><span class="box"></span><b>悶蒸</b><span class="zy">ㄇㄣ ㄓㄥ</span><span class="pick">破音字「悶」：已選 ㄇㄣ</span></div>
+              <div class="ai-item"><span class="box"></span><b>單品</b><span class="zy">ㄉㄢ ㄆㄧㄣˇ</span></div>
               <div class="grp">英文詞</div>
-              <div class="ai-item"><span class="box"></span><b>V60</b><span class="from">中英混打會認得是英文</span></div>
+              <div class="ai-item"><span class="box"></span><b>Chemex</b><span class="from">中英混打會認得是英文</span></div>
               <div class="grp">修正規則</div>
               <div class="ai-item"><span class="box"></span><span class="from">杯側 →</span><b>杯測</b><span class="clue">線索：咖啡、風味、分數</span></div>
               <div class="ai-actions"><button class="ai-btn" tabindex="-1">返回</button><button class="ai-btn main done" tabindex="-1">匯入</button></div>
@@ -806,7 +806,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <p class="s-lead">免費下載。macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
     </div>
     <div class="focus">
-      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.2.0/Suibianda-0.2.0.zip">下載 0.2.0（17 MB）</a></div>
+      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.3.0/Suibianda-0.3.0.zip">下載 0.3.0（18 MB）</a></div>
       <div class="card rows">
         <div class="row"><span class="mark">一</span><div class="t"><b>加入輸入法</b><small>解壓縮後打開安裝程式，按「安裝」；預設會同時下載整句重讀的模型（約 188 MB），沒有模型也能先打字。安裝程式接著帶你在「系統設定」加入輸入方式：照畫面上的三個步驟做，加好了會自動往下，最後試打一句。清單裡找不到隨便打時，登出再登入，再打開安裝程式會從這一步接著做。</small></div></div>
         <div class="row"><span class="mark">二</span><div class="t"><b>系統需求</b><small>macOS 14 Sonoma 以上。Apple 晶片與 Intel Mac 都可以。</small></div></div>
@@ -1309,7 +1309,7 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
     { "term": "耶加雪菲", "variants": ["椰加雪菲"] },
     { "term": "悶蒸", "variants": ["悶真"] },
     { "term": "單品" },
-    { "term": "V60", "variants": ["威六十"] }
+    { "term": "Chemex" }
   ],
   "rules": [
     { "from": "杯側", "to": "杯測",
@@ -1397,7 +1397,7 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
       for (const ch of zy) { typed(before, (ty.querySelector(".rd")?.textContent || "") + ch, false); await sleep(150); }
       typed(out, "", false); await sleep(220);
     }
-    typed("耶加雪菲", "", true); await say("來自情境「咖啡烘豆」", 1400);
+    typed("耶加雪菲", "", true); await say("不用選字，直接出現", 1400);
     flow.forEach(li => { li.classList.remove("now"); li.classList.add("done"); });
     for (const n of notes.children) { n.classList.add("on"); await sleep(450); }
     await sleep(4200);
