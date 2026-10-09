@@ -179,9 +179,11 @@ main, footer.foot { position: relative; z-index: 1; }
   writing-mode: vertical-rl; text-decoration: none; }
 .scroll-hint::after { content: ""; display: block; width: 1px; height: 46px; margin: 10px auto 0; background: linear-gradient(var(--text2), transparent); animation: drip 2.4s ease-in-out infinite; }
 @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
-.ink-in { opacity: 0; filter: blur(10px); animation: inkIn 2.2s ease forwards; }
+/* 首屏的字依序墨暈浮現（和說了算相同：0／.3／.8／1.3 秒起、各 2.4 秒）。fill-mode 用 both：
+   等待期間停在看不見的第一格，捲動淡出寫在元素上的 opacity 蓋不過它；淡入結束後 JS 拿掉 ink-in，交還給捲動淡出。 */
+.ink-in { opacity: 0; filter: blur(10px); animation: inkIn 2.4s ease both; }
 .ink-in.d1 { animation-delay: .3s; } .ink-in.d2 { animation-delay: .8s; } .ink-in.d3 { animation-delay: 1.3s; }
-@keyframes inkIn { to { opacity: 1; filter: none; } }
+@keyframes inkIn { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: none; } }
 /* 平板（視窗偏直立、接近正方形，或寬度不到 1000px）：構圖照桌機，竹林整株站在右半邊、主幹在直書標語後面；
    竹林只畫在右側，左邊的字永遠在乾淨的紙面上。 */
 @media (min-width: 601px) and (max-aspect-ratio: 7/5), (min-width: 601px) and (max-width: 1000px) {
@@ -2010,6 +2012,10 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
   const fades = [];
   const addF = (els, stagger) => els.forEach((el, k) => fades.push({ el, k: stagger ? k : 0 }));
   addF([...document.querySelectorAll(".hero-copy > *, .hero .title")], false);
+  // 首屏的字淡入完才交給捲動淡出（見 page.css 的 .ink-in）
+  document.querySelectorAll(".ink-in").forEach(el => el.addEventListener("animationend", e => {
+    if (e.animationName === "inkIn") el.classList.remove("ink-in");
+  }));
   document.querySelectorAll(".scene-sec").forEach(sec => {
     addF([...sec.querySelectorAll(".s-head > *")], false);
     sec.querySelectorAll(".focus > *").forEach(el => {
