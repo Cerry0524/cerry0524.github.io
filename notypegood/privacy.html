@@ -15,7 +15,7 @@
   --text: #1B1916; --text2: #5C564C; --ink: #1B1916; --haze: #D2CABC;
   --sky-top: #F8F4EC; --sky-bottom: #EDE6D9; --sun: #C4472C; --sun-glow: rgba(196, 71, 44, .16);
   --accent: #B23C26; --on-accent: #FBF6EE; --mist: 244, 239, 230; --cloud: rgba(60, 54, 46, .10); --bird: #2A2622;
-  --shadow: 0 18px 50px -24px rgba(40, 30, 20, .35);
+  --shadow: 0 18px 50px -24px rgba(40, 30, 20, .35); --green: #3F6B4A;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -23,7 +23,7 @@
     --text: #ECE6DA; --text2: #ADA595; --ink: #050504; --haze: #4C463E;
     --sky-top: #0C0B0A; --sky-bottom: #2A2621; --sun: #E9D9AE; --sun-glow: rgba(233, 217, 174, .18);
     --accent: #D9573B; --on-accent: #160F0C; --mist: 26, 24, 21; --cloud: rgba(200, 190, 170, .06); --bird: #9C9384;
-    --shadow: 0 18px 50px -20px rgba(0, 0, 0, .7);
+    --shadow: 0 18px 50px -20px rgba(0, 0, 0, .7); --green: #86B592;
   }
 }
 * { box-sizing: border-box; }
@@ -188,7 +188,7 @@ table { border-collapse: collapse; width: 100%; font-size: 14px; }
 th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--rule); }
 
 
-/* 共用網站的頂端分頁列（Cerry0524：說了算／隨便打）。原始碼與「隨便打」共用同一份（2026-10-08 定案）；
+/* 共用網站的頂端分頁列（Cerry Chen：說了算／隨便打；使用者 2026-10-09 把品牌字從 Cerry0524 改成 Cerry Chen，版權維持 KO-JUI CHEN）。原始碼與「隨便打」共用同一份（2026-10-08 定案）；
    這裡不載入 Google Fonts（下載頁不載入任何外部資源），字型退回系統的宋體與楷體。 */
 /* 楷體子集（霞鶩文楷 TC，SIL OFL 1.1；只含「隨便打手」4 字，約 2 KB）：從本站載入，不連外部字型服務。
    宋體用 macOS 內建的 Songti TC；楷體不是每台 Mac 都有，所以自備。授權聲明見網站根目錄。 */
@@ -240,10 +240,13 @@ th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 14' preserveAspectRatio='none'%3E%3Cpath d='M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
 .cerry-sbd[aria-current="page"]::after { background: var(--cb-sbd); }
-/* 贊助：一般連結（不嵌入 Buy Me a Coffee 的官方按鈕程式，維持不載入外部資源）。 */
+/* 贊助：連到本站兩個作品共用的贊助頁 /support.html（不嵌入收款平台的按鈕程式，維持不載入外部資源）。在贊助頁上加 aria-current="page"。
+   使用者 2026-10-09：贊助開放（Polar 可以收款）之前先不放這個連結；開放時在 nav 最後加回
+   <a class="cerry-sponsor" href="/support.html" title="贊助">贊助</a>。 */
 .cerry-sponsor { margin-left: auto; font-size: .85rem; color: var(--cb-text2); text-decoration: none; border: 1px solid color-mix(in srgb, var(--cb-text) 25%, transparent); border-radius: 999px; padding: .25rem .85rem; white-space: nowrap; }
 .cerry-sponsor:hover { color: var(--cb-text); border-color: var(--cb-seal); }
 .cerry-sponsor:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.cerry-sponsor[aria-current="page"] { color: var(--cb-text); border-color: var(--cb-seal); }
 @view-transition { navigation: auto; }
 ::view-transition-old(root) { animation: .18s ease both cerry-ink-out; }
 ::view-transition-new(root) { animation: .4s ease both cerry-ink-in; }
@@ -252,6 +255,138 @@ th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom
 @keyframes cerry-ink-out { to { opacity: 0; filter: blur(4px); } }
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
+}
+
+
+/* ---------- 首屏下方的動態示範（使用者 2026-10-08：像影片一樣，模擬說一句話後文字怎麼被整理） ---------- */
+.demo { position: relative; padding: 24px 0 8px; }
+.demo-head { text-align: center; margin-bottom: 22px; }
+.demo-head h2 { margin: 0; font-size: clamp(24px, 3vw, 34px); letter-spacing: .04em; }
+.demo-head p { margin: 6px 0 0; color: var(--text2); font-size: 15px; }
+.demo-tabs { display: flex; justify-content: center; gap: 22px; margin: 0 0 18px; }
+.demo-tabs button { position: relative; font: inherit; font-size: 15px; background: none; border: 0; color: var(--text2); padding: 6px 2px 10px; cursor: pointer; }
+.demo-tabs button[aria-selected="true"] { color: var(--text); font-weight: 600; }
+.demo-tabs button[aria-selected="true"]::after { content: ""; position: absolute; left: -6px; right: -6px; bottom: 0; height: 6px; background: var(--accent); border-radius: 60% 40% 50% 60% / 80% 60% 70% 40%; opacity: .85; }
+.demo-stage { position: relative; max-width: 760px; margin: 0 auto; }
+.demo-win { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+.demo-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--rule); font-size: 13px; color: var(--text2); }
+.demo-bar i { width: 11px; height: 11px; border-radius: 50%; background: var(--rule); display: inline-block; }
+.demo-bar .app { margin-left: 8px; font-weight: 600; color: var(--text); }
+.demo-bar .ctx { margin-left: auto; font-size: 12px; border: 1px solid var(--rule); border-radius: 4px; padding: 0 7px; }
+.demo-field { min-height: 132px; padding: 22px 24px 26px; font-size: clamp(17px, 2vw, 21px); line-height: 1.9; }
+.demo-field .tok { transition: color .5s, opacity .5s, max-width .6s ease, filter .5s; display: inline-block; white-space: pre; vertical-align: bottom; overflow: hidden; }
+.demo-field.preview .tok { color: var(--text2); }
+.demo-field .filler.gone { text-decoration: line-through; text-decoration-color: var(--accent); opacity: 0; max-width: 0 !important; }
+.demo-field .fix { position: relative; }
+.demo-field .fix.fixed { color: var(--text); }
+.demo-field .fix.fixed::after { content: ""; position: absolute; left: -2px; right: -2px; bottom: 4px; height: 5px; background: var(--accent); opacity: .55; border-radius: 60% 40% 50% 60% / 80% 60% 70% 40%; }
+.demo-field .punct { opacity: 0; max-width: 0; }
+.demo-field .punct.on { opacity: 1; max-width: 2em; }
+.demo-field .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent); vertical-align: -.15em; margin-left: 1px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.demo-field .sel { background: color-mix(in srgb, var(--accent) 22%, transparent); border-radius: 3px; }
+.demo-notes { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 34px; margin-top: 14px; }
+.demo-notes span { font-size: 13px; color: var(--text2); border: 1px solid var(--rule); background: var(--card); border-radius: 999px; padding: 3px 12px; opacity: 0; transform: translateY(4px); transition: opacity .5s, transform .5s; }
+.demo-notes span.on { opacity: 1; transform: none; }
+.demo-notes span b { color: var(--accent); font-weight: 600; }
+.demo-hud { display: flex; align-items: center; gap: 12px; width: fit-content; max-width: 100%; margin: 16px auto 0; padding: 9px 16px; border-radius: 999px; background: var(--card); border: 1px solid var(--rule); box-shadow: var(--shadow); font-size: 14px; }
+.demo-hud kbd { display: inline-block; font: inherit; font-size: 13px; padding: 1px 8px; border: 1px solid var(--rule); border-bottom-width: 3px; border-radius: 5px; background: var(--paper2); transition: transform .15s, border-bottom-width .15s; }
+.demo-hud kbd.down { transform: translateY(2px); border-bottom-width: 1px; }
+.demo-hud .wave { display: inline-flex; gap: 3px; align-items: center; height: 18px; }
+.demo-hud .wave i { width: 3px; height: 4px; border-radius: 2px; background: var(--accent); opacity: .3; }
+.demo-hud.listening .wave i { opacity: .85; animation: wave .9s ease-in-out infinite; }
+.demo-hud.listening .wave i:nth-child(2) { animation-delay: -.2s; } .demo-hud.listening .wave i:nth-child(3) { animation-delay: -.45s; }
+.demo-hud.listening .wave i:nth-child(4) { animation-delay: -.65s; } .demo-hud.listening .wave i:nth-child(5) { animation-delay: -.3s; }
+@keyframes wave { 0%, 100% { height: 4px; } 50% { height: 17px; } }
+.demo-hud .status { color: var(--text2); min-width: 6em; }
+.demo-hud .fixit { font: inherit; font-size: 13px; padding: 2px 12px; border-radius: 5px; border: 1px solid color-mix(in srgb, var(--text) 25%, transparent); background: transparent; color: var(--text); display: none; }
+.demo-hud .fixit.show { display: inline-block; }
+.demo-hud .fixit.press { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.demo-edit { display: none; width: fit-content; max-width: 100%; margin: 10px auto 0; padding: 10px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--accent); box-shadow: var(--shadow); font-size: 15px; }
+.demo-edit.show { display: block; }
+/* 「改一下」面板的對照（和 app 一樣）：上面一行是原句，刪掉的朱砂槓掉、新增的竹綠；下面是輸入框。 */
+/* 和 app 一樣：同一個輸入框裡兩行，上面原句對照（還沒改時淡色），中間一條細線，下面是輸入。 */
+.demo-edit .box { padding: 6px 12px; border: 2.5px solid color-mix(in srgb, var(--accent) 75%, transparent); border-radius: 7px; background: var(--card); }
+.demo-edit .d { padding: 2px 0 6px; border-bottom: 1px solid var(--rule); color: var(--text2); transition: color .2s; }
+.demo-edit .d.changed { color: var(--text); }
+.demo-edit .i { padding: 6px 0 2px; }
+.demo-edit del { color: var(--accent); text-decoration: line-through; }
+.demo-edit ins { color: var(--green); background: color-mix(in srgb, var(--green) 15%, transparent); text-decoration: none; border-radius: 3px; }
+.demo-replay { display: block; margin: 14px auto 0; font: inherit; font-size: 13px; color: var(--text2); background: none; border: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 640px) { .demo-field { padding: 16px; min-height: 150px; } .demo-tabs { gap: 14px; } .demo-hud { flex-wrap: wrap; justify-content: center; border-radius: 16px; } }
+
+/* ---------- 「用 AI 建立情境」的動態示範（使用者 2026-10-08）：輸入領域 → 複製提示詞 → 貼到 AI → 拿到 JSON → 貼回說了算 → 匯入 ---------- */
+.ai-demo { max-width: 760px; margin: 0 auto clamp(48px, 7vw, 84px); }
+.ai-flow { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 4px; list-style: none; padding: 0; margin: 0 0 16px; font-size: 13px; color: var(--text2); }
+.ai-flow li { display: flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; transition: color .3s, background .3s; }
+.ai-flow li + li::before { content: "→"; margin-right: 4px; color: var(--rule); }
+.ai-flow li.now { color: var(--text); font-weight: 600; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.ai-flow li.done { color: var(--text); }
+.ai-stage { position: relative; height: 440px; }
+.ai-win { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden;
+  opacity: 0; transform: translateX(18px) scale(.985); transition: opacity .45s, transform .45s; pointer-events: none; }
+.ai-win.on { opacity: 1; transform: none; }
+.ai-win.back { transform: translateX(-18px) scale(.985); }
+.ai-body { flex: 1; padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; min-height: 0; }
+.ai-step { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--text); }
+.ai-step .n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 12px; }
+.ai-input { position: relative; border: 1px solid var(--rule); border-radius: 7px; padding: 7px 10px; background: var(--paper2); min-height: 1.6em; }
+.ai-input .ph { color: var(--text2); opacity: .7; }
+.ai-input .caret, .chat-input .caret { display: inline-block; width: 2px; height: 1.05em; background: var(--accent); vertical-align: -.15em; margin-left: 1px; animation: blink 1s steps(1) infinite; }
+.ai-row { display: flex; gap: 8px; align-items: center; }
+.ai-btn { font: inherit; font-size: 13px; padding: 4px 14px; border-radius: 6px; border: 1px solid var(--rule); background: transparent; color: var(--text); transition: transform .12s, background .2s, color .2s; }
+.ai-btn.main { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.ai-btn.press { transform: scale(.94); filter: brightness(.9); }
+.ai-btn.ok { background: transparent; color: var(--green); border-color: var(--green); }
+.ai-btn:disabled { opacity: .45; }
+.ai-paste { flex: 1; min-height: 90px; margin: 0; border: 1px solid var(--rule); border-radius: 7px; background: var(--paper2); padding: 8px 10px; overflow: hidden; font: 12px/1.55 ui-monospace, "SF Mono", Menlo, monospace; color: var(--text); white-space: pre; }
+.ai-paste:empty::before { content: "AI 回傳的 JSON 貼在這裡"; font-family: inherit; color: var(--text2); opacity: .7; }
+.ai-hint { font-size: 12px; color: var(--text2); }
+.ai-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.ai-confirm { display: none; flex: 1; padding: 18px 22px; flex-direction: column; gap: 8px; font-size: 14px; min-height: 0; }
+.ai-confirm.on { display: flex; }
+.ai-confirm h4 { margin: 0 0 2px; font-size: 16px; }
+.ai-confirm .sub { color: var(--text2); font-size: 12.5px; margin: 0 0 4px; }
+.ai-confirm .grp { font-size: 12px; color: var(--accent); letter-spacing: .1em; margin-top: 4px; }
+.ai-item { display: flex; align-items: baseline; gap: 10px; padding: 5px 2px; border-bottom: 1px solid color-mix(in srgb, var(--rule) 70%, transparent); opacity: .35; transition: opacity .3s; }
+.ai-item.on { opacity: 1; }
+.ai-item .box { flex: none; width: 15px; height: 15px; border-radius: 4px; border: 1.5px solid var(--rule); display: inline-grid; place-items: center; font-size: 11px; line-height: 1; color: var(--on-accent); transform: translateY(2px); transition: background .2s, border-color .2s; }
+.ai-item.on .box { background: var(--accent); border-color: var(--accent); }
+.ai-item.on .box::after { content: "✓"; }
+.ai-item b { font-weight: 600; }
+.ai-item .from { color: var(--text2); }
+.ai-item .clue { margin-left: auto; font-size: 12px; color: var(--text2); white-space: nowrap; }
+.ai-confirm .ai-actions { margin-top: auto; }
+.chat-log { flex: 1; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; min-height: 0; font-size: 14px; }
+.bubble { max-width: 86%; padding: 9px 13px; border-radius: 14px; line-height: 1.6; opacity: 0; transform: translateY(6px); transition: opacity .35s, transform .35s; }
+.bubble.on { opacity: 1; transform: none; }
+.bubble.me { align-self: flex-end; background: var(--paper2); border-bottom-right-radius: 4px; }
+.bubble.me .more { display: block; color: var(--text2); font-size: 12px; margin-top: 2px; }
+.bubble.ai { align-self: flex-start; max-width: 100%; width: 100%; padding: 0; background: none; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.bubble.ai .think { color: var(--text2); font-size: 13px; }
+.bubble.ai .think i { display: inline-block; width: 5px; height: 5px; margin-left: 3px; border-radius: 50%; background: var(--text2); animation: dot 1s ease-in-out infinite; }
+.bubble.ai .think i:nth-child(2) { animation-delay: .15s; } .bubble.ai .think i:nth-child(3) { animation-delay: .3s; }
+@keyframes dot { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+.code { flex: 1; min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--rule); border-radius: 9px; overflow: hidden; background: var(--paper2); }
+.code-head { display: flex; align-items: center; justify-content: space-between; padding: 4px 10px; font-size: 12px; color: var(--text2); border-bottom: 1px solid var(--rule); }
+.code-head .ai-btn { font-size: 12px; padding: 1px 10px; }
+.code pre { flex: 1; min-height: 0; margin: 0; padding: 8px 12px; overflow: hidden; font: 12px/1.55 ui-monospace, "SF Mono", Menlo, monospace; white-space: pre; color: var(--text); }
+.code .k { color: var(--text2); } .code .s { color: var(--green); }
+.chat-input { display: flex; align-items: flex-start; gap: 10px; margin: 0 14px 14px; padding: 8px 10px 8px 14px; border: 1px solid var(--rule); border-radius: 14px; font-size: 13.5px; min-height: 40px; }
+.chat-input .v { flex: 1; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.chat-input .v:empty::before { content: "輸入訊息…"; color: var(--text2); opacity: .7; }
+.chat-input .send { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--rule); color: var(--card); font-size: 14px; transition: background .2s, transform .12s; }
+.chat-input .send.ready { background: var(--text); }
+.chat-input .send.press { transform: scale(.88); }
+.ai-toast { position: absolute; left: 50%; top: 48px; transform: translate(-50%, -6px); z-index: 2; padding: 6px 14px; border-radius: 999px; background: var(--text); color: var(--card); font-size: 13px; opacity: 0; transition: opacity .3s, transform .3s; white-space: nowrap; }
+.ai-toast.on { opacity: 1; transform: translate(-50%, 0); }
+.ai-toast kbd { font: inherit; font-size: 12px; border: 1px solid color-mix(in srgb, var(--card) 45%, transparent); border-bottom-width: 2px; border-radius: 4px; padding: 0 6px; margin-right: 6px; }
+@media (max-width: 640px) {
+  .ai-stage { height: 480px; }
+  .ai-body, .ai-confirm { padding: 14px; }
+  .ai-item .clue { display: none; }
+  .code pre, .ai-paste { font-size: 11px; white-space: pre-wrap; word-break: break-all; }
 }
 
 /* ---------- 窄螢幕 ---------- */
@@ -287,7 +422,7 @@ th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom
 </style>
 </head>
 <body>
-<nav class="cerry-bar" aria-label="Cerry0524 的作品"><div class="cerry-bar-in"><a class="cerry-brand" href="/">Cerry0524</a><a class="cerry-tab cerry-ntg" href="/notypegood/" aria-current="page"><span class="cerry-seal" aria-hidden="true">言</span><span class="cerry-name">說了算</span></a><a class="cerry-tab cerry-sbd" href="/suibianda/"><span class="cerry-seal" aria-hidden="true">手</span><span class="cerry-name">隨便打</span></a><a class="cerry-sponsor" href="https://buymeacoffee.com/cerry0524" rel="noopener" title="Buy Me a Coffee">贊助</a></div></nav>
+<nav class="cerry-bar" aria-label="Cerry Chen 的作品"><div class="cerry-bar-in"><a class="cerry-brand" href="/">Cerry Chen</a><a class="cerry-tab cerry-ntg" href="/notypegood/" aria-current="page"><span class="cerry-seal" aria-hidden="true">言</span><span class="cerry-name">說了算</span></a><a class="cerry-tab cerry-sbd" href="/suibianda/"><span class="cerry-seal" aria-hidden="true">手</span><span class="cerry-name">隨便打</span></a></div></nav>
 <div class="doc-top" aria-hidden="true"><div class="layer"><svg viewBox="0 0 1600 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><defs><linearGradient id="gdoc" gradientUnits="userSpaceOnUse" x1="0" y1="161" x2="0" y2="360"><stop offset="0" style="stop-color:color-mix(in srgb, var(--ink) 22%, var(--haze))"/><stop offset=".5" style="stop-color:color-mix(in srgb, var(--ink) 22%, var(--haze));stop-opacity:.82"/><stop offset="1" style="stop-color:var(--paper);stop-opacity:0"/></linearGradient><filter id="fdoc" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".02 .12" numOctaves="3" seed="21" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="1.5"/></filter></defs><path d="M0,360 L0.0,343.2 L5.0,342.0 L10.0,340.7 L15.0,339.6 L20.0,338.6 L25.0,337.5 L30.0,336.2 L35.0,334.3 L40.0,331.7 L45.0,328.2 L50.0,324.1 L55.0,319.6 L60.0,315.1 L65.0,310.8 L70.0,306.6 L75.0,302.5 L80.0,298.2 L85.0,293.4 L90.0,288.4 L95.0,283.1 L100.0,277.7 L105.0,272.1 L110.0,266.6 L115.0,261.1 L120.0,255.6 L125.0,250.2 L130.0,245.3 L135.0,240.9 L140.0,237.4 L145.0,234.4 L150.0,231.7 L155.0,228.8 L160.0,224.9 L165.0,220.1 L170.0,214.7 L175.0,208.8 L180.0,202.9 L185.0,196.0 L190.0,188.1 L195.0,179.9 L200.0,172.3 L205.0,166.4 L210.0,163.5 L215.0,163.1 L220.0,163.9 L225.0,164.0 L230.0,162.7 L235.0,161.5 L240.0,161.0 L245.0,161.2 L250.0,162.3 L255.0,165.0 L260.0,169.1 L265.0,173.7 L270.0,177.8 L275.0,180.6 L280.0,182.3 L285.0,183.5 L290.0,184.9 L295.0,187.1 L300.0,190.1 L305.0,192.1 L310.0,193.6 L315.0,195.8 L320.0,200.2 L325.0,207.4 L330.0,216.2 L335.0,225.5 L340.0,234.2 L345.0,241.8 L350.0,247.7 L355.0,252.3 L360.0,255.9 L365.0,258.8 L370.0,262.2 L375.0,265.7 L380.0,269.0 L385.0,272.3 L390.0,275.8 L395.0,279.6 L400.0,284.1 L405.0,289.0 L410.0,293.7 L415.0,298.0 L420.0,301.4 L425.0,304.4 L430.0,307.2 L435.0,310.0 L440.0,312.8 L445.0,315.8 L450.0,319.2 L455.0,322.6 L460.0,325.8 L465.0,328.7 L470.0,331.3 L475.0,333.7 L480.0,336.0 L485.0,338.0 L490.0,339.9 L495.0,341.4 L500.0,342.6 L505.0,343.7 L510.0,344.4 L515.0,344.4 L520.0,344.5 L525.0,344.6 L530.0,344.6 L535.0,344.6 L540.0,344.6 L545.0,344.7 L550.0,344.7 L555.0,344.7 L560.0,344.7 L565.0,344.7 L570.0,344.6 L575.0,344.4 L580.0,344.2 L585.0,344.0 L590.0,343.9 L595.0,343.8 L600.0,343.7 L605.0,343.6 L610.0,343.6 L615.0,343.7 L620.0,343.9 L625.0,344.1 L630.0,344.3 L635.0,344.4 L640.0,344.4 L645.0,344.4 L650.0,344.3 L655.0,344.2 L660.0,344.2 L665.0,344.1 L670.0,344.1 L675.0,344.0 L680.0,343.9 L685.0,343.6 L690.0,343.1 L695.0,342.7 L700.0,342.4 L705.0,342.3 L710.0,342.5 L715.0,342.8 L720.0,343.1 L725.0,343.3 L730.0,343.3 L735.0,343.2 L740.0,343.0 L745.0,342.8 L750.0,342.7 L755.0,342.7 L760.0,342.7 L765.0,342.8 L770.0,343.0 L775.0,343.1 L780.0,343.3 L785.0,343.5 L790.0,343.7 L795.0,343.9 L800.0,344.1 L805.0,344.2 L810.0,344.3 L815.0,344.4 L820.0,344.6 L825.0,344.8 L830.0,344.8 L835.0,344.8 L840.0,344.7 L845.0,344.7 L850.0,344.9 L855.0,345.1 L860.0,345.3 L865.0,345.5 L870.0,345.6 L875.0,345.6 L880.0,345.7 L885.0,345.8 L890.0,345.9 L895.0,346.0 L900.0,346.0 L905.0,345.9 L910.0,345.8 L915.0,345.8 L920.0,345.8 L925.0,345.8 L930.0,345.8 L935.0,345.9 L940.0,345.9 L945.0,346.0 L950.0,346.1 L955.0,346.1 L960.0,346.2 L965.0,346.3 L970.0,346.5 L975.0,346.6 L980.0,346.6 L985.0,346.2 L990.0,345.8 L995.0,345.2 L1000.0,344.6 L1005.0,344.0 L1010.0,343.3 L1015.0,342.5 L1020.0,341.6 L1025.0,340.5 L1030.0,339.4 L1035.0,338.2 L1040.0,336.8 L1045.0,335.1 L1050.0,333.0 L1055.0,330.7 L1060.0,328.3 L1065.0,326.0 L1070.0,323.6 L1075.0,321.1 L1080.0,318.4 L1085.0,315.6 L1090.0,312.9 L1095.0,310.6 L1100.0,308.5 L1105.0,306.6 L1110.0,304.4 L1115.0,302.1 L1120.0,300.4 L1125.0,298.8 L1130.0,296.8 L1135.0,294.2 L1140.0,290.5 L1145.0,285.8 L1150.0,280.6 L1155.0,275.5 L1160.0,271.0 L1165.0,266.8 L1170.0,262.7 L1175.0,258.6 L1180.0,254.4 L1185.0,250.2 L1190.0,246.5 L1195.0,243.7 L1200.0,241.5 L1205.0,239.7 L1210.0,238.3 L1215.0,237.9 L1220.0,238.2 L1225.0,238.7 L1230.0,239.2 L1235.0,239.0 L1240.0,238.1 L1245.0,237.5 L1250.0,237.8 L1255.0,239.2 L1260.0,240.4 L1265.0,241.0 L1270.0,241.6 L1275.0,242.9 L1280.0,245.4 L1285.0,249.0 L1290.0,252.8 L1295.0,256.1 L1300.0,258.3 L1305.0,259.5 L1310.0,261.0 L1315.0,262.5 L1320.0,263.8 L1325.0,264.8 L1330.0,265.6 L1335.0,266.7 L1340.0,267.9 L1345.0,269.1 L1350.0,270.5 L1355.0,270.9 L1360.0,270.5 L1365.0,270.0 L1370.0,270.3 L1375.0,272.1 L1380.0,275.5 L1385.0,279.9 L1390.0,284.5 L1395.0,288.7 L1400.0,291.7 L1405.0,294.0 L1410.0,295.8 L1415.0,297.7 L1420.0,299.9 L1425.0,302.4 L1430.0,304.7 L1435.0,306.5 L1440.0,308.0 L1445.0,309.1 L1450.0,310.1 L1455.0,311.2 L1460.0,312.3 L1465.0,313.5 L1470.0,314.7 L1475.0,316.4 L1480.0,318.7 L1485.0,321.1 L1490.0,323.2 L1495.0,324.9 L1500.0,326.3 L1505.0,327.6 L1510.0,328.9 L1515.0,330.3 L1520.0,331.7 L1525.0,332.7 L1530.0,333.6 L1535.0,334.4 L1540.0,335.3 L1545.0,336.4 L1550.0,337.7 L1555.0,339.1 L1560.0,340.2 L1565.0,341.1 L1570.0,341.8 L1575.0,342.3 L1580.0,342.8 L1585.0,342.7 L1590.0,342.7 L1595.0,342.8 L1600.0,343.0 L1600,360 Z" fill="url(#gdoc)" filter="url(#fdoc)"/><path d="M0.0,344.0 L5.0,342.8 L10.0,341.5 L15.0,340.4 L20.0,339.4 L25.0,338.3 L30.0,337.0 L35.0,335.1 L40.0,332.5 L45.0,329.0 L50.0,324.9 L55.0,320.4 L60.0,315.9 L65.0,311.6 L70.0,307.4 L75.0,303.3 L80.0,299.0 L85.0,294.2 L90.0,289.2 L95.0,283.9 L100.0,278.5 L105.0,272.9 L110.0,267.4 L115.0,261.9 L120.0,256.4 L125.0,251.0 L130.0,246.1 L135.0,241.7 L140.0,238.2 L145.0,235.2 L150.0,232.5 L155.0,229.6 L160.0,225.7 L165.0,220.9 L170.0,215.5 L175.0,209.6 L180.0,203.7 L185.0,196.8 L190.0,188.9 L195.0,180.7 L200.0,173.1 L205.0,167.2 L210.0,164.3 L215.0,163.9 L220.0,164.7 L225.0,164.8 L230.0,163.5 L235.0,162.3 L240.0,161.8 L245.0,162.0 L250.0,163.1 L255.0,165.8 L260.0,169.9 L265.0,174.5 L270.0,178.6 L275.0,181.4 L280.0,183.1 L285.0,184.3 L290.0,185.7 L295.0,187.9 L300.0,190.9 L305.0,192.9 L310.0,194.4 L315.0,196.6 L320.0,201.0 L325.0,208.2 L330.0,217.0 L335.0,226.3 L340.0,235.0 L345.0,242.6 L350.0,248.5 L355.0,253.1 L360.0,256.7 L365.0,259.6 L370.0,263.0 L375.0,266.5 L380.0,269.8 L385.0,273.1 L390.0,276.6 L395.0,280.4 L400.0,284.9 L405.0,289.8 L410.0,294.5 L415.0,298.8 L420.0,302.2 L425.0,305.2 L430.0,308.0 L435.0,310.8 L440.0,313.6 L445.0,316.6 L450.0,320.0 L455.0,323.4 L460.0,326.6 L465.0,329.5 L470.0,332.1 L475.0,334.5 L480.0,336.8 L485.0,338.8 L490.0,340.7 L495.0,342.2 L500.0,343.4 L505.0,344.5 L510.0,345.2 L515.0,345.2 L520.0,345.3 L525.0,345.4 L530.0,345.4 L535.0,345.4 L540.0,345.4 L545.0,345.5 L550.0,345.5 L555.0,345.5 L560.0,345.5 L565.0,345.5 L570.0,345.4 L575.0,345.2 L580.0,345.0 L585.0,344.8 L590.0,344.7 L595.0,344.6 L600.0,344.5 L605.0,344.4 L610.0,344.4 L615.0,344.5 L620.0,344.7 L625.0,344.9 L630.0,345.1 L635.0,345.2 L640.0,345.2 L645.0,345.2 L650.0,345.1 L655.0,345.0 L660.0,345.0 L665.0,344.9 L670.0,344.9 L675.0,344.8 L680.0,344.7 L685.0,344.4 L690.0,343.9 L695.0,343.5 L700.0,343.2 L705.0,343.1 L710.0,343.3 L715.0,343.6 L720.0,343.9 L725.0,344.1 L730.0,344.1 L735.0,344.0 L740.0,343.8 L745.0,343.6 L750.0,343.5 L755.0,343.5 L760.0,343.5 L765.0,343.6 L770.0,343.8 L775.0,343.9 L780.0,344.1 L785.0,344.3 L790.0,344.5 L795.0,344.7 L800.0,344.9 L805.0,345.0 L810.0,345.1 L815.0,345.2 L820.0,345.4 L825.0,345.6 L830.0,345.6 L835.0,345.6 L840.0,345.5 L845.0,345.5 L850.0,345.7 L855.0,345.9 L860.0,346.1 L865.0,346.3 L870.0,346.4 L875.0,346.4 L880.0,346.5 L885.0,346.6 L890.0,346.7 L895.0,346.8 L900.0,346.8 L905.0,346.7 L910.0,346.6 L915.0,346.6 L920.0,346.6 L925.0,346.6 L930.0,346.6 L935.0,346.7 L940.0,346.7 L945.0,346.8 L950.0,346.9 L955.0,346.9 L960.0,347.0 L965.0,347.1 L970.0,347.3 L975.0,347.4 L980.0,347.4 L985.0,347.0 L990.0,346.6 L995.0,346.0 L1000.0,345.4 L1005.0,344.8 L1010.0,344.1 L1015.0,343.3 L1020.0,342.4 L1025.0,341.3 L1030.0,340.2 L1035.0,339.0 L1040.0,337.6 L1045.0,335.9 L1050.0,333.8 L1055.0,331.5 L1060.0,329.1 L1065.0,326.8 L1070.0,324.4 L1075.0,321.9 L1080.0,319.2 L1085.0,316.4 L1090.0,313.7 L1095.0,311.4 L1100.0,309.3 L1105.0,307.4 L1110.0,305.2 L1115.0,302.9 L1120.0,301.2 L1125.0,299.6 L1130.0,297.6 L1135.0,295.0 L1140.0,291.3 L1145.0,286.6 L1150.0,281.4 L1155.0,276.3 L1160.0,271.8 L1165.0,267.6 L1170.0,263.5 L1175.0,259.4 L1180.0,255.2 L1185.0,251.0 L1190.0,247.3 L1195.0,244.5 L1200.0,242.3 L1205.0,240.5 L1210.0,239.1 L1215.0,238.7 L1220.0,239.0 L1225.0,239.5 L1230.0,240.0 L1235.0,239.8 L1240.0,238.9 L1245.0,238.3 L1250.0,238.6 L1255.0,240.0 L1260.0,241.2 L1265.0,241.8 L1270.0,242.4 L1275.0,243.7 L1280.0,246.2 L1285.0,249.8 L1290.0,253.6 L1295.0,256.9 L1300.0,259.1 L1305.0,260.3 L1310.0,261.8 L1315.0,263.3 L1320.0,264.6 L1325.0,265.6 L1330.0,266.4 L1335.0,267.5 L1340.0,268.7 L1345.0,269.9 L1350.0,271.3 L1355.0,271.7 L1360.0,271.3 L1365.0,270.8 L1370.0,271.1 L1375.0,272.9 L1380.0,276.3 L1385.0,280.7 L1390.0,285.3 L1395.0,289.5 L1400.0,292.5 L1405.0,294.8 L1410.0,296.6 L1415.0,298.5 L1420.0,300.7 L1425.0,303.2 L1430.0,305.5 L1435.0,307.3 L1440.0,308.8 L1445.0,309.9 L1450.0,310.9 L1455.0,312.0 L1460.0,313.1 L1465.0,314.3 L1470.0,315.5 L1475.0,317.2 L1480.0,319.5 L1485.0,321.9 L1490.0,324.0 L1495.0,325.7 L1500.0,327.1 L1505.0,328.4 L1510.0,329.7 L1515.0,331.1 L1520.0,332.5 L1525.0,333.5 L1530.0,334.4 L1535.0,335.2 L1540.0,336.1 L1545.0,337.2 L1550.0,338.5 L1555.0,339.9 L1560.0,341.0 L1565.0,341.9 L1570.0,342.6 L1575.0,343.1 L1580.0,343.6 L1585.0,343.5 L1590.0,343.5 L1595.0,343.6 L1600.0,343.8" fill="none" style="stroke:color-mix(in srgb, var(--ink) 22%, var(--haze))" stroke-opacity=".6" stroke-width="0.8" stroke-linecap="round" filter="url(#fdoc)"/></svg></div></div><main class="narrow doc"><p><a href="./">← 說了算 NoTypeGood</a></p><h3>說了算 NoTypeGood 2</h3>
 <p>語音與文字只在你的 Mac 上處理，沒有分析、廣告、帳號或遙測。<strong>只在下載模型與檢查更新時連線。</strong></p>
 <h4>連線</h4>
@@ -320,6 +455,244 @@ th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom
   };
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   update();
+})();
+
+// ---------- 首屏下方的動態示範 ----------
+(() => {
+  const root = document.getElementById('demo');
+  if (!root) return;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const field = root.querySelector('.demo-field'), notes = root.querySelector('.demo-notes'), hud = root.querySelector('.demo-hud');
+  const key = hud.querySelector('kbd'), status = hud.querySelector('.status'), fixit = hud.querySelector('.fixit');
+  const edit = root.querySelector('.demo-edit'), appName = root.querySelector('.app'), ctx = root.querySelector('.ctx');
+  const tabs = [...root.querySelectorAll('.demo-tabs button')];
+  const SCENES = [
+    { app: 'Claude Code', ctx: '情境：開發', tokens: [
+        { t: '嗯那個', k: 'filler' }, { t: '幫我先跑一下 npm install' }, { t: '，', k: 'punct' }, { t: '然後', k: 'filler' },
+        { t: '再看看 ' }, { t: '酷伯內特斯', fix: 'Kubernetes' }, { t: ' 的 pod 狀態' }, { t: '。', k: 'punct' } ],
+      notes: ['去掉贅字「嗯那個」「然後」', '<b>酷伯內特斯 → Kubernetes</b>（情境「開發」）', '補上標點'] },
+    { app: 'Outlook', ctx: '風格：正式', tokens: [ { t: '那個合約我明天再寄給你啦' } ],
+      rewrite: '我明天會將合約寄給您。', notes: ['Outlook 用「正式」風格', '整句改成書面語氣'] },
+    { app: 'Codex', ctx: '改一下', fixScene: true },
+  ];
+  let idx = 0, run = 0, visible = false, wake = null, started = false;
+  // 離開畫面時暫停在原地，回到畫面再接著播（不重新開始）；換場或重播時用 run 中止舊的那一輪。
+  const waitVisible = () => visible ? Promise.resolve() : new Promise(res => { wake = res; });
+  const sleep = async (ms) => {
+    const my = run;
+    await new Promise(res => setTimeout(res, ms));
+    if (my !== run) throw 'stop';
+    await waitVisible();
+    if (my !== run) throw 'stop';
+  };
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const setNotes = (list) => { notes.innerHTML = ''; list.forEach(n => { const s = el('span'); s.innerHTML = n; notes.append(s); }); };
+  const showNotes = async () => { for (const s of notes.children) { s.classList.add('on'); await sleep(450); } };
+  const hudState = (state, text) => { hud.classList.toggle('listening', state === 'listening'); key.classList.toggle('down', state === 'listening'); status.textContent = text; };
+  const select = (i) => { idx = i; tabs.forEach((b, j) => b.setAttribute('aria-selected', String(j === i))); };
+
+  function finalText(sc) {
+    if (sc.fixScene) return '現在幫我分析目前程式執行的結果。';
+    if (sc.rewrite) return sc.rewrite;
+    return sc.tokens.filter(t => t.k !== 'filler').map(t => t.fix || t.t).join('');
+  }
+  function renderStill(sc) {
+    appName.textContent = sc.app; ctx.textContent = sc.ctx; field.className = 'demo-field';
+    field.textContent = finalText(sc); setNotes(sc.notes || ['按「改一下」只換掉剛才那一句', '學到「程式」，下次自動修正']);
+    [...notes.children].forEach(n => n.classList.add('on')); hudState('done', '已輸入'); fixit.classList.remove('show', 'press'); edit.classList.remove('show');
+  }
+
+  async function playDictation(sc) {
+    field.innerHTML = ''; field.className = 'demo-field preview'; setNotes(sc.notes);
+    hudState('idle', '待命中'); await sleep(700);
+    hudState('listening', '聆聽中…');
+    const spans = sc.tokens.map(t => { const s = el('span', 'tok' + (t.k ? ' ' + t.k : '') + (t.fix ? ' fix' : '')); s.dataset.full = t.t; field.append(s); return s; });
+    const caret = el('span', 'caret'); field.append(caret);
+    for (const [i, s] of spans.entries()) {
+      if (sc.tokens[i].k === 'punct') continue;
+      for (const ch of s.dataset.full) { s.textContent += ch; await sleep(ch === ' ' ? 40 : 85); }
+      await sleep(120);
+    }
+    await sleep(500); caret.remove();
+    hudState('busy', '整理中…'); await sleep(900);
+    field.className = 'demo-field';
+    // 只有要收起的贅字需要先固定寬度（才能動畫收合）；標點一開始寬度是 0，不能固定。
+    spans.forEach((s, i) => { if (sc.tokens[i].k === 'filler') s.style.maxWidth = s.offsetWidth + 'px'; });
+    if (sc.rewrite) {
+      field.style.transition = 'opacity .45s, filter .45s'; field.style.opacity = 0; field.style.filter = 'blur(4px)'; await sleep(480);
+      field.textContent = sc.rewrite; field.style.opacity = 1; field.style.filter = 'none'; await sleep(500); field.style.transition = '';
+    } else {
+      for (const [i, s] of spans.entries()) {
+        const t = sc.tokens[i];
+        if (t.k === 'filler') { s.classList.add('gone'); await sleep(380); }
+        else if (t.fix) { s.style.filter = 'blur(3px)'; s.style.opacity = .2; await sleep(260); s.style.maxWidth = 'none'; s.textContent = t.fix; s.classList.add('fixed'); s.style.filter = ''; s.style.opacity = 1; await sleep(420); }
+        else if (t.k === 'punct') { s.textContent = t.t; s.classList.add('on'); await sleep(200); }
+      }
+    }
+    hudState('done', '✓ 已輸入');
+    await showNotes(); await sleep(3200);
+  }
+
+  async function playFix(sc) {
+    setNotes(['按「改一下」只換掉剛才那一句', '學到「程式」，下次自動修正']);
+    field.className = 'demo-field'; field.innerHTML = '現在幫我分析目前<span class="tok fix">城市</span>執行的結果。';
+    hudState('done', '✓ 已輸入'); fixit.classList.add('show'); await sleep(1600);
+    fixit.classList.add('press'); await sleep(350); fixit.classList.remove('press');
+    // 面板：上面一行是原句對照，下面是輸入框（和 app 的「改一下」一樣）。
+    edit.classList.add('show');
+    edit.innerHTML = '<div class="box"><div class="d">現在幫我分析目前<span class="old">城市</span><ins></ins>執行的結果。</div>'
+      + '<div class="i">現在幫我分析目前<span class="sel">城市</span>執行的結果。</div></div>';
+    await sleep(1100);
+    const sel = edit.querySelector('.sel'), oldWord = edit.querySelector('.old'), ins = edit.querySelector('ins');
+    edit.querySelector('.d').classList.add('changed');
+    sel.textContent = ''; const del = document.createElement('del'); del.textContent = oldWord.textContent; oldWord.replaceWith(del);
+    for (const ch of '程式') { sel.textContent += ch; ins.textContent += ch; await sleep(260); }
+    sel.classList.remove('sel'); await sleep(500);
+    await sleep(700); edit.classList.remove('show');
+    const w = field.querySelector('.fix'); w.style.filter = 'blur(3px)'; w.style.opacity = .2; await sleep(260);
+    w.textContent = '程式'; w.classList.add('fixed'); w.style.filter = ''; w.style.opacity = 1;
+    fixit.classList.remove('show'); hudState('done', '已取代');
+    await showNotes(); await sleep(3400);
+  }
+
+  async function loop() {
+    const my = ++run;
+    try {
+      while (my === run) {
+        const sc = SCENES[idx]; select(idx);
+        appName.textContent = sc.app; ctx.textContent = sc.ctx; fixit.classList.remove('show', 'press'); edit.classList.remove('show');
+        if (sc.fixScene) await playFix(sc); else await playDictation(sc);
+        idx = (idx + 1) % SCENES.length;
+      }
+    } catch (e) { /* 換場或離開畫面時中止 */ }
+  }
+  tabs.forEach((b, i) => b.addEventListener('click', () => { select(i); if (still) renderStill(SCENES[i]); else loop(); }));
+  root.querySelector('.demo-replay').addEventListener('click', () => { if (still) renderStill(SCENES[idx]); else loop(); });
+  if (still) { select(0); renderStill(SCENES[0]); return; }
+  new IntersectionObserver((entries) => {
+    visible = entries[entries.length - 1].isIntersecting;
+    if (visible) {
+      if (!started) { started = true; loop(); }
+      if (wake) { const w = wake; wake = null; w(); }
+    }
+  }, { threshold: .2 }).observe(root);
+})();
+
+// ---------- 「用 AI 建立情境」的動態示範 ----------
+(() => {
+  const root = document.getElementById('ai-demo');
+  if (!root) return;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (q) => root.querySelector(q);
+  const flow = [...root.querySelectorAll('.ai-flow li')];
+  const appWin = $('.ai-app'), chatWin = $('.ai-chat'), form = $('.ai-body'), confirm = $('.ai-confirm');
+  const topic = $('.ai-input .v'), ph = $('.ai-input .ph'), copyBtn = $('.ai-btn.copy'), paste = $('.ai-paste'), importBtn = $('.ai-btn.import');
+  const log = $('.chat-log'), chatText = $('.chat-input .v'), send = $('.chat-input .send'), toast = $('.ai-toast'), notes = $('.ai-notes');
+  const TOPIC = '咖啡烘豆、手沖、杯測';
+  // 示範用的簡短提示詞（實際的提示詞更長，包含完整的格式說明與範例）。
+  const PROMPT = `請幫我為語音輸入 app「說了算」建立一個情境。領域：${TOPIC}。整理這個領域的專有名詞、常被聽錯的說法與修正規則，只回傳 JSON。`;
+  const JSON_TEXT = `{
+  "schema": "common.context/v1",
+  "name": "咖啡烘豆",
+  "description": "烘豆、手沖與杯測",
+  "keywords": ["烘豆", "手沖", "杯測"],
+  "terms": [
+    { "term": "耶加雪菲", "variants": ["椰加雪菲", "耶加雪啡"], "category": "properNoun" },
+    { "term": "V60", "variants": ["威六十"], "category": "properNoun" },
+    { "term": "悶蒸", "variants": ["悶真"], "category": "technical" }
+  ],
+  "rules": [
+    { "from": "杯側", "to": "杯測", "requireAny": ["咖啡", "風味", "分數"] },
+    { "from": "翠取", "to": "萃取", "requireAny": ["咖啡", "濃度", "研磨"] }
+  ]
+}`;
+  const NOTES = ['3 個專有名詞', '2 條修正規則，都有前後文線索', '下次說「椰加雪菲」→ <b>耶加雪菲</b>'];
+  let run = 0, visible = false, wake = null, started = false;
+  const waitVisible = () => visible ? Promise.resolve() : new Promise(res => { wake = res; });
+  const sleep = async (ms) => {
+    const my = run;
+    await new Promise(res => setTimeout(res, ms));
+    if (my !== run) throw 'stop';
+    await waitVisible();
+    if (my !== run) throw 'stop';
+  };
+  const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const highlight = (line) => esc(line).replace(/"([^"]*)"(\s*:)?/g, (m, body, colon) => colon ? `<span class="k">"${body}"</span>${colon}` : `<span class="s">"${body}"</span>`);
+  const step = (i) => flow.forEach((li, j) => { li.classList.toggle('now', j === i); li.classList.toggle('done', j < i); });
+  const showWin = (w) => { appWin.classList.toggle('on', w === appWin); chatWin.classList.toggle('on', w === chatWin); appWin.classList.toggle('back', w !== appWin); };
+  const press = async (b, ms = 260) => { b.classList.add('press'); await sleep(ms); b.classList.remove('press'); };
+  const say = async (html, ms = 1300) => { toast.innerHTML = html; toast.classList.add('on'); await sleep(ms); toast.classList.remove('on'); };
+  const setNotes = () => { notes.innerHTML = ''; NOTES.forEach(n => { const s = document.createElement('span'); s.innerHTML = n; notes.append(s); }); };
+  const items = () => [...confirm.querySelectorAll('.ai-item')];
+
+  function reset() {
+    step(0); showWin(appWin); form.style.display = ''; confirm.classList.remove('on');
+    topic.textContent = ''; ph.style.display = ''; copyBtn.textContent = '複製提示詞'; copyBtn.className = 'ai-btn main copy'; copyBtn.disabled = true;
+    paste.textContent = ''; importBtn.disabled = true; importBtn.className = 'ai-btn main import';
+    log.innerHTML = ''; chatText.textContent = ''; send.className = 'send';
+    items().forEach(i => i.classList.remove('on')); confirm.querySelector('.ai-btn.done').className = 'ai-btn main done'; confirm.querySelector('.ai-btn.done').textContent = '匯入';
+    setNotes(); toast.classList.remove('on');
+  }
+  function renderStill() {
+    reset(); flow.forEach(li => { li.classList.remove('now'); li.classList.add('done'); });
+    form.style.display = 'none'; confirm.classList.add('on'); items().forEach(i => i.classList.add('on'));
+    const done = confirm.querySelector('.ai-btn.done'); done.className = 'ai-btn ok done'; done.textContent = '✓ 已匯入';
+    [...notes.children].forEach(n => n.classList.add('on'));
+  }
+
+  async function play() {
+    reset(); await sleep(800);
+    // 1. 輸入領域關鍵字
+    ph.style.display = 'none'; const caret = document.createElement('span'); caret.className = 'caret'; topic.after(caret);
+    for (const ch of TOPIC) { topic.textContent += ch; await sleep(ch === '、' ? 200 : 120); }
+    caret.remove(); copyBtn.disabled = false; await sleep(600);
+    // 2. 複製提示詞
+    step(1); await press(copyBtn); copyBtn.textContent = '✓ 已複製'; copyBtn.className = 'ai-btn ok copy';
+    await say('提示詞已複製到剪貼簿');
+    // 3. 貼到 AI
+    step(2); showWin(chatWin); await sleep(700);
+    await say('<kbd>⌘V</kbd>貼上', 900);
+    chatText.textContent = PROMPT; send.classList.add('ready'); await sleep(900);
+    await press(send, 200); chatText.textContent = ''; send.classList.remove('ready');
+    const me = document.createElement('div'); me.className = 'bubble me';
+    me.innerHTML = `${esc(PROMPT.slice(0, 46))}…<span class="more">（完整提示詞包含格式說明與範例）</span>`;
+    log.append(me); await sleep(40); me.classList.add('on'); await sleep(700);
+    const ai = document.createElement('div'); ai.className = 'bubble ai'; ai.innerHTML = '<span class="think">思考中<i></i><i></i><i></i></span>';
+    log.append(ai); await sleep(40); ai.classList.add('on'); await sleep(1300);
+    ai.innerHTML = '<div class="code"><div class="code-head"><span>json</span><button class="ai-btn" tabindex="-1">複製</button></div><pre></pre></div>';
+    const pre = ai.querySelector('pre'), codeCopy = ai.querySelector('.ai-btn');
+    for (const line of JSON_TEXT.split('\n')) { pre.innerHTML += (pre.innerHTML ? '\n' : '') + highlight(line); pre.scrollTop = pre.scrollHeight; await sleep(130); }
+    await sleep(700);
+    // 4. 複製 JSON，貼回說了算
+    step(3); await press(codeCopy); codeCopy.textContent = '✓ 已複製'; codeCopy.classList.add('ok'); await sleep(600);
+    showWin(appWin); await sleep(700);
+    await say('<kbd>⌘V</kbd>貼上', 900);
+    paste.textContent = JSON_TEXT; importBtn.disabled = false; await sleep(1100);
+    // 5. 逐項確認，然後匯入
+    step(4); await press(importBtn); await sleep(200);
+    form.style.display = 'none'; confirm.classList.add('on'); await sleep(500);
+    for (const it of items()) { it.classList.add('on'); await sleep(320); }
+    await sleep(500);
+    const done = confirm.querySelector('.ai-btn.done'); await press(done); done.className = 'ai-btn ok done'; done.textContent = '✓ 已匯入';
+    flow.forEach(li => { li.classList.remove('now'); li.classList.add('done'); });
+    for (const n of notes.children) { n.classList.add('on'); await sleep(450); }
+    await sleep(4200);
+  }
+
+  async function loop() {
+    const my = ++run;
+    try { while (my === run) await play(); } catch (e) { /* 重播或離開畫面時中止 */ }
+  }
+  root.querySelector('.demo-replay').addEventListener('click', () => { if (still) renderStill(); else loop(); });
+  if (still) { renderStill(); return; }
+  reset();
+  new IntersectionObserver((entries) => {
+    visible = entries[entries.length - 1].isIntersecting;
+    if (visible) {
+      if (!started) { started = true; loop(); }
+      if (wake) { const w = wake; wake = null; w(); }
+    }
+  }, { threshold: .25 }).observe(root);
 })();
 </script>
 </body>
