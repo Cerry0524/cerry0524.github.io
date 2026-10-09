@@ -418,7 +418,8 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
 /* ---------- 用 AI 提示詞建立情境（比照說了算下載頁的同一段動態示範） ---------- */
 .badge { display: inline-block; font-size: 12px; letter-spacing: .2em; color: var(--accent); border: 1px solid var(--accent); padding: 0 8px; border-radius: 3px; margin-bottom: 8px; }
 .ai-demo { max-width: 780px; margin: 0 auto; }
-.ai-flow { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 4px; list-style: none; padding: 0; margin: 0 0 14px; font-size: 13.5px; color: var(--text2); }
+/* 流程標籤與「重新播放」直接壓在景上：墊一條實心的卡面（和下面的小提示同一種樣子），字後面永遠不會透出墨 */
+.ai-flow { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 4px; list-style: none; width: fit-content; max-width: 100%; box-sizing: border-box; padding: 4px; margin: 0 auto 14px; font-size: 13.5px; color: var(--text2); background: var(--card); border: 1px solid var(--rule); border-radius: 18px; box-shadow: var(--shadow); }
 .ai-flow li { display: flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; transition: color .3s, background .3s; }
 .ai-flow li + li::before { content: "→"; margin-right: 4px; color: var(--rule); }
 .ai-flow li.now { color: var(--text); font-weight: 600; background: color-mix(in srgb, var(--accent) 14%, transparent); }
@@ -494,7 +495,8 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
 .ai-notes span { font-size: 13.5px; color: var(--text2); border: 1px solid var(--rule); background: var(--card); border-radius: 999px; padding: 3px 12px; opacity: 0; transform: translateY(4px); transition: opacity .5s, transform .5s; }
 .ai-notes span.on { opacity: 1; transform: none; }
 .ai-notes span b { color: var(--accent); font-weight: 600; }
-.replay { display: block; margin: 12px auto 0; font: inherit; font-size: 13.5px; color: var(--text2); background: none; border: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+.replay { display: block; margin: 12px auto 0; font: inherit; font-size: 13.5px; color: var(--text2); background: var(--card); border: 1px solid var(--rule); border-radius: 999px; padding: 3px 14px; cursor: pointer; }
+.replay:hover { color: var(--text); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 26px; }
 .steps4 .card { padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
