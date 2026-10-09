@@ -1451,12 +1451,17 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
   const LV = [96, 192, 384, 768, 1536, 3072];
   const cache = new Map(), queue = [];
   let busy = false, epoch = 0, now = 0, dirty = true;
+  // 進場：第一眼看得到的景物都有清楚的一張之後，整片景才從天色淡入（不先露出模糊的小圖再換掉）。
+  // introMiss＝這一格有景物還在用替代的小圖；introAt＝開始淡入的時間（最多等 INTRO_WAIT 毫秒）。
+  const T0 = performance.now(), INTRO_WAIT = 1800, INTRO_FADE = 1400;
+  let introAt = 0, introMiss = false;
   function sprite(id, need) {
     const want = LV.find(l => l >= need) || LV[LV.length - 1];
     let slot = cache.get(id + "@" + want);
     if (!slot) { cache.set(id + "@" + want, slot = { c: null, sil: null, used: now }); queue.push([id, want, slot]); pump(); }
     slot.used = now;
     if (slot.c) return slot;
+    introMiss = true;
     let best = null, bd = 1e9;   // 還沒畫好：先用最接近的一張（大的優先）
     for (const l of LV) { const h = cache.get(id + "@" + l); if (h && h.c) { const d = Math.abs(Math.log(l / want)) - (l > want ? .05 : 0); if (d < bd) { bd = d; best = h; } } }
     if (best) { best.used = now; return best; }
@@ -1912,12 +1917,19 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
   const DRAW = { stalk: drawStalk, well: drawWell, bank: drawBank, stone: drawStone, moss: drawMoss, grass: drawGrass, puff: drawPuff,
     lake: drawLake, farbank: drawFarBank, bridge: drawBridge, pavilion: drawPavilion };
 
+  let skyGrad = null;
+  // 進場淡入的程度（0＝只有天色，1＝整片景）。
+  function introAlpha() {
+    if (reduced) return 1;
+    if (!introAt) return 0;
+    return smooth(0, 1, (performance.now() - introAt) / INTRO_FADE);
+  }
   function sky() {
     flat();
     const yh = proj(cam.x, cam.h, cam.c + 4000, A) ? A.y : vh * .5, k = clamp(yh / vh, .05, .95);
     const gr = g.createLinearGradient(0, 0, 0, vh);
     gr.addColorStop(0, S.top); gr.addColorStop(k * .6, S.mid); gr.addColorStop(k, S.horizon); gr.addColorStop(Math.min(1, k + .12), S.ground); gr.addColorStop(1, S.ground);
-    g.fillStyle = gr; g.fillRect(0, 0, vw, vh);
+    g.fillStyle = skyGrad = gr; g.fillRect(0, 0, vw, vh);
     // 日或月：在左上方的天上，抬頭時慢慢進到畫面裡。月亮用烘雲托月：月亮留白、周圍一圈圈壓暗的暈，不做發光。
     orb.on = !!proj(cam.x + sun.x, cam.h + sun.y + 300 * (1 - smooth(.15, .85, p)), cam.c + 1000, A);
     if (orb.on) {
@@ -1944,6 +1956,12 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
   let veils = [];
   const refreshVeils = () => { veils = [...document.querySelectorAll(VEIL_SEL)]; veilR.length = 0; for (const el of veils) veilR.push(el.getBoundingClientRect()); };
   const veilR = [];
+  const inkOpacity = el => {
+    if (!el.children.length) return +getComputedStyle(el).opacity;
+    let m = 0;
+    for (const ch of el.children) m = Math.max(m, +getComputedStyle(ch).opacity);
+    return m;
+  };
   function veil() {
     flat();
     if (!veils.length || veilR.length !== veils.length) refreshVeils();
@@ -1955,6 +1973,8 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
       let op = -1;
       for (let e = el; e && e !== document.body && op < 0; e = e.parentElement) if (e.style.opacity !== "") op = +e.style.opacity;
       if (op < 0) { op = 0; for (const ch of el.children) op = Math.max(op, ch.style.opacity === "" ? 1 : +ch.style.opacity); }
+      // 剛打開頁面時，首屏的字還在墨暈淡入（CSS 動畫）：霧跟著字實際的濃淡一起出現，不先鋪著
+      if (now - T0 < 5000) op = Math.min(op, inkOpacity(el));
       if (op < .02) return;
       g.save();
       g.translate((r.left + r.right) / 2, (r.top + r.bottom) / 2); g.scale(r.width / 2 + 160, r.height / 2 + 56);
@@ -1965,12 +1985,14 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
     });
   }
 
-  // 文字上方飄過的霧：幾朵雲形的霧隨風由左往右，隔一陣子才經過一次；最濃 0.35，字只會朦朧幾秒
-  const banks = [{ y: .24, s: .5, per: 46, ph: 8, a: .35 }, { y: .58, s: .42, per: 63, ph: 31, a: .3 }, { y: .4, s: .55, per: 79, ph: 52, a: .28 }];
+  // 文字上方飄過的霧：幾朵雲形的霧隨風由左往右，隔一陣子才經過一次；最濃 0.35，字只會朦朧幾秒。
+  // 相位讓三朵霧在打開頁面時都還在畫面外，第一朵十幾秒後才飄進來（不會一進來就擋在字上）。
+  const banks = [{ y: .24, s: .5, per: 46, ph: 0, a: .35 }, { y: .58, s: .42, per: 63, ph: 61, a: .3 }, { y: .4, s: .55, per: 79, ph: 75, a: .28 }];
   let overlayOn = true;
   function overlay(t) {
     const W = ov.width, H = ov.height, deep = .55 + .45 * smooth(.1, .9, p), unit = Math.min(W, H);
-    const vis = banks.map(b => { const cyc = ((t + b.ph) / b.per) % 1; return [cyc, b.a * deep * Math.sin(cyc * Math.PI) ** 2]; });
+    const ia = introAlpha();
+    const vis = banks.map(b => { const cyc = ((t + b.ph) / b.per) % 1; return [cyc, b.a * deep * ia * Math.sin(cyc * Math.PI) ** 2]; });
     if (vis.every(([, a]) => a < .01)) { if (overlayOn) { og.setTransform(1, 0, 0, 1, 0, 0); og.clearRect(0, 0, W, H); overlayOn = false; } return; }
     overlayOn = true;
     og.setTransform(1, 0, 0, 1, 0, 0);
@@ -2038,8 +2060,15 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
     fogK = .8 + .3 * smooth(.3, .7, p) - .3 * smooth(.85, 1, p);
     flat();
     g.clearRect(0, 0, vw, vh);
+    introMiss = false;
     sky();
     for (const it of items) { const d = it.Z - cam.c; if (d > .2 && d < 80) DRAW[it.t](it, t); }
+    if (!introAt && (!introMiss || performance.now() - T0 > INTRO_WAIT)) introAt = performance.now();
+    const ia = introAlpha();
+    if (ia < 1 && skyGrad) {   // 還沒完全淡入：用天色蓋回去
+      flat();
+      g.globalAlpha = 1 - ia; g.fillStyle = skyGrad; g.fillRect(0, 0, vw, vh); g.globalAlpha = 1;
+    }
     veil();
     if (!reduced) overlay(t);
   }
