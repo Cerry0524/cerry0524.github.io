@@ -367,7 +367,7 @@ section { position: relative; padding: clamp(40px, 6vw, 72px) 0 0; }
 
 /* ---------- 時間軸、圖表、例句 ---------- */
 .scroll-x { overflow-x: auto; }
-.scroll-x svg { display: block; min-width: 34rem; width: 100%; height: auto; }
+#timeline svg, .scroll-x svg { display: block; width: 100%; height: auto; }
 .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13.5px; color: var(--text2); }
 .legend span::before { content: ""; display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; background: var(--c); }
 .examples { display: grid; gap: 10px; }
@@ -749,7 +749,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <p class="s-lead">按鍵當下只查辭典；你一停頓，模型才在背景讀一次整句。你一繼續打字，算到一半的結果就直接丟掉。</p>
     </div>
     <div class="focus">
-      <div class="card pad scroll-x" id="timeline"></div>
+      <div class="card pad" id="timeline"></div>
     </div>
   </section>
 
@@ -1171,43 +1171,78 @@ go(0);
 })();
 
 // ---------- 時間軸 ----------
+// 卡片窄於 560px（手機）時換成窄版：說明分兩行、標籤靠左右兩端對齊，不再橫向捲動。
 (function timeline() {
-  const t = DATA.timing, W = 760, H = 190, x0 = 30, x1 = 730;
-  const total = 120 + t.p90 + 120, X = ms => x0 + (ms / total) * (x1 - x0);
+  const box = $("#timeline"), t = DATA.timing;
   const ink = "var(--text)", muted = "var(--text2)", accent = "var(--accent)", line = "var(--rule)";
-  $("#timeline").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="打字與整句重讀的時間軸" font-family="-apple-system, PingFang TC, sans-serif">
-    <line x1="${x0}" y1="120" x2="${x1}" y2="120" stroke="${line}" stroke-width="2"/>
-    <rect x="${X(0) - 4}" y="96" width="8" height="24" rx="2" fill="${ink}"/>
-    <text x="${X(0)}" y="88" text-anchor="middle" font-size="13" fill="${ink}">最後一個按鍵</text>
-    <text x="${X(0)}" y="145" text-anchor="middle" font-size="12" fill="${muted}">0 ms：立即顯示</text>
-    <rect x="${X(0)}" y="110" width="${X(120) - X(0)}" height="10" fill="${line}"/>
-    <text x="${(X(0) + X(120)) / 2}" y="168" text-anchor="middle" font-size="12" fill="${muted}">等你停頓 120 ms</text>
-    <rect x="${X(120)}" y="104" width="${X(120 + t.median) - X(120)}" height="16" rx="3" fill="${accent}"/>
-    <rect x="${X(120 + t.median)}" y="110" width="${X(120 + t.p90) - X(120 + t.median)}" height="10" rx="2" fill="${accent}" opacity="0.4"/>
-    <text x="${X(120)}" y="62" font-size="13" fill="${accent}">背景整句重讀：中位數 ${t.median.toFixed(0)} ms，九成在 ${t.p90.toFixed(0)} ms 內</text>
-    <line x1="${X(120)}" y1="68" x2="${X(120)}" y2="104" stroke="${accent}" stroke-width="1.5"/>
-    <rect x="${X(120 + t.p90) + 6}" y="96" width="8" height="24" rx="2" fill="${accent}"/>
-    <text x="${X(120 + t.p90) + 10}" y="88" text-anchor="middle" font-size="13" fill="${accent}">改好的字出現</text>
-    <text x="${x0}" y="22" font-size="12" fill="${muted}">若你在這段時間內又按了鍵，背景的結果直接丟掉，不會干擾正在打的字。</text>
-  </svg>`;
+  const med = t.median.toFixed(0), p90 = t.p90.toFixed(0);
+  let narrowNow = null;
+  function draw() {
+    const narrow = box.clientWidth < 560;
+    if (narrow === narrowNow) return;
+    narrowNow = narrow;
+    // 窄版：尾端留白縮短，讓「改好的字出現」靠右；字級放大一點，縮到手機寬度後仍約 12px。
+    const W = narrow ? 340 : 760, x0 = narrow ? 14 : 40, x1 = W - (narrow ? 14 : 30);
+    const total = 120 + t.p90 + (narrow ? 30 : 120), X = ms => x0 + (ms / total) * (x1 - x0);
+    const fs = narrow ? 13.5 : 13, fsS = narrow ? 12.5 : 12;
+    const yN = narrow ? 18 : 22, yA = narrow ? 66 : 62, yL = narrow ? 100 : 88, yB = narrow ? 130 : 120;
+    const H = narrow ? 186 : 190, done = X(120 + t.p90) + 6;
+    const note = narrow
+      ? `<text x="${x0}" y="${yN}" font-size="${fsS}" fill="${muted}">若你在這段時間內又按了鍵，</text>
+         <text x="${x0}" y="${yN + 19}" font-size="${fsS}" fill="${muted}">背景的結果直接丟掉，不會干擾正在打的字。</text>`
+      : `<text x="${x0}" y="${yN}" font-size="${fsS}" fill="${muted}">若你在這段時間內又按了鍵，背景的結果直接丟掉，不會干擾正在打的字。</text>`;
+    // 窄版的「背景整句重讀」靠右對齊在完成點，分兩行；寬版維持一行，從重讀開始的位置往右寫。
+    const reread = narrow
+      ? `<text x="${done + 8}" y="${yA - 2}" text-anchor="end" font-size="${fs}" fill="${accent}">背景整句重讀</text>
+         <text x="${done + 8}" y="${yA + 17}" text-anchor="end" font-size="${fsS}" fill="${accent}">中位數 ${med} ms，九成在 ${p90} ms 內</text>`
+      : `<text x="${X(120)}" y="${yA}" font-size="${fs}" fill="${accent}">背景整句重讀：中位數 ${med} ms，九成在 ${p90} ms 內</text>`;
+    box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="打字與整句重讀的時間軸" font-family="-apple-system, PingFang TC, sans-serif">
+      ${note}
+      <line x1="${x0}" y1="${yB}" x2="${x1}" y2="${yB}" stroke="${line}" stroke-width="2"/>
+      <rect x="${X(0) - 4}" y="${yB - 24}" width="8" height="24" rx="2" fill="${ink}"/>
+      <text x="${X(0) - 4}" y="${yL}" font-size="${fs}" fill="${ink}">最後一個按鍵</text>
+      <text x="${X(0) - 4}" y="${yB + 25}" font-size="${fsS}" fill="${muted}">0 ms：立即顯示</text>
+      <rect x="${X(0)}" y="${yB - 10}" width="${X(120) - X(0)}" height="10" fill="${line}"/>
+      <text x="${(X(0) + X(120)) / 2}" y="${yB + 48}" text-anchor="middle" font-size="${fsS}" fill="${muted}">等你停頓 120 ms</text>
+      <rect x="${X(120)}" y="${yB - 16}" width="${X(120 + t.median) - X(120)}" height="16" rx="3" fill="${accent}"/>
+      <rect x="${X(120 + t.median)}" y="${yB - 10}" width="${X(120 + t.p90) - X(120 + t.median)}" height="10" rx="2" fill="${accent}" opacity="0.4"/>
+      ${reread}
+      ${narrow ? "" : `<line x1="${X(120)}" y1="${yA + 6}" x2="${X(120)}" y2="${yB - 16}" stroke="${accent}" stroke-width="1.5"/>`}
+      <rect x="${done}" y="${yB - 24}" width="8" height="24" rx="2" fill="${accent}"/>
+      <text x="${done + 8}" y="${yB + 25}" text-anchor="end" font-size="${fs}" fill="${accent}">改好的字出現</text>
+    </svg>`;
+  }
+  draw();
+  addEventListener("resize", draw);
 })();
 
 // ---------- 成績單 ----------
+// 容器窄於 520px（手機）時換成窄版：項目名稱放在長條上方，長條用滿整個寬度，不再橫向捲動。
 function barChart(id, title, metric) {
-  const sets = [["holdout", "一般打字"], ["holdout_rollover", "手指交錯"], ["holdout_spaced", "英文後加空白"]];
-  const W = 760, rowH = 58, top = 34, left = 120, right = 70, Hh = top + sets.length * rowH + 10;
-  const X = v => left + v * (W - left - right);
-  let s = `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${title}" font-family="-apple-system, PingFang TC, sans-serif"><text x="0" y="18" font-size="15" font-weight="700" fill="var(--text)">${title}</text>`;
-  sets.forEach(([k, name], i) => {
-    const y = top + i * rowH, d = DATA.sets[k];
-    s += `<text x="0" y="${y + 26}" font-size="13" fill="var(--text)">${name}</text>`;
-    [["off", "var(--bar-off)", 4], ["on", "var(--accent)", 26]].forEach(([which, color, dy]) => {
-      const v = d[which][metric];
-      s += `<rect x="${left}" y="${y + dy}" width="${Math.max(2, X(v) - left)}" height="18" rx="3" fill="${color}"/>`;
-      s += `<text x="${X(v) + 6}" y="${y + dy + 14}" font-size="12" fill="var(--text)">${pct(v)}</text>`;
+  const box = $("#" + id), sets = [["holdout", "一般打字"], ["holdout_rollover", "手指交錯"], ["holdout_spaced", "英文後加空白"]];
+  let narrowNow = null;
+  function draw() {
+    const narrow = box.clientWidth < 520;
+    if (narrow === narrowNow) return;
+    narrowNow = narrow;
+    const W = narrow ? 340 : 760, top = 34, left = narrow ? 0 : 120, right = narrow ? 52 : 70;
+    const rowH = narrow ? 70 : 58, nameH = narrow ? 20 : 0, Hh = top + sets.length * rowH + 10;
+    const fs = narrow ? 14 : 13, fsV = narrow ? 13 : 12;
+    const X = v => left + v * (W - left - right);
+    let s = `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${title}" font-family="-apple-system, PingFang TC, sans-serif"><text x="0" y="18" font-size="${narrow ? 16 : 15}" font-weight="700" fill="var(--text)">${title}</text>`;
+    sets.forEach(([k, name], i) => {
+      const y = top + i * rowH, d = DATA.sets[k];
+      s += `<text x="0" y="${narrow ? y + 14 : y + 26}" font-size="${fs}" fill="var(--text)">${name}</text>`;
+      [["off", "var(--bar-off)", 4], ["on", "var(--accent)", 26]].forEach(([which, color, dy]) => {
+        const v = d[which][metric];
+        s += `<rect x="${left}" y="${y + nameH + dy}" width="${Math.max(2, X(v) - left)}" height="18" rx="3" fill="${color}"/>`;
+        s += `<text x="${X(v) + 6}" y="${y + nameH + dy + 14}" font-size="${fsV}" fill="var(--text)">${pct(v)}</text>`;
+      });
     });
-  });
-  $("#" + id).innerHTML = s + "</svg>";
+    box.innerHTML = s + "</svg>";
+  }
+  draw();
+  addEventListener("resize", draw);
 }
 barChart("chartSentence", "整句一字不差", "exact");
 barChart("chartEnglish", "英文字完整保留", "english");
