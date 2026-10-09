@@ -1901,23 +1901,28 @@ $("#chartNote").textContent = `另有 ${DATA.dev.cases} 句的調參題庫：整
   }
 
   // 文字後面：一條和天色相同的橫霧（很寬、很扁），把墨淡掉，不像聚光燈
-  const veils = [...document.querySelectorAll(".hero-copy, .scene-sec .s-head, .foot .finale, .foot-info")];
+  // 要墊霧的字：每段的標題與說明，以及沒有底卡、直接壓在景上的字（數字、流程標籤、重新播放）。
+  // 數字是載入後才產生的，所以每次重新量位置時一併重抓。
+  const VEIL_SEL = ".hero-copy, .scene-sec .s-head, .foot .finale, .foot-info, .week .stat, .ai-demo .ai-flow, .ai-demo .replay";
+  let veils = [];
+  const refreshVeils = () => { veils = [...document.querySelectorAll(VEIL_SEL)]; veilR.length = 0; for (const el of veils) veilR.push(el.getBoundingClientRect()); };
   const veilR = [];
   function veil() {
     flat();
-    if (veilR.length !== veils.length) { veilR.length = 0; for (const el of veils) veilR.push(el.getBoundingClientRect()); }
+    if (!veils.length || veilR.length !== veils.length) refreshVeils();
     const [vr, vg, vb] = S.veil, c = a => `rgba(${vr},${vg},${vb},${a})`;
     veils.forEach((el, i) => {
       const r = veilR[i];
       if (r.bottom < -120 || r.top > vh + 120) return;
-      let op = 0;   // 跟著這一塊裡最清楚的那段字
-      if (el.style.opacity !== "") op = +el.style.opacity;
-      else for (const ch of el.children) op = Math.max(op, ch.style.opacity === "" ? 1 : +ch.style.opacity);
+      // 濃淡跟著字：自己或最近一層有淡入淡出的祖先；都沒有時，看這一塊裡最清楚的那段字
+      let op = -1;
+      for (let e = el; e && e !== document.body && op < 0; e = e.parentElement) if (e.style.opacity !== "") op = +e.style.opacity;
+      if (op < 0) { op = 0; for (const ch of el.children) op = Math.max(op, ch.style.opacity === "" ? 1 : +ch.style.opacity); }
       if (op < .02) return;
       g.save();
-      g.translate((r.left + r.right) / 2, (r.top + r.bottom) / 2); g.scale(r.width / 2 + 160, r.height / 2 + 40);
+      g.translate((r.left + r.right) / 2, (r.top + r.bottom) / 2); g.scale(r.width / 2 + 160, r.height / 2 + 56);
       const gr = g.createRadialGradient(0, 0, 0, 0, 0, 1);
-      gr.addColorStop(0, c(.95 * op)); gr.addColorStop(.55, c(.9 * op)); gr.addColorStop(.8, c(.45 * op)); gr.addColorStop(1, c(0));
+      gr.addColorStop(0, c(.96 * op)); gr.addColorStop(.65, c(.93 * op)); gr.addColorStop(.86, c(.5 * op)); gr.addColorStop(1, c(0));
       g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 1, 0, Math.PI * 2); g.fill();
       g.restore();
     });
