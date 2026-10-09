@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>贊助 · Cerry Chen</title>
+<meta name="description" content="說了算與隨便打都是免費軟體，贊助會在之後開放。">
+<link rel="canonical" href="https://cerry0524.github.io/support.html">
+<style>
+/* 楷體子集（霞鶩文楷 TC，SIL OFL 1.1；只含「隨便打手」4 字，約 2 KB）：從本站載入，不連外部字型服務。
+   宋體用 macOS 內建的 Songti TC；楷體不是每台 Mac 都有，所以自備。授權聲明見網站根目錄。 */
+@font-face {
+  font-family: "Cerry Kai Bar";
+  src: url("/assets/fonts/cerry-kai-bar.woff2") format("woff2");
+  font-weight: 100 900; /* 只有一個字重：宣告整個範圍，避免瀏覽器硬加粗 */
+  font-display: swap;
+  unicode-range: U+96A8, U+4FBF, U+6253, U+624B; /* 隨便打手 */
+}
+.cerry-bar {
+  --cb-paper: #F5F0E7; --cb-rule: #DED5C6; --cb-text: #1B1916; --cb-text2: #615A50;
+  --cb-seal: #B8402A; --cb-seal-text: #F6F3EE;
+  --cb-ntg: #B23C26;   /* 朱砂：說了算 */
+  --cb-sbd: #2E5B3F;   /* 墨綠：隨便打 */
+  position: sticky; top: 0; z-index: 50;
+  background: var(--cb-paper); border-bottom: 1px solid var(--cb-rule);
+  padding-top: env(safe-area-inset-top, 0px); padding-inline: 16px;
+  font-family: "PingFang TC", "Noto Sans TC", "Heiti TC", sans-serif; line-height: 1.4;
+  view-transition-name: cerry-bar;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .cerry-bar {
+    --cb-paper: #14130F; --cb-rule: #34302A; --cb-text: #ECE6DA; --cb-text2: #A9A190;
+    --cb-seal: #E36A50; --cb-seal-text: #191816; --cb-ntg: #D9573B; --cb-sbd: #8DBF9C;
+  }
+}
+:root[data-theme="dark"] .cerry-bar {
+  --cb-paper: #14130F; --cb-rule: #34302A; --cb-text: #ECE6DA; --cb-text2: #A9A190;
+  --cb-seal: #E36A50; --cb-seal-text: #191816; --cb-ntg: #D9573B; --cb-sbd: #8DBF9C;
+}
+.cerry-bar-in { max-width: 68rem; margin-inline: auto; display: flex; align-items: center; gap: .4rem 1rem; min-height: 3.4rem; flex-wrap: wrap; }
+.cerry-brand { font-family: "Songti TC", "Noto Serif TC", serif; font-weight: 700; letter-spacing: .04em; font-size: .95rem; color: var(--cb-text2); text-decoration: none; margin-right: .5rem; }
+.cerry-brand:hover { color: var(--cb-text); }
+.cerry-tab { position: relative; display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .75rem .7rem; color: var(--cb-text2); text-decoration: none; border-radius: 6px; font-weight: 700; letter-spacing: .06em; }
+.cerry-tab:hover { color: var(--cb-text); }
+.cerry-tab:focus-visible, .cerry-brand:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.cerry-ntg .cerry-name { font-family: "Songti TC", "Noto Serif TC", serif; }
+.cerry-sbd .cerry-name { font-family: "Cerry Kai Bar", "LXGW WenKai TC", "Kaiti TC", "STKaiti", serif; font-size: 1.08em; }
+.cerry-seal { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 4px; transform: rotate(-3deg); font-size: .9rem; line-height: 1; color: var(--cb-seal); box-shadow: inset 0 0 0 1.5px var(--cb-seal); flex: none; }
+.cerry-ntg .cerry-seal { font-family: "Songti TC", "Noto Serif TC", serif; }
+.cerry-sbd .cerry-seal { font-family: "Cerry Kai Bar", "LXGW WenKai TC", "Kaiti TC", "STKaiti", serif; }
+.cerry-tab[aria-current="page"] { color: var(--cb-text); }
+.cerry-tab[aria-current="page"] .cerry-seal { background: var(--cb-seal); color: var(--cb-seal-text); box-shadow: inset 0 0 0 1.5px var(--cb-seal), inset 0 0 0 2.5px rgba(255, 255, 255, .35); }
+/* 目前頁底下一筆毛筆橫畫，顏色是該產品的主色。 */
+.cerry-tab[aria-current="page"]::after {
+  content: ""; position: absolute; left: .55rem; right: .55rem; bottom: .1rem; height: .55rem;
+  background: var(--cb-ntg); view-transition-name: cerry-stroke;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 14' preserveAspectRatio='none'%3E%3Cpath d='M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 14' preserveAspectRatio='none'%3E%3Cpath d='M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.cerry-sbd[aria-current="page"]::after { background: var(--cb-sbd); }
+/* 贊助：連到本站兩個作品共用的贊助頁 /support.html（不嵌入收款平台的按鈕程式，維持不載入外部資源）。在贊助頁上加 aria-current="page"。
+   使用者 2026-10-09：贊助開放（Polar 可以收款）之前先不放這個連結；開放時在 nav 最後加回
+   <a class="cerry-sponsor" href="/support.html" title="贊助">贊助</a>。 */
+.cerry-sponsor { margin-left: auto; font-size: .85rem; color: var(--cb-text2); text-decoration: none; border: 1px solid color-mix(in srgb, var(--cb-text) 25%, transparent); border-radius: 999px; padding: .25rem .85rem; white-space: nowrap; }
+.cerry-sponsor:hover { color: var(--cb-text); border-color: var(--cb-seal); }
+.cerry-sponsor:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.cerry-sponsor[aria-current="page"] { color: var(--cb-text); border-color: var(--cb-seal); }
+/* 換頁：分頁列不動、毛筆底線滑過去、內容墨暈淡入。 */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: .18s ease both cerry-ink-out; }
+::view-transition-new(root) { animation: .4s ease both cerry-ink-in; }
+::view-transition-group(cerry-stroke) { animation-duration: .32s; }
+@keyframes cerry-ink-in { from { opacity: 0; filter: blur(6px); } }
+@keyframes cerry-ink-out { to { opacity: 0; filter: blur(4px); } }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+</style>
+<style>
+:root {
+  --paper: #F5F0E7; --card: #FBF8F2; --rule: #DED5C6;
+  --text: #1B1916; --text2: #615A50;
+  --seal: #B8402A; --seal-text: #F6F3EE;
+  --ntg: #B23C26; --sbd: #2E5B3F;
+  --btn: #1B1916; --btn-text: #F6F3EE; --btn-off: #E7E0D3; --btn-off-text: #615A50;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14130F; --card: #1C1A16; --rule: #34302A;
+    --text: #ECE6DA; --text2: #A9A190;
+    --seal: #E36A50; --seal-text: #191816;
+    --ntg: #D9573B; --sbd: #8DBF9C;
+    --btn: #ECE6DA; --btn-text: #191816; --btn-off: #2A2722; --btn-off-text: #A9A190;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #14130F; --card: #1C1A16; --rule: #34302A;
+  --text: #ECE6DA; --text2: #A9A190;
+  --seal: #E36A50; --seal-text: #191816;
+  --ntg: #D9573B; --sbd: #8DBF9C;
+  --btn: #ECE6DA; --btn-text: #191816; --btn-off: #2A2722; --btn-off-text: #A9A190;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--text);
+  font-family: "PingFang TC", "Noto Sans TC", "Heiti TC", sans-serif;
+  font-size: 1rem; line-height: 1.75;
+}
+main { max-width: 40rem; margin: 0 auto; padding: 3rem 16px 4rem; }
+.seals { display: flex; gap: .5rem; margin-bottom: 1.25rem; }
+.seal {
+  display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 6px;
+  font-size: 1.25rem; line-height: 1; color: var(--seal); box-shadow: inset 0 0 0 2px var(--seal);
+}
+.seal.ntg { font-family: "Songti TC", "Noto Serif TC", serif; transform: rotate(-3deg); }
+.seal.sbd { font-family: "Cerry Kai Bar", "LXGW WenKai TC", "Kaiti TC", "STKaiti", serif; transform: rotate(2deg); }
+h1 {
+  font-family: "Songti TC", "Noto Serif TC", serif; font-weight: 700;
+  font-size: 2.2rem; line-height: 1.3; letter-spacing: .08em; margin: 0 0 1rem;
+}
+h2 {
+  font-family: "Songti TC", "Noto Serif TC", serif; font-weight: 700;
+  font-size: 1.2rem; letter-spacing: .04em; margin: 2.5rem 0 .5rem;
+}
+p { margin: 0 0 1rem; }
+.lead { font-size: 1.08rem; }
+.muted { color: var(--text2); }
+.works { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin: 1.75rem 0; }
+.work {
+  display: flex; align-items: center; gap: .75rem; padding: .85rem 1rem;
+  background: var(--card); border: 1px solid var(--rule); border-radius: 10px;
+  color: var(--text); text-decoration: none;
+}
+.work:hover { border-color: var(--text2); }
+.work:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.work .seal { width: 1.7rem; height: 1.7rem; font-size: 1rem; flex: none; }
+.work-name { font-weight: 700; letter-spacing: .06em; }
+.work-ntg .work-name { font-family: "Songti TC", "Noto Serif TC", serif; }
+.work-sbd .work-name { font-family: "Cerry Kai Bar", "LXGW WenKai TC", "Kaiti TC", "STKaiti", serif; font-size: 1.08em; }
+.work-ntg { box-shadow: inset 3px 0 0 var(--ntg); }
+.work-sbd { box-shadow: inset 3px 0 0 var(--sbd); }
+.work-note { display: block; font-size: .85rem; color: var(--text2); font-weight: 400; letter-spacing: 0; font-family: "PingFang TC", "Noto Sans TC", "Heiti TC", sans-serif; }
+.give { margin: 2rem 0 .75rem; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 3rem;
+  padding: .7rem 1.6rem; border-radius: 999px; font-size: 1.05rem; font-weight: 700; letter-spacing: .06em;
+  background: var(--btn); color: var(--btn-text); text-decoration: none;
+}
+.btn:hover { opacity: .9; }
+.btn:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+.btn[aria-disabled="true"] { background: var(--btn-off); color: var(--btn-off-text); cursor: default; opacity: 1; }
+ol { margin: 0 0 1rem; padding-left: 1.4rem; }
+li { margin-bottom: .35rem; }
+footer { border-top: 1px solid var(--rule); margin-top: 3rem; padding-top: 1.25rem; font-size: .85rem; color: var(--text2); }
+footer a { color: var(--text2); }
+@media (max-width: 480px) {
+  main { padding-top: 2rem; }
+  h1 { font-size: 1.9rem; }
+  .works { grid-template-columns: 1fr; }
+  .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+<nav class="cerry-bar" aria-label="Cerry Chen 的作品">
+  <div class="cerry-bar-in">
+    <a class="cerry-brand" href="/">Cerry Chen</a>
+    <a class="cerry-tab cerry-ntg" href="/notypegood/"><span class="cerry-seal" aria-hidden="true">言</span><span class="cerry-name">說了算</span></a>
+    <a class="cerry-tab cerry-sbd" href="/suibianda/"><span class="cerry-seal" aria-hidden="true">手</span><span class="cerry-name">隨便打</span></a>
+  </div>
+</nav>
+
+<main>
+  <div class="seals" aria-hidden="true"><span class="seal ntg">言</span><span class="seal sbd">手</span></div>
+  <h1>贊助</h1>
+  <p class="lead">說了算和隨便打都是免費軟體，所有功能都可以直接使用，沒有付費版本。</p>
+  <p>贊助會在之後開放，金額由你決定。贊助是對開發者的支持，不是購買軟體，也不會解鎖任何功能；你的支持會用在兩個作品的持續改進。</p>
+
+  <div class="works">
+    <a class="work work-ntg" href="/notypegood/"><span class="seal ntg" aria-hidden="true">言</span><span class="work-name">說了算<span class="work-note">說話，就是打字</span></span></a>
+    <a class="work work-sbd" href="/suibianda/"><span class="seal sbd" aria-hidden="true">手</span><span class="work-name">隨便打<span class="work-note">中英混打，不用選字</span></span></a>
+  </div>
+
+  <!-- 開放贊助時的做法見 Tools/site/SPONSOR.md。 -->
+  <p class="give"><a class="btn" role="link" aria-disabled="true">後續開放</a></p>
+  <p class="muted">目前還不能贊助，開放時會在這個頁面更新。</p>
+
+  <h2>其他支持方式</h2>
+  <p>把說了算或隨便打推薦給需要的朋友、回報問題或提出建議，對我一樣是很大的幫助。</p>
+
+  <footer>© 2026 KO-JUI CHEN</footer>
+</main>
+</body>
+</html>
