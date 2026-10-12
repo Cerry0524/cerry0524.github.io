@@ -537,6 +537,40 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
   .s-head h2 { font-size: clamp(30px, 8vw, 40px); }
 }
 
+/* ---------- 0.4.0：依情境重排 ---------- */
+/* 首屏：依常打的內容跳到對應段落 */
+.paths { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 14px; font-size: 14px; color: var(--text2); }
+.paths span { margin-right: 2px; }
+.paths a { padding: 3px 12px; border-radius: 999px; border: 1px solid var(--rule); background: var(--card); color: var(--text); text-decoration: none; }
+.paths a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* 導覽下方接著的說明卡片 */
+.focus > .tour + .card { margin-top: 22px; }
+
+/* 鍵盤：加上 Tab 與 Shift，各列錯位維持原本的比例 */
+.kr.r0 { padding-left: 46px; } .kr.r1 { padding-left: 0; } .kr.r2 { padding-left: 79px; } .kr.r3 { padding-left: 0; } .kr.r4 { padding-left: 196px; }
+.k.tab { width: 64px; } .k.shift { width: 98px; }
+
+/* 同一組按鍵，新舊版本對照 */
+.cmp { width: 100%; border-collapse: collapse; font-size: 15px; }
+.cmp th, .cmp td { padding: 8px 12px; border-bottom: 1px solid var(--rule); text-align: left; white-space: nowrap; }
+.cmp th { font-family: var(--kai); font-weight: 700; color: var(--text2); }
+.cmp tbody tr:last-child td { border-bottom: 0; }
+.cmp .old { color: var(--red); }
+.cmp .new { color: var(--accent); }
+
+/* 版本更新：只展開最新的，舊版本收起來 */
+.focus > .card + .older { margin-top: 16px; }
+.older + .older { margin-top: 10px; }
+.older summary { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1px solid var(--rule); border-radius: 8px; background: var(--card);
+  cursor: pointer; list-style: none; font-family: var(--kai); font-weight: 700; font-size: 16px; color: var(--text2); }
+.older summary::-webkit-details-marker { display: none; }
+.older summary::before { content: "+"; width: 1em; font-family: var(--sys); font-weight: 400; color: var(--accent); }
+.older[open] summary::before { content: "−"; }
+.older summary:hover { color: var(--text); border-color: var(--accent); }
+.older[open] summary { border-radius: 8px 8px 0 0; }
+.older .card { border-top: 0; border-radius: 0 0 8px 8px; box-shadow: none; }
+
 </style>
 </head>
 <body>
@@ -557,8 +591,9 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
     <div class="hero-copy">
       <div class="brand ink-in"><span class="seal" aria-hidden="true">手</span><span>隨便打・Suibianda</span></div>
       <p class="lead ink-in d2">為 macOS 而做的注音輸入法。照自己的節奏打，<strong>中文、英文、打錯的字都交給它判斷</strong>，一般句子不用手動選字。</p>
-      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.3.0/Suibianda-0.3.0.zip">下載 0.3.0（18 MB）</a><a class="btn" href="#ai-context">用 AI 建立情境</a></div>
+      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.4.0/Suibianda-0.4.0.zip">下載 0.4.0（18 MB）</a><a class="btn" href="#changes">0.4.0 的新東西</a></div>
       <p class="req ink-in d3">需要 macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
+      <nav class="paths ink-in d3" aria-label="依你常打的內容看"><span>你常打的是</span><a href="#demo">中文</a><a href="#mixed">中英夾雜</a><a href="#code">程式</a><a href="#numbers">數字</a><a href="#ai-context">專業領域</a></nav>
     </div>
     <h1 class="title ink-in d1" aria-label="胸有成竹"><span class="col">胸有</span><span class="col">成竹</span><span class="chop"><span class="seal" aria-hidden="true">手</span></span></h1>
   </div>
@@ -568,30 +603,17 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
 <main class="wrap">
   <section class="scene-sec" id="demo">
     <div class="s-head">
-      <p class="eyebrow">打字導覽</p>
+      <p class="eyebrow"><span class="num">壹</span>一般打中文</p>
       <h2>打一句，看它怎麼改對</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">鍵盤照實際的大千按鍵一鍵一鍵播放。<span style="color:var(--red)">朱紅</span>是猜錯的字，你一停頓，它就變成<span style="color:var(--accent)">墨綠</span>的正確字。</p>
       <p class="s-lead">把「自動改字」關掉，同一組按鍵會停在猜錯的樣子。</p>
     </div>
     <div class="focus">
-      <div class="tour" id="tour" aria-label="打字導覽">
-        <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div class="tour-head">
-          <div class="tour-title"><span class="seal" aria-hidden="true">手</span><b>打字導覽</b><span class="muted">看隨便打怎麼幫你判斷</span></div>
-          <div class="tour-dots" id="tourDots" role="group" aria-label="段落"></div>
-        </div>
-        <div class="tour-scene"><span class="enso" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M50,14 C42,6 26,5 16,13 C6,21 5,38 13,48 C21,58 39,60 50,51 C58,44 60,32 56,22" fill="none" stroke-width="5" stroke-linecap="round"/></svg><b id="tourNum">一</b></span><div><h3 id="tourTitle"></h3><p id="tourCap"></p></div></div>
-        <div class="field" aria-live="polite"><span id="tourText"></span><span class="tip" id="tourTip"></span></div>
-        <div class="kb-wrap"><div class="kb" id="tourKb" aria-hidden="true"></div></div>
-        <div class="tour-ctl">
-          <button class="btn" type="button" id="tourPrev">‹ 上一段</button><button class="btn" type="button" id="tourPlay">暫停</button><button class="btn" type="button" id="tourNext">下一段 ›</button>
-          <span class="step" id="tourStep"></span>
-          <span class="ai"><span>自動改字</span><span class="seg" role="group" aria-label="自動改字"><button type="button" id="aiOn" aria-pressed="true">開啟</button><button type="button" id="aiOff" aria-pressed="false">關閉</button></span></span>
-        </div>
-      </div>
+      <div class="tour" data-tour="zh" aria-label="打字示範：一般打中文"></div>
     </div>
   </section>
+
   <section class="scene-sec">
     <div class="s-head">
       <p class="eyebrow">同一套核心，開與關</p>
@@ -604,9 +626,93 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
     </div>
   </section>
 
+  <section class="scene-sec" id="mixed">
+    <div class="s-head">
+      <p class="eyebrow"><span class="num">貳</span>中英夾雜</p>
+      <h2>英文直接打，不用切換</h2>
+      <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
+      <p class="s-lead">中文裡直接打英文單字，認得出是英文就照原樣留下。手指打錯的英文會修，按一下退格就還原。</p>
+    </div>
+    <div class="focus">
+      <div class="tour" data-tour="en" aria-label="打字示範：中英夾雜"></div>
+    </div>
+  </section>
+
+  <section class="scene-sec">
+    <div class="s-head">
+      <p class="eyebrow">中英分界</p>
+      <h2>同一個鍵，兩種意思</h2>
+      <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
+      <p class="s-lead">大千鍵盤上，每個英文字母同時也是注音符號。你打 <span class="mono">code</span>，輸入法看到的也可能是 ㄏㄟㄎㄍ；隨便打自己分得出哪一段是英文。</p>
+    </div>
+    <div class="focus">
+      <div class="card pad stack">
+        <div class="typed-in"><label for="kbInput">打一個英文字</label><input id="kbInput" type="text" value="code" autocomplete="off" spellcheck="false" maxlength="14"><div class="chips" id="kbChips"></div></div>
+        <div class="kbd-wrap"><div class="kbd" id="kbd" role="group" aria-label="大千鍵盤，點按鍵可輸入"></div></div>
+        <dl class="readout"><dt>你打的英文</dt><dd class="mono" id="kbEn">code</dd><dt>同一組按鍵的注音</dt><dd id="kbZh">ㄏㄟㄎㄍ</dd></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene-sec">
+    <div class="s-head">
+      <p class="eyebrow">英文拼字</p>
+      <h2>打錯會修，技術名詞不亂改</h2>
+      <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
+      <p class="s-lead">只修手指真的會打錯的型態：兩鍵顛倒、按到隔壁鍵、重複或漏按。<span class="mono">nginx</span>、<span class="mono">numpy</span> 這類技術名詞不動。</p>
+    </div>
+    <div class="focus wide">
+      <div class="two">
+        <div class="card pad stack">
+          <div class="typed-in"><label for="acInput">打一個英文字</label><input id="acInput" type="text" value="pyhton" autocomplete="off" spellcheck="false" maxlength="24"></div>
+          <div class="chips" id="acChips"></div>
+          <div class="ac-out" id="acOut">載入英文詞頻表…</div>
+          <div class="ac-why" id="acWhy"></div>
+          <p class="small muted">網頁版使用和輸入法相同的打錯模型與 7.5 萬字詞頻表；輸入法在 Mac 上另會參考系統拼字檢查，確認像 teh、recieve 這類網路上常見的錯拼。</p>
+        </div>
+        <div class="card pad compare" id="acCompare"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene-sec" id="code">
+    <div class="s-head">
+      <p class="eyebrow"><span class="num">參</span>寫程式</p>
+      <h2>變數名稱照你打的</h2>
+      <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
+      <p class="s-lead">寫程式的人打的英文要一字不差：大小寫、縮寫、底線都照原樣，輸入法不自作主張。想換寫法時按 Tab，不必回頭改。</p>
+    </div>
+    <div class="focus">
+      <div class="tour" data-tour="code" aria-label="打字示範：寫程式"></div>
+      <div class="card rows">
+        <div class="row"><span class="mark">一</span><div class="t"><b>快速變數命名</b><small>預設開啟。名稱打完按 Tab，依序換成 rdMem、rd_mem、RD_MEM、rd-mem；平常全小寫的 rdmem 不會被動到。</small></div></div>
+        <div class="row"><span class="mark">二</span><div class="t"><b>預設命名樣式</b><small>在「判斷 › 變數命名」選一種，像變數名稱的寫法（不是一般英文字）直接用這個樣式；預設是「照打的」。</small></div></div>
+        <div class="row"><span class="mark">三</span><div class="t"><b>依 App 記住寫法</b><small>在某個 App 換過的寫法，下次在同一個 App 打同樣的名稱就直接用；用過的名稱全小寫打出時，游標旁會提示。</small></div></div>
+        <div class="row"><span class="mark">四</span><div class="t"><b>只存在你的 Mac</b><small>命名記憶存在本機，設定頁可以一鍵清除。</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene-sec" id="numbers">
+    <div class="s-head">
+      <p class="eyebrow"><span class="num">肆</span>打數字</p>
+      <h2>數字就是數字</h2>
+      <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
+      <p class="s-lead">注音鍵盤的數字鍵也是注音：1 是ㄅ、2 是ㄉ、5 是ㄓ，3、4、6、7 是聲調。0.4.0 起，連打的數字不會被吃掉，數字後面的量詞也選得對。</p>
+    </div>
+    <div class="focus">
+      <div class="tour" data-tour="num" aria-label="打字示範：打數字"></div>
+      <div class="card pad stack">
+        <h4>同一組按鍵，0.3.0 與 0.4.0</h4>
+        <div class="scroll-x"><table class="cmp"><thead><tr><th>要打的</th><th>0.3.0</th><th>0.4.0</th></tr></thead><tbody><tr><td>我今天想要買1111隻雞</td><td class="old">1111知機</td><td class="new">1111隻雞</td></tr><tr><td>我養了2隻貓</td><td class="old">我養了隻貓</td><td class="new">我養了2隻貓</td></tr><tr><td>我想買3把傘</td><td class="old">我想買把死俺</td><td class="new">我想買3把傘</td></tr><tr><td>今天是2026年10月12日</td><td class="old">2026年10月日</td><td class="new">2026年10月12日</td></tr><tr><td>電池剩下20%</td><td class="old">20％（全形）</td><td class="new">20%</td></tr><tr><td>我的分機是2048</td><td class="old">但8</td><td class="new">但8，按 Tab → 2048</td></tr></tbody></table></div>
+        <p class="small muted">模擬測試的實際輸出。134 句含數字的考題，整句正確從 46 句增加到 112 句；不含數字的 2,000 句，以及快打時按鍵交錯的 398 句，結果完全沒有變。</p>
+      </div>
+    </div>
+  </section>
+
   <section class="scene-sec" id="ai-context">
     <div class="s-head">
-      <p class="eyebrow"><span class="num">壹</span>用 AI 建立情境</p>
+      <p class="eyebrow"><span class="num">伍</span>專業領域</p>
       <h2>一次建立整套情境</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">告訴任何 AI 你的工作領域，它會整理出專有名詞、英文技術詞與修正規則。貼回隨便打，打字時直接打得出來。</p>
@@ -656,6 +762,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       </div>
     </div>
   </section>
+
   <section class="scene-sec">
     <div class="s-head">
       <p class="eyebrow">四個步驟</p>
@@ -672,9 +779,10 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       </div>
     </div>
   </section>
+
   <section class="scene-sec">
     <div class="s-head">
-      <p class="eyebrow"><span class="num">貳</span>怎麼判斷</p>
+      <p class="eyebrow"><span class="num">陸</span>背後怎麼做到</p>
       <h2>一個按鍵，四層判斷</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">前兩層在你按鍵的瞬間完成；後兩層等你停頓時才在背景進行，所以打字不會變慢。</p>
@@ -691,22 +799,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
 
   <section class="scene-sec">
     <div class="s-head">
-      <p class="eyebrow"><span class="num">參</span>中英混打</p>
-      <h2>同一個鍵，兩種意思</h2>
-      <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
-      <p class="s-lead">大千鍵盤上，每個英文字母同時也是注音符號。你打 <span class="mono">code</span>，輸入法看到的也可能是 ㄏㄟㄎㄍ；隨便打自己分得出哪一段是英文。</p>
-    </div>
-    <div class="focus">
-      <div class="card pad stack">
-        <div class="typed-in"><label for="kbInput">打一個英文字</label><input id="kbInput" type="text" value="code" autocomplete="off" spellcheck="false" maxlength="14"><div class="chips" id="kbChips"></div></div>
-        <div class="kbd-wrap"><div class="kbd" id="kbd" role="group" aria-label="大千鍵盤，點按鍵可輸入"></div></div>
-        <dl class="readout"><dt>你打的英文</dt><dd class="mono" id="kbEn">code</dd><dt>同一組按鍵的注音</dt><dd id="kbZh">ㄏㄟㄎㄍ</dd></dl>
-      </div>
-    </div>
-  </section>
-  <section class="scene-sec">
-    <div class="s-head">
-      <p class="eyebrow"><span class="num">肆</span>整句重讀</p>
+      <p class="eyebrow">整句重讀</p>
       <h2>是「辨識」，還是「便是」</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">把字遮住，讓模型做填空題。分數越接近 0 越有把握；要領先目前的字 3 分以上才會改，避免亂改。</p>
@@ -725,29 +818,10 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       </div>
     </div>
   </section>
+
   <section class="scene-sec">
     <div class="s-head">
-      <p class="eyebrow"><span class="num">伍</span>英文拼字</p>
-      <h2>打錯會修，技術名詞不亂改</h2>
-      <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
-      <p class="s-lead">只修手指真的會打錯的型態：兩鍵顛倒、按到隔壁鍵、重複或漏按。<span class="mono">nginx</span>、<span class="mono">numpy</span> 這類技術名詞不動。</p>
-    </div>
-    <div class="focus wide">
-      <div class="two">
-        <div class="card pad stack">
-          <div class="typed-in"><label for="acInput">打一個英文字</label><input id="acInput" type="text" value="pyhton" autocomplete="off" spellcheck="false" maxlength="24"></div>
-          <div class="chips" id="acChips"></div>
-          <div class="ac-out" id="acOut">載入英文詞頻表…</div>
-          <div class="ac-why" id="acWhy"></div>
-          <p class="small muted">網頁版使用和輸入法相同的打錯模型與 7.5 萬字詞頻表；輸入法在 Mac 上另會參考系統拼字檢查，確認像 teh、recieve 這類網路上常見的錯拼。</p>
-        </div>
-        <div class="card pad compare" id="acCompare"></div>
-      </div>
-    </div>
-  </section>
-  <section class="scene-sec">
-    <div class="s-head">
-      <p class="eyebrow"><span class="num">陸</span>速度</p>
+      <p class="eyebrow">速度</p>
       <h2>打字時，模型完全不出手</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">按鍵當下只查辭典；你一停頓，模型才在背景讀一次整句。你一繼續打字，算到一半的結果就直接丟掉。</p>
@@ -759,7 +833,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
 
   <section class="scene-sec">
     <div class="s-head">
-      <p class="eyebrow"><span class="num">柒</span>成績單</p>
+      <p class="eyebrow">成績單</p>
       <h2>同一組按鍵，兩種結果</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">400 句、三種打法，比較每句話打完後是否一字不差。兩組結果用的是同一套核心，差別只在 AI 判斷有沒有打開。</p>
@@ -773,6 +847,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       </div>
     </div>
   </section>
+
   <section class="scene-sec">
     <div class="s-head">
       <p class="eyebrow">實際例句</p>
@@ -784,9 +859,10 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <div class="examples" id="examples"></div>
     </div>
   </section>
+
   <section class="scene-sec">
     <div class="s-head">
-      <p class="eyebrow"><span class="num">捌</span>還在努力</p>
+      <p class="eyebrow"><span class="num">柒</span>還在努力</p>
       <h2>目前做不到的事</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
 
@@ -796,10 +872,53 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
         <div class="row"><span class="mark">一</span><div class="t"><b>專有名詞</b><small>人名、產品名（例如「澔宇」被打成「浩宇」）模型無從得知，需要加進「我的詞」。這是唯一需要你動手的地方。</small></div></div>
         <div class="row"><span class="mark">二</span><div class="t"><b>英文夾在中間</b><small>「先commit再push」的「再」有時仍會選成「在」，英文周圍的語境模型讀得比較弱。</small></div></div>
         <div class="row"><span class="mark">三</span><div class="t"><b>上一段的內容</b><small>已經按 Enter 送出的字無法再修改；決定性的線索若在下一段，這一段就修不回來。</small></div></div>
-        <div class="row"><span class="mark">四</span><div class="t"><b>只在 Mac 上</b><small>整句重讀的模型約 195 MB，目前只支援 macOS。</small></div></div>
+        <div class="row"><span class="mark">四</span><div class="t"><b>數字剛好也是字</b><small>1834、504 這類數字的按鍵剛好也是常用字（把、佔），打在句尾時會先當成字；接著打數字或按 Tab 就換回數字。</small></div></div>
+        <div class="row"><span class="mark">五</span><div class="t"><b>只在 Mac 上</b><small>整句重讀的模型約 195 MB，目前只支援 macOS。</small></div></div>
       </div>
     </div>
   </section>
+
+  <section class="scene-sec" id="changes">
+    <div class="s-head">
+      <p class="eyebrow"><span class="num">捌</span>版本更新</p>
+      <h2>0.4.0 的新東西</h2>
+      <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
+      <p class="s-lead">2026 年 10 月。舊版本的內容收在下面，點開才看得到。</p>
+    </div>
+    <div class="focus">
+      <div class="card rows">
+        <div class="row"><span class="mark">一</span><div class="t"><b>寫程式</b><small>變數名稱照你打的；按 Tab 換 rdMem、rd_mem、RD_MEM、rd-mem；換過的寫法依 App 記住，全小寫打出用過的名稱時會提示。</small></div></div>
+        <div class="row"><span class="mark">二</span><div class="t"><b>打數字</b><small>連打的數字不會被吃掉，也不會在中間組出字；數字後面優先選量詞；%、:、小數點用半形；猜錯時按 Tab 換回數字。</small></div></div>
+        <div class="row"><span class="mark">三</span><div class="t"><b>符號</b><small>程式碼後面的括號、名稱裡的底線用半形；全形與半形可以按 Tab 互換。</small></div></div>
+        <div class="row"><span class="mark">四</span><div class="t"><b>不再冒出假名</b><small>英文單字不會再被組成「ぎゅ」這類日文假名。</small></div></div>
+        <div class="row"><span class="mark">五</span><div class="t"><b>加入「隨便打-簡」</b><small>在設定切換字形時，步驟卡會帶你到系統設定加入，並自動複製搜尋用的名稱。</small></div></div>
+        <div class="row"><span class="mark">六</span><div class="t"><b>設定視窗不再擋住其他視窗</b><small>從選單打開時浮到最前面，切到別的 App 就讓開。</small></div></div>
+      </div>
+      <details class="older">
+        <summary>0.3.0・情境</summary>
+        <div class="card rows">
+          <div class="row"><span class="mark">一</span><div class="t"><b>情境</b><small>請任何 AI 整理一個領域的專有名詞、英文詞與修正規則，貼回隨便打就能直接打出來。</small></div></div>
+          <div class="row"><span class="mark">二</span><div class="t"><b>確認後才匯入</b><small>每個詞列出推算的注音，真的有兩種常見讀音的字請你選；已經有的詞預設不勾。</small></div></div>
+          <div class="row"><span class="mark">三</span><div class="t"><b>和說了算共用</b><small>同一份 AI 回覆也能貼進說了算，問一次 AI 就夠了。</small></div></div>
+        </div>
+      </details>
+      <details class="older">
+        <summary>0.2.0・墨竹冊頁的介面</summary>
+        <div class="card rows">
+          <div class="row"><span class="mark">一</span><div class="t"><b>主視窗</b><small>總覽、判斷、鍵盤、選字窗、我的詞、設定六頁；總覽看得到這一週自動改對了幾處。</small></div></div>
+          <div class="row"><span class="mark">二</span><div class="t"><b>安裝程式</b><small>按「安裝」同時下載整句重讀模型，照步驟在系統設定加入輸入方式，最後試打一句。</small></div></div>
+          <div class="row"><span class="mark">三</span><div class="t"><b>打字導覽與選字窗</b><small>四段示範帶你認識隨便打；選字窗可以顯示讀音。</small></div></div>
+        </div>
+      </details>
+      <details class="older">
+        <summary>0.1.0・第一個公開版本</summary>
+        <div class="card rows">
+          <div class="row"><span class="mark">一</span><div class="t"><b>隨便打誕生</b><small>中英混打、整句重讀與英文拼字修正的注音輸入法，安裝程式經過 Apple 公證。</small></div></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
   <section class="scene-sec" id="get">
     <div class="s-head">
       <p class="eyebrow"><span class="num">玖</span>下載</p>
@@ -808,7 +927,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <p class="s-lead">免費下載。macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
     </div>
     <div class="focus">
-      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.3.0/Suibianda-0.3.0.zip">下載 0.3.0（18 MB）</a></div>
+      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.4.0/Suibianda-0.4.0.zip">下載 0.4.0（18 MB）</a></div>
       <div class="card rows">
         <div class="row"><span class="mark">一</span><div class="t"><b>加入輸入法</b><small>解壓縮後打開安裝程式，按「安裝」；預設會同時下載整句重讀的模型（約 188 MB），沒有模型也能先打字。安裝程式接著帶你在「系統設定」加入輸入方式：照畫面上的三個步驟做，加好了會自動往下，最後試打一句。清單裡找不到隨便打時，登出再登入，再打開安裝程式會從這一步接著做。</small></div></div>
         <div class="row"><span class="mark">二</span><div class="t"><b>系統需求</b><small>macOS 14 Sonoma 以上。Apple 晶片與 Intel Mac 都可以。</small></div></div>
@@ -851,159 +970,250 @@ const ZK = {}; for (const [k, v] of Object.entries(DACHEN)) ZK[v] = k;
 const ROWS = ["1234567890-", "qwertyuiop", "asdfghjkl;", "zxcvbnm,./"];
 const NUMS = "一二三四五六七八九";
 
-// ---------- 打字示範 ----------
-// 步驟：zy＝注音（換成大千按鍵）、keys＝原始按鍵、en＝英文字母、space、bs、wait、enter、
+// ---------- 打字示範（每個情境一個導覽，同一套引擎） ----------
+// 步驟：zy＝注音（換成大千按鍵）、keys＝原始按鍵（照注音顯示讀音）、en＝照原樣進組字區的字元（英文、數字、符號）、
+//      space、tab＝按 Tab 換成 buf、bs、wait、say＝只顯示提示、enter、
 //      fix＝停頓後的修正（整句重讀或拼字修正；「自動改字」關閉時停在猜錯的樣子）、mine＝來自「我的詞」的標示。
+//      buf＝這一步結束時組字區的樣子；tip＝這一步結束時游標旁的提示；at＝要標成墨綠的範圍；keepRd＝讀音留著不清。
 const H = DATA.hero;
-const TOUR = [
-  { t: "照節奏打就好", cap: "同音字交給整句判斷：打到「模型」時回頭看，把「便是」改成「辨識」。", steps: [
-    { zy: "ㄓㄜˋ", buf: "這" }, { zy: "ㄍㄜ˙", buf: "這個" }, { zy: "ㄅㄧㄢˋ", buf: "這個便" }, { zy: "ㄕˋ", buf: "這個便是" },
-    { zy: "ㄇㄛˊ", buf: "這個便是模" }, { zy: "ㄒㄧㄥˊ", buf: "這個便是模型" },
-    { fix: { label: "整句重讀", at: [2, 4], to: "這個辨識模型", toAt: [2, 4] } }, { wait: 1600 }, { enter: true } ] },
-  { t: "長句也會回頭改", cap: "這一段是模擬測試的實際輸出：打的時候先照辭典組字，停頓後整句重讀重新斷詞。", steps: [
-    ...H.steps.map(([k, out]) => ({ keys: k, buf: out })),
-    { fix: { label: "整句重讀", at: H.fixAt, to: H.final, toAt: H.fixToAt, note: "重新斷詞為「在｜網站｜上」" } }, { wait: 2000 }, { enter: true } ] },
-  { t: "英文直接打", cap: "中文裡直接打英文單字，不用切換；認得出是英文就照你打的保持原樣。", steps: [
-    { en: "nginx" }, { space: true, buf: "nginx " }, { zy: "ㄕㄜˋ", buf: "nginx 設" }, { zy: "ㄉㄧㄥˋ", buf: "nginx 設定" },
-    { zy: "ㄏㄠˇ", buf: "nginx 設定好" }, { zy: "ㄌㄜ˙", buf: "nginx 設定好了" }, { wait: 1100 }, { enter: true } ] },
-  { t: "打錯的英文會修正", cap: "只修手指打錯的（兩鍵顛倒、按到隔壁鍵）；馬上按退格就還原，這次不再修正。", steps: [
-    { en: "teh" }, { space: true, buf: "teh " }, { fix: { label: "拼字修正", at: [0, 3], to: "the ", toAt: [0, 3], pause: 300 } }, { wait: 1300 },
-    { bs: true, buf: "teh", tip: "按一下退格：還原成「teh」，這次不再修正" }, { wait: 1600 }, { enter: true } ] },
-  { t: "專有名詞加進「我的詞」", cap: "人名、產品名加一次，之後直接打出來。這是唯一需要你動手的地方。", steps: [
-    { zy: "ㄙㄨㄟˊ", buf: "隨" }, { zy: "ㄅㄧㄢˋ", buf: "隨便" }, { zy: "ㄉㄚˇ", buf: "隨便打", mine: [0, 3], tip: "來自「我的詞」" },
-    { wait: 1500 }, { enter: true } ] },
-];
+const TOURS = {
+  zh: [
+    { t: "照節奏打就好", cap: "同音字交給整句判斷：打到「模型」時回頭看，把「便是」改成「辨識」。", steps: [
+      { zy: "ㄓㄜˋ", buf: "這" }, { zy: "ㄍㄜ˙", buf: "這個" }, { zy: "ㄅㄧㄢˋ", buf: "這個便" }, { zy: "ㄕˋ", buf: "這個便是" },
+      { zy: "ㄇㄛˊ", buf: "這個便是模" }, { zy: "ㄒㄧㄥˊ", buf: "這個便是模型" },
+      { fix: { label: "整句重讀", at: [2, 4], to: "這個辨識模型", toAt: [2, 4] } }, { wait: 1600 }, { enter: true } ] },
+    { t: "長句也會回頭改", cap: "這一段是模擬測試的實際輸出：打的時候先照辭典組字，停頓後整句重讀重新斷詞。", steps: [
+      ...H.steps.map(([k, out]) => ({ keys: k, buf: out })),
+      { fix: { label: "整句重讀", at: H.fixAt, to: H.final, toAt: H.fixToAt, note: "重新斷詞為「在｜網站｜上」" } }, { wait: 2000 }, { enter: true } ] },
+    { t: "專有名詞加進「我的詞」", cap: "人名、產品名加一次，之後直接打出來。這是唯一需要你動手的地方。", steps: [
+      { zy: "ㄙㄨㄟˊ", buf: "隨" }, { zy: "ㄅㄧㄢˋ", buf: "隨便" }, { zy: "ㄉㄚˇ", buf: "隨便打", mine: [0, 3], tip: "來自「我的詞」" },
+      { wait: 1500 }, { enter: true } ] },
+  ],
+  en: [
+    { t: "英文直接打", cap: "中文裡直接打英文單字，不用切換；認得出是英文就照你打的保持原樣。", steps: [
+      { en: "nginx" }, { space: true, buf: "nginx " }, { zy: "ㄕㄜˋ", buf: "nginx 設" }, { zy: "ㄉㄧㄥˋ", buf: "nginx 設定" },
+      { zy: "ㄏㄠˇ", buf: "nginx 設定好" }, { zy: "ㄌㄜ˙", buf: "nginx 設定好了" }, { wait: 1100 }, { enter: true } ] },
+    { t: "打錯的英文會修正", cap: "只修手指打錯的（兩鍵顛倒、按到隔壁鍵）；馬上按退格就還原，這次不再修正。", steps: [
+      { en: "teh" }, { space: true, buf: "teh " }, { fix: { label: "拼字修正", at: [0, 3], to: "the ", toAt: [0, 3], pause: 300 } }, { wait: 1300 },
+      { bs: true, buf: "teh", tip: "按一下退格：還原成「teh」，這次不再修正" }, { wait: 1600 }, { enter: true } ] },
+  ],
+  code: [
+    { t: "名稱照你打的", cap: "useState、URLSession、iOS 這類大小寫與縮寫照原樣，一個字都不改。", steps: [
+      { zy: "ㄅㄚˇ", buf: "把" }, { en: "useState" }, { zy: "ㄍㄞˇ", buf: "把useState改" }, { zy: "ㄔㄥˊ", buf: "把useState改成" },
+      { en: "useReducer" }, { wait: 1300 }, { enter: true } ] },
+    { t: "按 Tab 換寫法", cap: "打完名稱按 Tab，依序換成 rdMem、rd_mem、RD_MEM、rd-mem，再按一次回到原樣。換過的寫法會依 App 記住。", steps: [
+      { zy: "ㄅㄚˇ", buf: "把" }, { en: "RdMem" }, { space: true, buf: "把RdMem ", tip: "按 Tab 換其他寫法" },
+      { wait: 800 }, { tab: true, buf: "把rdMem ", at: [1, 6], tip: "Tab：rdMem" },
+      { wait: 800 }, { tab: true, buf: "把rd_mem ", at: [1, 7], tip: "Tab：rd_mem" },
+      { wait: 700 }, { zy: "ㄍㄞˇ", buf: "把rd_mem 改" }, { zy: "ㄉㄧㄠˋ", buf: "把rd_mem 改掉" }, { wait: 1200 }, { enter: true } ] },
+    { t: "記得這個 App 用過的名稱", cap: "全小寫打出這個 App 用過的名稱時，游標旁提示，按 Tab 換好；不按就照你打的，不會自動改。", steps: [
+      { say: "之前在這個 App 送出過「RdMem」" }, { wait: 900 },
+      { en: "rdmem", tip: "按 Tab 換成「RdMem」" }, { wait: 900 },
+      { tab: true, buf: "RdMem", at: [0, 5], tip: "換好了" }, { space: true, buf: "RdMem " },
+      { zy: "ㄧㄠˋ", buf: "RdMem 要" }, { zy: "ㄒㄧㄢ", buf: "RdMem 要先" }, { wait: 1200 }, { enter: true } ] },
+    { t: "底線、括號是半形", cap: "名稱裡的底線、程式碼後面的括號都打成半形；要全形時按 Tab 換。", steps: [
+      { en: "user_id" }, { zy: "ㄕˋ", buf: "user_id是" }, { zy: "ㄎㄨㄥ", buf: "user_id是空" }, { zy: "ㄉㄜ˙", buf: "user_id是空的" },
+      { wait: 1200 }, { enter: true } ] },
+  ],
+  num: [
+    { t: "數字就是數字", cap: "注音鍵盤的 1、2、5 也是ㄅㄉㄓ。連打的數字不會被當成注音吃掉，後面的「隻」優先選量詞，不會變成冷門詞「知機」。", steps: [
+      { zy: "ㄨㄛˇ", buf: "我" }, { zy: "ㄐㄧㄣ", buf: "我今" }, { zy: "ㄊㄧㄢ", buf: "我今天" }, { zy: "ㄒㄧㄤˇ", buf: "我今天想" },
+      { zy: "ㄧㄠˋ", buf: "我今天想要" }, { zy: "ㄇㄞˇ", buf: "我今天想要買" },
+      { en: "1111" }, { keys: "5 ", buf: "我今天想要買1111隻" }, { keys: "ru ", buf: "我今天想要買1111隻雞" }, { wait: 1300 }, { enter: true } ] },
+    { t: "日期、時間照常打", cap: "年、月、日、點、分這類單位接在數字後面，數字一個都不少。", steps: [
+      { zy: "ㄐㄧㄣ", buf: "今" }, { zy: "ㄊㄧㄢ", buf: "今天" }, { zy: "ㄕˋ", buf: "今天是" },
+      { en: "2026" }, { keys: "su06", buf: "今天是2026年" }, { en: "10" }, { keys: "m,4", buf: "今天是2026年10月" },
+      { en: "12" }, { keys: "b4", buf: "今天是2026年10月12日" }, { wait: 1300 }, { enter: true } ] },
+    { t: "量詞也用數字鍵時，看後面", cap: "「把」是 183，跟數字一模一樣。先當數字，接著打中文時才判斷成「3把」；接著打數字就還是數字。", steps: [
+      { zy: "ㄨㄛˇ", buf: "我" }, { zy: "ㄒㄧㄤˇ", buf: "我想" }, { zy: "ㄇㄞˇ", buf: "我想買" },
+      { en: "3183", tip: "先當數字" }, { wait: 700 },
+      { keys: "n", buf: "我想買3把", keepRd: true, at: [4, 5], tip: "接著打中文：183 是量詞「把」" }, { keys: "03", buf: "我想買3把傘" },
+      { wait: 1300 }, { enter: true } ] },
+    { t: "百分比、比例是半形", cap: "數字後面的 %、:、小數點都跟著數字，用半形。", steps: [
+      { zy: "ㄉㄧㄢˋ", buf: "電" }, { zy: "ㄔˊ", buf: "電池" }, { zy: "ㄕㄥˋ", buf: "電池剩" }, { zy: "ㄒㄧㄚˋ", buf: "電池剩下" },
+      { en: "20%" }, { wait: 1300 }, { enter: true } ] },
+    { t: "猜錯了，按 Tab 換回數字", cap: "「204」剛好是「但」。數字與數字鍵打出的字連在一起時，游標旁提示，按 Tab 換回你打的數字。", steps: [
+      { zy: "ㄨㄛˇ", buf: "我" }, { zy: "ㄉㄜ˙", buf: "我的" }, { zy: "ㄈㄣ", buf: "我的分" }, { zy: "ㄐㄧ", buf: "我的分機" }, { zy: "ㄕˋ", buf: "我的分機是" },
+      { keys: "204", buf: "我的分機是但" }, { en: "8", tip: "按 Tab 換成「2048」" }, { wait: 900 },
+      { tab: true, buf: "我的分機是2048", at: [5, 9], tip: "換回 2048" }, { wait: 1300 }, { enter: true } ] },
+  ],
+};
 
-const tour = { scene: 0, i: 0, ticks: [], timer: null, playing: !reduced, visible: false, ai: true,
-  text: "", buf: "", rd: "", mark: null, tip: null };
-const kbEl = $("#tourKb");
-kbEl.innerHTML = ROWS.map((r, i) => `<div class="kr r${i}">` + [...r].map(c => {
-  const m = DACHEN[c] || "";
-  return `<span class="k${TONES.includes(m) ? " tone" : ""}" data-tk="${esc(c)}"><small>${c.toUpperCase()}</small><b>${m}</b></span>`;
-}).join("") + (i === 0 ? '<span class="k wide" data-tk="bs">⌫</span>' : "") + (i === 2 ? '<span class="k wide" data-tk="enter">⏎</span>' : "") + "</div>").join("")
+// 鍵盤：大千排列，加上 Tab 與 Shift（大寫字母、%、:、_ 這類符號要按 Shift）。
+const KB_HTML = ROWS.map((r, i) => `<div class="kr r${i}">`
+  + (i === 1 ? '<span class="k wide tab" data-tk="tab">⇥</span>' : "")
+  + (i === 3 ? '<span class="k wide shift" data-tk="shift">⇧</span>' : "")
+  + [...r].map(c => {
+    const m = DACHEN[c] || "";
+    return `<span class="k${TONES.includes(m) ? " tone" : ""}" data-tk="${esc(c)}"><small>${c.toUpperCase()}</small><b>${m}</b></span>`;
+  }).join("") + (i === 0 ? '<span class="k wide" data-tk="bs">⌫</span>' : "") + (i === 2 ? '<span class="k wide" data-tk="enter">⏎</span>' : "") + "</div>").join("")
   + '<div class="kr r4"><span class="k space" data-tk=" "><small>Space</small>ˉ 一聲</span></div>';
-$("#tourDots").innerHTML = TOUR.map((s, i) => `<button type="button" data-i="${i}" aria-label="第${NUMS[i]}段：${esc(s.t)}"></button>`).join("");
+const SHIFT_BASE = { "_": "-", "%": "5", ":": ";", "(": "9", ")": "0", "!": "1", "@": "2", "#": "3", "$": "4", "^": "6", "&": "7", "*": "8", "?": "/", "<": ",", ">": "." };
 
-const press = k => {
-  const el = kbEl.querySelector(`[data-tk="${CSS.escape(k)}"]`);
-  if (!el) return;
-  el.classList.add("down");
-  setTimeout(() => el.classList.remove("down"), 140);
-};
-const setTip = (html, off) => { tour.tip = html ? { html, off } : null; };
+function makeTour(root, scenes, { title, sub, ai: hasAi = false }) {
+  const NUMS_IN = NUMS;
+  root.innerHTML = `<div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="tour-head"><div class="tour-title"><span class="seal" aria-hidden="true">手</span><b>${esc(title)}</b><span class="muted">${esc(sub)}</span></div>
+    <div class="tour-dots" role="group" aria-label="段落">${scenes.map((s, i) => `<button type="button" data-i="${i}" aria-label="第${NUMS_IN[i]}段：${esc(s.t)}"></button>`).join("")}</div></div>
+    <div class="tour-scene"><span class="enso" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M50,14 C42,6 26,5 16,13 C6,21 5,38 13,48 C21,58 39,60 50,51 C58,44 60,32 56,22" fill="none" stroke-width="5" stroke-linecap="round"/></svg><b class="t-num">一</b></span><div><h3 class="t-title"></h3><p class="t-cap"></p></div></div>
+    <div class="field" aria-live="polite"><span class="t-text"></span><span class="tip t-tip"></span></div>
+    <div class="kb-wrap"><div class="kb" aria-hidden="true">${KB_HTML}</div></div>
+    <div class="tour-ctl"><button class="btn t-prev" type="button">‹ 上一段</button><button class="btn t-play" type="button">暫停</button><button class="btn t-next" type="button">下一段 ›</button>
+    <span class="step t-step"></span>${hasAi ? '<span class="ai"><span>自動改字</span><span class="seg" role="group" aria-label="自動改字"><button type="button" class="t-ai-on" aria-pressed="true">開啟</button><button type="button" class="t-ai-off" aria-pressed="false">關閉</button></span></span>' : ""}</div>`;
+  const q = sel => root.querySelector(sel);
+  const kbEl = q(".kb");
+  const tour = { scene: 0, i: 0, ticks: [], timer: null, playing: !reduced, visible: false, ai: true,
+    text: "", buf: "", rd: "", mark: null, tip: null };
+  const tap = t => {
+    const el = kbEl.querySelector(`[data-tk="${CSS.escape(t)}"]`);
+    if (!el) return;
+    el.classList.add("down");
+    setTimeout(() => el.classList.remove("down"), 140);
+  };
+  const press = k => {
+    const shifted = k.length === 1 && (/[A-Z]/.test(k) || k in SHIFT_BASE);
+    if (shifted) tap("shift");
+    tap(shifted ? (SHIFT_BASE[k] || k.toLowerCase()) : k);
+  };
+  const setTip = (html, off) => { tour.tip = html ? { html, off } : null; };
 
-function plan(scene) {
-  const ticks = [], T = (d, fn) => ticks.push([d, fn]);
-  T(450, () => { tour.text = ""; tour.buf = ""; tour.rd = ""; tour.mark = null; setTip(null); });
-  for (const st of TOUR[scene].steps) {
-    if (st.zy || st.keys) {
-      const keys = st.keys ? [...st.keys] : (() => {
-        const chars = [...st.zy], tone = TONES.includes(chars[chars.length - 1]) ? chars.pop() : null;
-        return [...chars.map(c => ZK[c]), tone ? ZK[tone] : " "];
-      })();
-      keys.forEach((k, j) => {
-        const last = j === keys.length - 1;
-        T(last ? 150 : 135, () => {
-          press(k); tour.mark = null;
-          if (last) { tour.rd = ""; tour.buf = st.buf; if (st.mine) tour.mark = { cls: "good", at: st.mine }; if (st.tip) setTip(esc(st.tip)); }
-          else if (!(st.keys && k === " ")) tour.rd += DACHEN[k] || "";
+  function plan(scene) {
+    const ticks = [], T = (d, fn) => ticks.push([d, fn]);
+    T(450, () => { tour.text = ""; tour.buf = ""; tour.rd = ""; tour.mark = null; setTip(null); });
+    const done = st => {
+      if (st.buf !== undefined) tour.buf = st.buf;
+      if (st.mine) tour.mark = { cls: "good", at: st.mine };
+      if (st.at) tour.mark = { cls: "good", at: st.at };
+      if (st.tip) setTip(esc(st.tip));
+    };
+    for (const st of scenes[scene].steps) {
+      if (st.zy || st.keys) {
+        const keys = st.keys ? [...st.keys] : (() => {
+          const chars = [...st.zy], tone = TONES.includes(chars[chars.length - 1]) ? chars.pop() : null;
+          return [...chars.map(c => ZK[c]), tone ? ZK[tone] : " "];
+        })();
+        keys.forEach((k, j) => {
+          const last = j === keys.length - 1;
+          T(last ? 150 : 135, () => {
+            press(k); tour.mark = null; setTip(null);
+            const r = k === " " ? "" : DACHEN[k] || "";
+            if (last) { tour.rd = st.keepRd ? tour.rd + r : ""; done(st); }
+            else tour.rd += r;
+          });
         });
-      });
-      T(110, () => {});
-    } else if (st.en) {
-      [...st.en].forEach(c => T(150, () => { press(c); tour.mark = null; tour.buf += c; }));
-    } else if (st.space) {
-      T(220, () => { press(" "); tour.buf = st.buf; });
-    } else if (st.fix) {
-      const f = st.fix;
-      T(f.pause || 420, () => {
-        const from = tour.buf.slice(f.at[0], f.at[1]);
-        tour.mark = { cls: "bad pulse", at: f.at };
-        setTip(tour.ai ? `停頓了，${esc(f.label)}中…` : `自動改字關閉：「${esc(from.trim())}」不會被改`, !tour.ai);
-        tour.fromText = from;
-      });
-      if (tour.ai) T(820, () => {
-        const from = tour.fromText.trim(), to = f.to.slice(f.toAt[0], f.toAt[1]).trim();
-        tour.buf = f.to; tour.mark = { cls: "good", at: f.toAt };
-        setTip(`${esc(f.label)}：<s>${esc(from)}</s> → <b>${esc(to)}</b>${f.note ? `<span>（${esc(f.note)}）</span>` : ""}`);
-      });
-    } else if (st.bs) {
-      if (tour.ai) T(320, () => { press("bs"); tour.buf = st.buf; tour.mark = null; setTip(esc(st.tip)); });
-    } else if (st.wait) {
-      T(st.wait, () => {});
-    } else if (st.enter) {
-      T(300, () => { press("enter"); tour.text += tour.buf; tour.buf = ""; tour.mark = null; setTip(null); });
+        T(110, () => {});
+      } else if (st.en) {
+        [...st.en].forEach((c, j) => T(150, () => {
+          press(c); tour.mark = null; setTip(null); tour.buf += c;
+          if (j === st.en.length - 1) done({ tip: st.tip });
+        }));
+      } else if (st.space) {
+        T(220, () => { press(" "); tour.mark = null; done(st); });
+      } else if (st.tab) {
+        T(260, () => { press("tab"); tour.rd = ""; tour.mark = null; setTip(null); done(st); });
+      } else if (st.say) {
+        T(300, () => setTip(esc(st.say), true));
+      } else if (st.fix) {
+        const f = st.fix;
+        T(f.pause || 420, () => {
+          const from = tour.buf.slice(f.at[0], f.at[1]);
+          tour.mark = { cls: "bad pulse", at: f.at };
+          setTip(tour.ai ? `停頓了，${esc(f.label)}中…` : `自動改字關閉：「${esc(from.trim())}」不會被改`, !tour.ai);
+          tour.fromText = from;
+        });
+        if (tour.ai) T(820, () => {
+          const from = tour.fromText.trim(), to = f.to.slice(f.toAt[0], f.toAt[1]).trim();
+          tour.buf = f.to; tour.mark = { cls: "good", at: f.toAt };
+          setTip(`${esc(f.label)}：<s>${esc(from)}</s> → <b>${esc(to)}</b>${f.note ? `<span>（${esc(f.note)}）</span>` : ""}`);
+        });
+      } else if (st.bs) {
+        if (tour.ai) T(320, () => { press("bs"); tour.buf = st.buf; tour.mark = null; setTip(esc(st.tip)); });
+      } else if (st.wait) {
+        T(st.wait, () => {});
+      } else if (st.enter) {
+        T(300, () => { press("enter"); tour.text += tour.buf + tour.rd; tour.buf = ""; tour.rd = ""; tour.mark = null; setTip(null); });
+      }
     }
+    T(1800, () => {});
+    return ticks;
   }
-  T(1800, () => {});
-  return ticks;
-}
-
-function render() {
-  const b = tour.buf, m = tour.mark;
-  const inner = m ? esc(b.slice(0, m.at[0])) + `<span class="${m.cls}">${esc(b.slice(m.at[0], m.at[1]))}</span>` + esc(b.slice(m.at[1])) : esc(b);
-  $("#tourText").innerHTML = `<span class="done">${esc(tour.text)}</span>` + (b ? `<span class="mk">${inner}</span>` : "")
-    + (tour.rd ? `<span class="rd">${esc(tour.rd)}</span>` : "") + '<span class="caret"></span>';
-  const tip = $("#tourTip");
-  tip.classList.toggle("on", !!tour.tip);
-  tip.classList.toggle("off", !!(tour.tip && tour.tip.off));
-  tip.innerHTML = tour.tip ? tour.tip.html : "";
-}
-function head() {
-  const sc = TOUR[tour.scene];
-  $("#tourNum").textContent = NUMS[tour.scene];
-  $("#tourTitle").textContent = sc.t;
-  $("#tourCap").textContent = sc.cap;
-  $("#tourStep").textContent = `第${NUMS[tour.scene]}段，共${NUMS[TOUR.length - 1]}段`;
-  document.querySelectorAll("#tourDots button").forEach((d, i) => d.setAttribute("aria-current", i === tour.scene));
-}
-function tick() {
-  clearTimeout(tour.timer);
-  if (!tour.playing || !tour.visible) return;
-  if (tour.i >= tour.ticks.length) return go(tour.scene + 1);
-  const [d, fn] = tour.ticks[tour.i++];
-  tour.timer = setTimeout(() => { fn(); render(); tick(); }, d);
-}
-function go(s) {
-  clearTimeout(tour.timer);
-  tour.scene = (s + TOUR.length) % TOUR.length;
-  tour.ticks = plan(tour.scene); tour.i = 1; tour.ticks[0][1]();
-  head();
-  if (!tour.playing) {  // 暫停或減少動態：直接顯示這一段的結果（送出前的樣子）
-    const steps = tour.ticks.slice(1);
-    const lastEnter = steps.length - 2;
-    steps.slice(0, Math.max(0, lastEnter)).forEach(([, fn]) => fn());
-    tour.i = tour.ticks.length;
+  function render() {
+    const b = tour.buf, m = tour.mark;
+    const inner = m ? esc(b.slice(0, m.at[0])) + `<span class="${m.cls}">${esc(b.slice(m.at[0], m.at[1]))}</span>` + esc(b.slice(m.at[1])) : esc(b);
+    q(".t-text").innerHTML = `<span class="done">${esc(tour.text)}</span>` + (b ? `<span class="mk">${inner}</span>` : "")
+      + (tour.rd ? `<span class="rd">${esc(tour.rd)}</span>` : "") + '<span class="caret"></span>';
+    const tip = q(".t-tip");
+    tip.classList.toggle("on", !!tour.tip);
+    tip.classList.toggle("off", !!(tour.tip && tour.tip.off));
+    tip.innerHTML = tour.tip ? tour.tip.html : "";
   }
-  render(); tick();
+  function head() {
+    const sc = scenes[tour.scene];
+    q(".t-num").textContent = NUMS_IN[tour.scene];
+    q(".t-title").textContent = sc.t;
+    q(".t-cap").textContent = sc.cap;
+    q(".t-step").textContent = `第${NUMS_IN[tour.scene]}段，共${NUMS_IN[scenes.length - 1]}段`;
+    root.querySelectorAll(".tour-dots button").forEach((d, i) => d.setAttribute("aria-current", i === tour.scene));
+  }
+  function tick() {
+    clearTimeout(tour.timer);
+    if (!tour.playing || !tour.visible) return;
+    if (tour.i >= tour.ticks.length) return go(tour.scene + 1);
+    const [d, fn] = tour.ticks[tour.i++];
+    tour.timer = setTimeout(() => { fn(); render(); tick(); }, d);
+  }
+  function go(s) {
+    clearTimeout(tour.timer);
+    tour.scene = (s + scenes.length) % scenes.length;
+    tour.ticks = plan(tour.scene); tour.i = 1; tour.ticks[0][1]();
+    head();
+    if (!tour.playing) {  // 暫停或減少動態：直接顯示這一段的結果（送出前的樣子）
+      const steps = tour.ticks.slice(1);
+      const lastEnter = steps.length - 2;
+      steps.slice(0, Math.max(0, lastEnter)).forEach(([, fn]) => fn());
+      tour.i = tour.ticks.length;
+    }
+    render(); tick();
+  }
+  q(".tour-dots").addEventListener("click", e => { const b = e.target.closest("button"); if (b) go(+b.dataset.i); });
+  q(".t-prev").onclick = () => go(tour.scene - 1);
+  q(".t-next").onclick = () => go(tour.scene + 1);
+  const play = q(".t-play");
+  play.onclick = () => {
+    tour.playing = !tour.playing;
+    play.textContent = tour.playing ? "暫停" : "播放";
+    if (tour.playing) { if (tour.i >= tour.ticks.length) go(tour.scene + 1); else tick(); } else clearTimeout(tour.timer);
+  };
+  play.textContent = tour.playing ? "暫停" : "播放";
+  if (hasAi) {
+    const setAi = on => {
+      tour.ai = on;
+      q(".t-ai-on").setAttribute("aria-pressed", on); q(".t-ai-off").setAttribute("aria-pressed", !on);
+      go(tour.scene);
+    };
+    q(".t-ai-on").onclick = () => setAi(true);
+    q(".t-ai-off").onclick = () => setAi(false);
+  }
+  // 鍵盤依可用寬度等比例縮小並置中（窄視窗也看得到整副鍵盤）
+  const fitKb = () => {
+    kbEl.style.transform = "none"; kbEl.parentElement.style.height = "";
+    const room = kbEl.parentElement.clientWidth, w = kbEl.offsetWidth, h = kbEl.offsetHeight;
+    const sc = Math.min(1, room / w), dx = Math.max(0, (room - w * sc) / 2);
+    kbEl.style.transform = `translateX(${dx}px) scale(${sc})`;
+    kbEl.parentElement.style.height = (h * sc) + "px";
+  };
+  addEventListener("resize", fitKb); fitKb();
+  // 畫面上同時只播一個：捲到哪個導覽就播哪個，其他的暫停（省電，也不會同時有好幾處在動）。
+  new IntersectionObserver(([e]) => { tour.visible = e.isIntersecting; if (tour.visible) tick(); else clearTimeout(tour.timer); }, { threshold: .45 }).observe(root);
+  go(0);
 }
-$("#tourDots").addEventListener("click", e => { const b = e.target.closest("button"); if (b) go(+b.dataset.i); });
-$("#tourPrev").onclick = () => go(tour.scene - 1);
-$("#tourNext").onclick = () => go(tour.scene + 1);
-$("#tourPlay").onclick = () => {
-  tour.playing = !tour.playing;
-  $("#tourPlay").textContent = tour.playing ? "暫停" : "播放";
-  if (tour.playing) { if (tour.i >= tour.ticks.length) go(tour.scene + 1); else tick(); } else clearTimeout(tour.timer);
+const TOUR_INFO = {
+  zh: { title: "打字導覽", sub: "照節奏打，同音字它來判斷", ai: true },
+  en: { title: "中英夾雜", sub: "不用切換，英文照原樣", ai: true },
+  code: { title: "寫程式", sub: "變數名稱照你打的，Tab 換寫法" },
+  num: { title: "打數字", sub: "數字就是數字，猜錯按 Tab 換回" },
 };
-$("#tourPlay").textContent = tour.playing ? "暫停" : "播放";
-function setAi(on) {
-  tour.ai = on;
-  $("#aiOn").setAttribute("aria-pressed", on); $("#aiOff").setAttribute("aria-pressed", !on);
-  go(tour.scene);
-}
-$("#aiOn").onclick = () => setAi(true);
-$("#aiOff").onclick = () => setAi(false);
-// 鍵盤依可用寬度等比例縮小並置中（窄視窗也看得到整副鍵盤）
-function fitKb() {
-  kbEl.style.transform = "none"; kbEl.parentElement.style.height = "";
-  const room = kbEl.parentElement.clientWidth, w = kbEl.offsetWidth, h = kbEl.offsetHeight;
-  const s = Math.min(1, room / w), dx = Math.max(0, (room - w * s) / 2);
-  kbEl.style.transform = `translateX(${dx}px) scale(${s})`;
-  kbEl.parentElement.style.height = (h * s) + "px";
-}
-addEventListener("resize", fitKb); fitKb();
-new IntersectionObserver(([e]) => { tour.visible = e.isIntersecting; if (tour.visible) tick(); else clearTimeout(tour.timer); }, { threshold: .25 }).observe($("#tour"));
-go(0);
+document.querySelectorAll(".tour[data-tour]").forEach(el => makeTour(el, TOURS[el.dataset.tour], TOUR_INFO[el.dataset.tour]));
 
 // ---------- 數字卡（軟體「這一週」那樣的卡片） ----------
 (function week() {
