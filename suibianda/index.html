@@ -591,7 +591,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
     <div class="hero-copy">
       <div class="brand ink-in"><span class="seal" aria-hidden="true">手</span><span>隨便打・Suibianda</span></div>
       <p class="lead ink-in d2">為 macOS 而做的注音輸入法。照自己的節奏打，<strong>中文、英文、打錯的字都交給它判斷</strong>，一般句子不用手動選字。</p>
-      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.4.4/Suibianda-0.4.4.zip">下載 0.4.4（18 MB）</a><a class="btn" href="#changes">0.4.4 的新東西</a></div>
+      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.4.5/Suibianda-0.4.5.zip">下載 0.4.5（18 MB）</a><a class="btn" href="#changes">0.4.5 的新東西</a></div>
       <p class="req ink-in d3">需要 macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
       <nav class="paths ink-in d3" aria-label="依你常打的內容看"><span>你常打的是</span><a href="#demo">中文</a><a href="#mixed">中英夾雜</a><a href="#code">程式</a><a href="#numbers">數字</a><a href="#ai-context">專業領域</a></nav>
     </div>
@@ -717,6 +717,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">告訴任何 AI 你的工作領域，它會整理出專有名詞、英文技術詞與修正規則。貼回隨便打，打字時直接打得出來。</p>
       <p class="s-lead">同一份回覆也能貼進說了算，問一次 AI 就夠了。</p>
+      <p class="s-lead">開了好幾組情境也沒關係：隨便打看你正在用的 app、最近打的字和這一句，判斷你在寫哪個領域，只替那個領域的詞加分。</p>
     </div>
     <div class="focus">
       <div class="ai-demo" id="ai-demo">
@@ -881,15 +882,25 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
   <section class="scene-sec" id="changes">
     <div class="s-head">
       <p class="eyebrow"><span class="num">捌</span>版本更新</p>
-      <h2>0.4.4 的新東西</h2>
+      <h2>0.4.5 的新東西</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">2026 年 10 月。舊版本的內容收在下面，點開才看得到。</p>
     </div>
     <div class="focus">
       <div class="card rows">
-        <div class="row"><span class="mark">一</span><div class="t"><b>「開新」</b><small>「我們要開新的分支」不會再變成「開心的分支」，依語境判斷；「今天很開心」照樣是開心。</small></div></div>
-        <div class="row"><span class="mark">二</span><div class="t"><b>「計畫」優先於「計劃」</b><small>比照「台」優先於「臺」；「規劃」「劃分」不受影響。</small></div></div>
+        <div class="row"><span class="mark">一</span><div class="t"><b>打字途中不再提早改錯</b><small>句尾的字要更有把握才改，按 Enter 時再以完整的句子重新判斷：「特意縮小」不會打完就變成「特異」。</small></div></div>
+        <div class="row"><span class="mark">二</span><div class="t"><b>中文後面的空白鍵換候選字</b><small>和一般注音打字一樣；接著打英文時自動還原成空格，「我們用 rebase」照樣有空格。</small></div></div>
+        <div class="row"><span class="mark">三</span><div class="t"><b>名稱結尾的數字照原樣打</b><small>「cerry-reading-3」不會再變成「cerry-reading耳」；按 Tab 可以在數字與注音字之間切換。</small></div></div>
+        <div class="row"><span class="mark">四</span><div class="t"><b>「輪序」「後台」</b><small>單獨打 ㄌㄨㄣˊ ㄒㄩˋ 是「輪序」；「後台」「前台」優先於「後檯」「前檯」。「你／妳」比照「他／她」不互換。</small></div></div>
+        <div class="row"><span class="mark">五</span><div class="t"><b>情境依你正在寫的領域調整比重</b><small>看目前的 app、最近打的字和這一句，判斷是哪個領域；開了好幾組情境也不會互相搶詞。注音推算更準，給 AI 的提示詞也更精準。</small></div></div>
       </div>
+      <details class="older">
+        <summary>0.4.4・開新與計畫</summary>
+        <div class="card rows">
+          <div class="row"><span class="mark">一</span><div class="t"><b>「開新」</b><small>「我們要開新的分支」不會再變成「開心的分支」，依語境判斷；「今天很開心」照樣是開心。</small></div></div>
+          <div class="row"><span class="mark">二</span><div class="t"><b>「計畫」優先於「計劃」</b><small>比照「台」優先於「臺」；「規劃」「劃分」不受影響。</small></div></div>
+        </div>
+      </details>
       <details class="older">
         <summary>0.4.3・安裝位置與句尾英文</summary>
         <div class="card rows">
@@ -963,7 +974,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <p class="s-lead">免費下載。macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
     </div>
     <div class="focus">
-      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.4.4/Suibianda-0.4.4.zip">下載 0.4.4（18 MB）</a></div>
+      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.4.5/Suibianda-0.4.5.zip">下載 0.4.5（18 MB）</a></div>
       <div class="card rows">
         <div class="row"><span class="mark">一</span><div class="t"><b>加入輸入法</b><small>解壓縮後打開安裝程式，按「安裝」；預設會同時下載整句重讀的模型（約 188 MB），沒有模型也能先打字。安裝程式接著帶你在「系統設定」加入輸入方式：照畫面上的三個步驟做，加好了會自動往下，最後試打一句。清單裡找不到隨便打時，登出再登入，再打開安裝程式會從這一步接著做。</small></div></div>
         <div class="row"><span class="mark">二</span><div class="t"><b>系統需求</b><small>macOS 14 Sonoma 以上。Apple 晶片與 Intel Mac 都可以。</small></div></div>
