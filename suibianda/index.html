@@ -311,7 +311,8 @@ section { position: relative; padding: clamp(40px, 6vw, 72px) 0 0; }
 .tour-ctl .step { font-size: 13px; color: var(--text2); }
 
 /* ---------- 四層判斷 ---------- */
-.pipe { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.pipe { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+@media (max-width: 1000px) { .pipe { grid-template-columns: repeat(3, 1fr); } }
 .pipe .card { padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
 .pipe .n { font-family: var(--kai); color: var(--accent); font-size: 14px; letter-spacing: .1em; }
 .pipe h4 { font-size: 19px; }
@@ -571,6 +572,20 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
 .older[open] summary { border-radius: 8px 8px 0 0; }
 .older .card { border-top: 0; border-radius: 0 0 8px 8px; box-shadow: none; }
 
+/* 實際畫面：設定與安裝程式的截圖（tools/make_shots.py；不印版本號）。淺色與深色各一張，跟著頁面外觀切換，
+   沒顯示的那張不下載（loading="lazy"）。點圖看原圖。 */
+.shots { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.4vw, 28px); margin-top: 26px; align-items: start; }
+.shots.one { grid-template-columns: 1fr; }
+.shots.side { grid-template-columns: 3fr 1fr; }
+.shot { position: relative; margin: 0; }
+.shot a { display: block; padding: clamp(8px, 1.2vw, 14px); background: var(--card); border: 1px solid var(--rule); border-radius: 6px; box-shadow: var(--shadow); }
+.shot img { display: block; width: 100%; height: auto; border-radius: 8px; }
+.shot figcaption { width: fit-content; max-width: 100%; margin: 12px auto 0; padding: 3px 10px; border-radius: 6px; background: rgba(var(--mist), .85); font-size: 14px; color: var(--text2); text-align: center; }
+.shot .sd { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .shot .sl { display: none; } :root:not([data-theme="light"]) .shot .sd { display: block; } }
+:root[data-theme="dark"] .shot .sl { display: none; } :root[data-theme="dark"] .shot .sd { display: block; }
+@media (max-width: 720px) { .shots, .shots.side { grid-template-columns: 1fr; } .shots.side .shot:last-child { max-width: 320px; justify-self: center; } }
+
 </style>
 </head>
 <body>
@@ -591,7 +606,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
     <div class="hero-copy">
       <div class="brand ink-in"><span class="seal" aria-hidden="true">手</span><span>隨便打・Suibianda</span></div>
       <p class="lead ink-in d2">為 macOS 而做的注音輸入法。照自己的節奏打，<strong>中文、英文、打錯的字都交給它判斷</strong>，一般句子不用手動選字。</p>
-      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.4.5/Suibianda-0.4.5.zip">下載 0.4.5（18 MB）</a><a class="btn" href="#changes">0.4.5 的新東西</a></div>
+      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.0/Suibianda-0.5.0.zip">下載 0.5.0（29 MB）</a><a class="btn" href="#changes">0.5.0 的新東西</a></div>
       <p class="req ink-in d3">需要 macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
       <nav class="paths ink-in d3" aria-label="依你常打的內容看"><span>你常打的是</span><a href="#demo">中文</a><a href="#mixed">中英夾雜</a><a href="#code">程式</a><a href="#numbers">數字</a><a href="#ai-context">專業領域</a></nav>
     </div>
@@ -769,7 +784,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <p class="eyebrow">四個步驟</p>
       <h2>從提示詞，到打得出來</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
-      <p class="s-lead">隨便打不連網：提示詞由你自己複製到 AI，回覆也由你貼回來。</p>
+      <p class="s-lead">輸入法本身不連網：提示詞由你自己複製到 AI，回覆也由你貼回來。</p>
     </div>
     <div class="focus wide">
       <div class="steps4">
@@ -778,15 +793,17 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
         <div class="card"><span class="enso" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M50,14 C42,6 26,5 16,13 C6,21 5,38 13,48 C21,58 39,60 50,51 C58,44 60,32 56,22" fill="none" stroke-width="5" stroke-linecap="round"/></svg><b>三</b></span><h4>貼到任何 AI，再把回覆貼回來</h4><p>ChatGPT、Claude、Gemini 都可以。回覆裡夾著說明文字或程式碼區塊也沒關係，隨便打會自己找出內容。</p></div>
         <div class="card"><span class="enso" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M50,14 C42,6 26,5 16,13 C6,21 5,38 13,48 C21,58 39,60 50,51 C58,44 60,32 56,22" fill="none" stroke-width="5" stroke-linecap="round"/></svg><b>四</b></span><h4>確認注音，然後匯入</h4><p>每個詞都列出隨便打推算的注音，破音字請你選；沒有前後文線索的規則先標成「待補線索」，不會亂改。</p></div>
       </div>
+      <div class="shots one"><figure class="shot"><a class="sl" href="images/contexts-light.jpg"><img src="images/contexts-light.jpg" alt="情境頁：咖啡烘豆情境展開，列出詞、英文詞、修正規則與套用的 App" width="1440" height="1220" loading="lazy" decoding="async"></a><a class="sd" href="images/contexts-dark.jpg"><img src="images/contexts-dark.jpg" alt="情境頁：咖啡烘豆情境展開，列出詞、英文詞、修正規則與套用的 App" width="1440" height="1220" loading="lazy" decoding="async"></a><figcaption>情境頁：每一組的詞、修正規則與套用的 App 都能逐項編輯，也能整組關掉</figcaption></figure></div>
+      <div class="shots"><figure class="shot"><a class="sl" href="images/contexts-prompt-light.jpg"><img src="images/contexts-prompt-light.jpg" alt="用外部 AI 產生情境：輸入領域關鍵字、複製提示詞、貼回 AI 的回覆" width="900" height="790" loading="lazy" decoding="async"></a><a class="sd" href="images/contexts-prompt-dark.jpg"><img src="images/contexts-prompt-dark.jpg" alt="用外部 AI 產生情境：輸入領域關鍵字、複製提示詞、貼回 AI 的回覆" width="900" height="790" loading="lazy" decoding="async"></a><figcaption>輸入領域、複製提示詞，再把 AI 的回覆整段貼回來</figcaption></figure><figure class="shot"><a class="sl" href="images/contexts-confirm-light.jpg"><img src="images/contexts-confirm-light.jpg" alt="匯入咖啡烘豆情境前的確認畫面：專有名詞、英文詞與修正規則" width="900" height="915" loading="lazy" decoding="async"></a><a class="sd" href="images/contexts-confirm-dark.jpg"><img src="images/contexts-confirm-dark.jpg" alt="匯入咖啡烘豆情境前的確認畫面：專有名詞、英文詞與修正規則" width="900" height="915" loading="lazy" decoding="async"></a><figcaption>匯入前逐項確認：破音字選注音，沒有線索的規則先標出來</figcaption></figure></div>
     </div>
   </section>
 
   <section class="scene-sec">
     <div class="s-head">
       <p class="eyebrow"><span class="num">陸</span>背後怎麼做到</p>
-      <h2>一個按鍵，四層判斷</h2>
+      <h2>一個按鍵，五層判斷</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
-      <p class="s-lead">前兩層在你按鍵的瞬間完成；後兩層等你停頓時才在背景進行，所以打字不會變慢。</p>
+      <p class="s-lead">前兩層在你按鍵的瞬間完成；後三層等你停頓時才在背景進行，所以打字不會變慢。</p>
     </div>
     <div class="focus wide">
       <div class="pipe">
@@ -794,7 +811,9 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
         <div class="card"><span class="n">二・組字</span><h4>244,209 筆詞條</h4><p>在辭典裡找出機率最高的詞語組合，立即顯示。</p><span class="when">按鍵當下</span></div>
         <div class="card"><span class="n">三・整句重讀</span><h4>約一億參數</h4><p>繁體中文語言模型讀完整句話，在同音字之間重新挑選，必要時重新斷詞。</p><span class="when">停頓後，在背景</span></div>
         <div class="card"><span class="n">四・英文拼字</span><h4>技術名詞零誤改</h4><p>依鍵盤上真實的打錯型態修正英文，按一次退格就能還原。</p><span class="when">停頓後，在背景</span></div>
+        <div class="card"><span class="n">五・整句通順度</span><h4>約二十億參數</h4><p>把整句的幾種寫法交給語言模型比較，挑讀起來最通順的。只在 Apple 晶片的 Mac 上，模型另外下載。</p><span class="when">停頓後，在背景</span></div>
       </div>
+      <div class="shots one"><figure class="shot"><a class="sl" href="images/judge-light.jpg"><img src="images/judge-light.jpg" alt="判斷頁：同音字、中英混打、拼字修正的範例，以及整句重讀、語言模型判斷、中英混打、英文拼字修正的開關" width="1440" height="952" loading="lazy" decoding="async"></a><a class="sd" href="images/judge-dark.jpg"><img src="images/judge-dark.jpg" alt="判斷頁：同音字、中英混打、拼字修正的範例，以及整句重讀、語言模型判斷、中英混打、英文拼字修正的開關" width="1440" height="952" loading="lazy" decoding="async"></a><figcaption>判斷頁：每一層都有範例，也都能各自開關；語言模型要另外下載（約 1.7 GB）</figcaption></figure></div>
     </div>
   </section>
 
@@ -882,18 +901,31 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
   <section class="scene-sec" id="changes">
     <div class="s-head">
       <p class="eyebrow"><span class="num">捌</span>版本更新</p>
-      <h2>0.4.5 的新東西</h2>
+      <h2>0.5.0 的新東西</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">2026 年 10 月。舊版本的內容收在下面，點開才看得到。</p>
     </div>
     <div class="focus">
       <div class="card rows">
-        <div class="row"><span class="mark">一</span><div class="t"><b>打字途中不再提早改錯</b><small>句尾的字要更有把握才改，按 Enter 時再以完整的句子重新判斷：「特意縮小」不會打完就變成「特異」。</small></div></div>
-        <div class="row"><span class="mark">二</span><div class="t"><b>中文後面的空白鍵換候選字</b><small>和一般注音打字一樣；接著打英文時自動還原成空格，「我們用 rebase」照樣有空格。</small></div></div>
-        <div class="row"><span class="mark">三</span><div class="t"><b>名稱結尾的數字照原樣打</b><small>「cerry-reading-3」不會再變成「cerry-reading耳」；按 Tab 可以在數字與注音字之間切換。</small></div></div>
-        <div class="row"><span class="mark">四</span><div class="t"><b>「輪序」「後台」</b><small>單獨打 ㄌㄨㄣˊ ㄒㄩˋ 是「輪序」；「後台」「前台」優先於「後檯」「前檯」。「你／妳」比照「他／她」不互換。</small></div></div>
-        <div class="row"><span class="mark">五</span><div class="t"><b>情境依你正在寫的領域調整比重</b><small>看目前的 app、最近打的字和這一句，判斷是哪個領域；開了好幾組情境也不會互相搶詞。注音推算更準，給 AI 的提示詞也更精準。</small></div></div>
+        <div class="row"><span class="mark">一</span><div class="t"><b>用語言模型判斷整句</b><small>Apple 晶片的 Mac 上，停頓時比較同音字的各種寫法，挑整句最通順的；按 Enter 直接用，還沒算完就照舊，不會等。模型約 1.7 GB，另外下載。</small></div></div>
+        <div class="row"><span class="mark">二</span><div class="t"><b>英數詞、辭典沒有的詞、連打的數字</b><small>「m4」是「與」還是 M4、「交由」不再變成「郊遊」、「分機是2048」不再變成「但8」，都看整句決定。</small></div></div>
+        <div class="row"><span class="mark">三</span><div class="t"><b>小數與列表編號</b><small>「5.7」不再變成「帚」，打成中文時按 Tab 換回數字；「1.」後面接注音不會再黏在一起。</small></div></div>
+        <div class="row"><span class="mark">四</span><div class="t"><b>英數詞照原樣留下</b><small>ps3、x86、h264 直接留下；被打成注音時，按 Tab 換回原本打的鍵。</small></div></div>
+        <div class="row"><span class="mark">五</span><div class="t"><b>檢查更新</b><small>從 GitHub 下載新版、確認經過 Apple 公證之後打開安裝程式。輸入法本身仍然不連網。</small></div></div>
+        <div class="row"><span class="mark">六</span><div class="t"><b>選單列面板</b><small>常用開關、繁簡與標點、目前 App 的情境；系統的輸入法選單只留「隨便打設定…」，快捷鍵照常可用。</small></div></div>
+        <div class="row"><span class="mark">七</span><div class="t"><b>情境指定 App、異體字偏好</b><small>情境可以手動加入或排除 App；台／臺、計畫／計劃、紀錄／記錄等八組寫法可以自己選。</small></div></div>
+        <div class="row"><span class="mark">八</span><div class="t"><b>安裝程式不接走你的 Enter</b><small>在別的 App 打字時跳出來也不會誤按；重新安裝後不會再誤判成要重新加入輸入方式。</small></div></div>
       </div>
+      <details class="older">
+        <summary>0.4.5・打字途中不再提早改錯</summary>
+        <div class="card rows">
+          <div class="row"><span class="mark">一</span><div class="t"><b>打字途中不再提早改錯</b><small>句尾的字要更有把握才改，按 Enter 時再以完整的句子重新判斷：「特意縮小」不會打完就變成「特異」。</small></div></div>
+          <div class="row"><span class="mark">二</span><div class="t"><b>中文後面的空白鍵換候選字</b><small>和一般注音打字一樣；接著打英文時自動還原成空格，「我們用 rebase」照樣有空格。</small></div></div>
+          <div class="row"><span class="mark">三</span><div class="t"><b>名稱結尾的數字照原樣打</b><small>「cerry-reading-3」不會再變成「cerry-reading耳」；按 Tab 可以在數字與注音字之間切換。</small></div></div>
+          <div class="row"><span class="mark">四</span><div class="t"><b>「輪序」「後台」</b><small>單獨打 ㄌㄨㄣˊ ㄒㄩˋ 是「輪序」；「後台」「前台」優先於「後檯」「前檯」。「你／妳」比照「他／她」不互換。</small></div></div>
+          <div class="row"><span class="mark">五</span><div class="t"><b>情境依你正在寫的領域調整比重</b><small>看目前的 app、最近打的字和這一句，判斷是哪個領域；開了好幾組情境也不會互相搶詞。注音推算更準，給 AI 的提示詞也更精準。</small></div></div>
+        </div>
+      </details>
       <details class="older">
         <summary>0.4.4・開新與計畫</summary>
         <div class="card rows">
@@ -974,13 +1006,15 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <p class="s-lead">免費下載。macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
     </div>
     <div class="focus">
-      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.4.5/Suibianda-0.4.5.zip">下載 0.4.5（18 MB）</a></div>
+      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.0/Suibianda-0.5.0.zip">下載 0.5.0（29 MB）</a></div>
       <div class="card rows">
-        <div class="row"><span class="mark">一</span><div class="t"><b>加入輸入法</b><small>解壓縮後打開安裝程式，按「安裝」；預設會同時下載整句重讀的模型（約 188 MB），沒有模型也能先打字。安裝程式接著帶你在「系統設定」加入輸入方式：照畫面上的三個步驟做，加好了會自動往下，最後試打一句。清單裡找不到隨便打時，登出再登入，再打開安裝程式會從這一步接著做。</small></div></div>
-        <div class="row"><span class="mark">二</span><div class="t"><b>系統需求</b><small>macOS 14 Sonoma 以上。Apple 晶片與 Intel Mac 都可以。</small></div></div>
-        <div class="row"><span class="mark">三</span><div class="t"><b>資料留在本機</b><small>輸入法在沙盒中執行，沒有連網權限。打字紀錄預設關閉，開啟後也只存在你的 Mac。</small></div></div>
+        <div class="row"><span class="mark">一</span><div class="t"><b>加入輸入法</b><small>解壓縮後打開安裝程式，按「安裝」；預設會同時下載整句重讀的模型（Apple 晶片約 1.9 GB，含判斷整句通順度的語言模型；Intel Mac 約 188 MB），沒有模型也能先打字。安裝程式接著帶你在「系統設定」加入輸入方式：照畫面上的三個步驟做，加好了會自動往下，最後試打一句。清單裡找不到隨便打時，登出再登入，再打開安裝程式會從這一步接著做。</small></div></div>
+        <div class="row"><span class="mark">二</span><div class="t"><b>系統需求</b><small>macOS 14 Sonoma 以上。Apple 晶片與 Intel Mac 都可以；語言模型判斷只在 Apple 晶片上。</small></div></div>
+        <div class="row"><span class="mark">三</span><div class="t"><b>資料留在本機</b><small>輸入法在沙盒中執行，沒有連網權限，打的字不會離開你的 Mac。只有安裝程式下載模型（GitHub、Hugging Face），以及你按「檢查更新」時（GitHub），才會連網。打字紀錄預設關閉，開啟後也只存在你的 Mac。</small></div></div>
         <div class="row"><span class="mark">四</span><div class="t"><b>免費</b><small>所有功能都免費，沒有付費版本。</small></div></div>
       </div>
+      <div class="shots"><figure class="shot"><a class="sl" href="images/installer-welcome-light.jpg"><img src="images/installer-welcome-light.jpg" alt="安裝程式的第一頁：勾選同時下載整句重讀模型，按「安裝」" width="1040" height="910" loading="lazy" decoding="async"></a><a class="sd" href="images/installer-welcome-dark.jpg"><img src="images/installer-welcome-dark.jpg" alt="安裝程式的第一頁：勾選同時下載整句重讀模型，按「安裝」" width="1040" height="910" loading="lazy" decoding="async"></a><figcaption>打開安裝程式，按「安裝」；模型在背景下載</figcaption></figure><figure class="shot"><a class="sl" href="images/installer-add-light.jpg"><img src="images/installer-add-light.jpg" alt="安裝程式帶你加入輸入方式：三個步驟都打勾，顯示「加好了」" width="1040" height="910" loading="lazy" decoding="async"></a><a class="sd" href="images/installer-add-dark.jpg"><img src="images/installer-add-dark.jpg" alt="安裝程式帶你加入輸入方式：三個步驟都打勾，顯示「加好了」" width="1040" height="910" loading="lazy" decoding="async"></a><figcaption>照三個步驟加入輸入方式，加好了會自動往下走</figcaption></figure></div>
+      <div class="shots side"><figure class="shot"><a class="sl" href="images/overview-light.jpg"><img src="images/overview-light.jpg" alt="總覽頁：一切就緒，這一週送出的句數、同音字自動改對、英文拼字修正與手動選字的次數" width="1440" height="952" loading="lazy" decoding="async"></a><a class="sd" href="images/overview-dark.jpg"><img src="images/overview-dark.jpg" alt="總覽頁：一切就緒，這一週送出的句數、同音字自動改對、英文拼字修正與手動選字的次數" width="1440" height="952" loading="lazy" decoding="async"></a><figcaption>總覽：一眼看到是否就緒，以及這一週自動改對了幾處</figcaption></figure><figure class="shot"><a class="sl" href="images/menu-panel-light.jpg"><img src="images/menu-panel-light.jpg" alt="選單列面板：中英混打、整句重讀、語言模型判斷、英文拼字修正的開關，字形、標點與目前 App 套用的情境" width="640" height="1420" loading="lazy" decoding="async"></a><a class="sd" href="images/menu-panel-dark.jpg"><img src="images/menu-panel-dark.jpg" alt="選單列面板：中英混打、整句重讀、語言模型判斷、英文拼字修正的開關，字形、標點與目前 App 套用的情境" width="640" height="1420" loading="lazy" decoding="async"></a><figcaption>選單列面板：常用開關與目前 App 的情境</figcaption></figure></div>
     </div>
   </section>
 </main>
@@ -991,7 +1025,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
   <div class="foot-info">
   <span class="seal" aria-hidden="true">手</span><div class="name">隨便打・Suibianda</div>
   <nav><span>免費軟體・© 2026 KO-JUI CHEN</span></nav>
-  <p class="credits">整句重讀的語言模型：中央研究院 CKIP Lab 繁體中文 BERT（GPL-3.0）。英文詞頻：wordfreq（CC BY-SA 4.0）。標題字型：霞鶩文楷 TC（SIL Open Font License 1.1，<a href="/assets/fonts/OFL-LXGW-WenKai-TC.txt">授權全文</a>）。所有數據為模擬測試結果，題目以大千鍵盤逐鍵輸入；實際使用的準確率會因打字習慣與內容而不同。打的字只在你的 Mac 上處理，不會連網。</p>
+  <p class="credits">整句重讀的語言模型：中央研究院 CKIP Lab 繁體中文 BERT（GPL-3.0）。判斷整句通順度的語言模型：Qwen3.5 2B（Apache-2.0；MLX 4-bit 格式由 mlx-community 轉換）。英文詞頻：wordfreq（CC BY-SA 4.0）。標題字型：霞鶩文楷 TC（SIL Open Font License 1.1，<a href="/assets/fonts/OFL-LXGW-WenKai-TC.txt">授權全文</a>）。所有數據為模擬測試結果，題目以大千鍵盤逐鍵輸入；實際使用的準確率會因打字習慣與內容而不同。打的字只在你的 Mac 上處理，不會傳到網路上。</p>
   </div>
 </footer>
 <canvas class="fog-over" aria-hidden="true"></canvas>
