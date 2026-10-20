@@ -606,7 +606,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
     <div class="hero-copy">
       <div class="brand ink-in"><span class="seal" aria-hidden="true">手</span><span>隨便打・Suibianda</span></div>
       <p class="lead ink-in d2">為 macOS 而做的注音輸入法。照自己的節奏打，<strong>中文、英文、打錯的字都交給它判斷</strong>，一般句子不用手動選字。</p>
-      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.2/Suibianda-0.5.2.zip">下載 0.5.2（29 MB）</a><a class="btn" href="#changes">0.5.2 的新東西</a></div>
+      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.3/Suibianda-0.5.3.zip">下載 0.5.3（29 MB）</a><a class="btn" href="#changes">0.5.3 的新東西</a></div>
       <p class="req ink-in d3">需要 macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
       <nav class="paths ink-in d3" aria-label="依你常打的內容看"><span>你常打的是</span><a href="#demo">中文</a><a href="#mixed">中英夾雜</a><a href="#code">程式</a><a href="#numbers">數字</a><a href="#ai-context">專業領域</a></nav>
     </div>
@@ -901,18 +901,28 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
   <section class="scene-sec" id="changes">
     <div class="s-head">
       <p class="eyebrow"><span class="num">捌</span>版本更新</p>
-      <h2>0.5.2 的新東西</h2>
+      <h2>0.5.3 的新東西</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">2026 年 10 月。舊版本的內容收在下面，點開才看得到。</p>
     </div>
     <div class="focus">
       <div class="card rows">
-        <div class="row"><span class="mark">一</span><div class="t"><b>語言模型換成 Qwen3.5 0.8B</b><small>要下載的語言模型從 1.74 GB 減到 0.63 GB；在同一份 3,797 句的考題上打對 3,542 句，原本的 2B 是 3,548 句。新模型裝好後，舊的 2B 會自動刪掉。</small></div></div>
-        <div class="row"><span class="mark">二</span><div class="t"><b>兩岸用法不同的字</b><small>「紀錄／記錄」「帳／賬」這類寫法，語言模型容易偏向大陸用法，改由整句重讀的中文模型判斷。</small></div></div>
-        <div class="row"><span class="mark">三</span><div class="t"><b>停頓時的判斷</b><small>只把可能改變結果的寫法交給語言模型，停頓時要算的句子少約六成；改字也不會在兩種寫法之間來回跳。</small></div></div>
-        <div class="row"><span class="mark">四</span><div class="t"><b>安裝與更新等模型下載完才算完成</b><small>更新時，模型的下載進度就在更新那一頁；首次安裝時，模型在你加入輸入方式時同時下載，到最後一頁還沒下載完會等它。下載失敗可以重試，也可以先不下載。</small></div></div>
-        <div class="row"><span class="mark">五</span><div class="t"><b>磁碟快滿時不會再被系統關掉</b><small>之前磁碟空間不夠時，macOS 會關掉隨便打去清快取，那段時間打字只剩注音符號；整句重讀模型的編譯結果現在放在系統不會自動清的地方。</small></div></div>
+        <div class="row"><span class="mark">一</span><div class="t"><b>漢語拼音也能中英混打</b><small>在「設定 › 鍵盤」的「打字方式」選「拼音」，每個音節後面打聲調數字 1–5，英文照常打：「zhe4ge4taskshui2fu4ze2」打出「這個task誰負責」。數字照原樣（99.9%、24小時），數字後面的量詞也會選對。同一批考題上，拼音和大千打對的句數一樣或更多。</small></div></div>
+        <div class="row"><span class="mark">二</span><div class="t"><b>注音和拼音分成兩種打字方式</b><small>「設定 › 鍵盤」選了哪一種，下面就只出現那一種的選項：注音排列與注音狂打，或拼音狂打。</small></div></div>
+        <div class="row"><span class="mark">三</span><div class="t"><b>停下來就看得到 Tab 會換成什麼</b><small>組字區下面列出按 Tab 會換成的寫法（預設 3 種、直列，可改成 0–5 種或橫列）；按一下換成第一種，清單往上補，換完一圈回到原本打的樣子。</small></div></div>
+        <div class="row"><span class="mark">四</span><div class="t"><b>按住 Tab 直接挑</b><small>按住 Tab（預設 0.8 秒）打開快速選單，最多 12 種、排成 2 行 × 6 個，用數字鍵或方向鍵選；快速連按不會打開。</small></div></div>
+        <div class="row"><span class="mark">五</span><div class="t"><b>第一次安裝不再找不到</b><small>macOS 只在登入時讀取新安裝的輸入法，之前裝好後在「＋」清單裡找不到隨便打。安裝程式現在會請你登出一次，登入後自己打開、接著帶你加入輸入方式；從蘋果選單登出或重新開機也可以。</small></div></div>
       </div>
+      <details class="older">
+        <summary>0.5.2・語言模型換成 0.8B</summary>
+        <div class="card rows">
+          <div class="row"><span class="mark">一</span><div class="t"><b>語言模型換成 Qwen3.5 0.8B</b><small>要下載的語言模型從 1.74 GB 減到 0.63 GB；在同一份 3,797 句的考題上打對 3,542 句，原本的 2B 是 3,548 句。新模型裝好後，舊的 2B 會自動刪掉。</small></div></div>
+          <div class="row"><span class="mark">二</span><div class="t"><b>兩岸用法不同的字</b><small>「紀錄／記錄」「帳／賬」這類寫法，語言模型容易偏向大陸用法，改由整句重讀的中文模型判斷。</small></div></div>
+          <div class="row"><span class="mark">三</span><div class="t"><b>停頓時的判斷</b><small>只把可能改變結果的寫法交給語言模型，停頓時要算的句子少約六成；改字也不會在兩種寫法之間來回跳。</small></div></div>
+          <div class="row"><span class="mark">四</span><div class="t"><b>安裝與更新等模型下載完才算完成</b><small>更新時，模型的下載進度就在更新那一頁；首次安裝時，模型在你加入輸入方式時同時下載，到最後一頁還沒下載完會等它。下載失敗可以重試，也可以先不下載。</small></div></div>
+          <div class="row"><span class="mark">五</span><div class="t"><b>磁碟快滿時不會再被系統關掉</b><small>之前磁碟空間不夠時，macOS 會關掉隨便打去清快取，那段時間打字只剩注音符號；整句重讀模型的編譯結果現在放在系統不會自動清的地方。</small></div></div>
+        </div>
+      </details>
       <details class="older">
         <summary>0.5.1・選單列與數字</summary>
         <div class="card rows">
@@ -1026,9 +1036,9 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <p class="s-lead">免費下載。macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
     </div>
     <div class="focus">
-      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.2/Suibianda-0.5.2.zip">下載 0.5.2（29 MB）</a></div>
+      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.3/Suibianda-0.5.3.zip">下載 0.5.3（29 MB）</a></div>
       <div class="card rows">
-        <div class="row"><span class="mark">一</span><div class="t"><b>加入輸入法</b><small>解壓縮後打開安裝程式，按「安裝」；預設會同時下載整句重讀的模型（Apple 晶片約 0.8 GB，含判斷整句通順度的語言模型；Intel Mac 約 188 MB），在你加入輸入方式時一起下載，下載完才算完成；沒有模型也能先打字。安裝程式接著帶你在「系統設定」加入輸入方式：照畫面上的三個步驟做，加好了會自動往下，最後試打一句。清單裡找不到隨便打時，登出再登入，再打開安裝程式會從這一步接著做。</small></div></div>
+        <div class="row"><span class="mark">一</span><div class="t"><b>加入輸入法</b><small>解壓縮後打開安裝程式，按「安裝」；預設會同時下載整句重讀的模型（Apple 晶片約 0.8 GB，含判斷整句通順度的語言模型；Intel Mac 約 188 MB），在你加入輸入方式時一起下載，下載完才算完成；沒有模型也能先打字。第一次安裝時，安裝程式會請你登出一次（macOS 只在登入時讀取新安裝的輸入法），登入後自己打開，帶你在「系統設定」加入輸入方式：照畫面上的三個步驟做，清單裡的名稱是「隨便打-繁」（英文系統是「Suibianda-CHT」），加好了會自動往下，最後試打一句。</small></div></div>
         <div class="row"><span class="mark">二</span><div class="t"><b>系統需求</b><small>macOS 14 Sonoma 以上。Apple 晶片與 Intel Mac 都可以；語言模型判斷只在 Apple 晶片上。</small></div></div>
         <div class="row"><span class="mark">三</span><div class="t"><b>Windows 與 Linux（測試版）</b><small>Windows（ARM 與 x64）與 Ubuntu 24.04（IBus）的測試版放在 GitHub 的 <a href="https://github.com/Cerry0524/suibianda-releases/releases/tag/v0.5.2-rc2">0.5.2-rc2</a>，目前只在 ARM 的虛擬機上測過。</small></div></div>
         <div class="row"><span class="mark">四</span><div class="t"><b>資料留在本機</b><small>輸入法在沙盒中執行，沒有連網權限，打的字不會離開你的 Mac。只有安裝程式下載模型，以及你按「檢查更新」時，才會連到 GitHub。打字紀錄預設關閉，開啟後也只存在你的 Mac。</small></div></div>
