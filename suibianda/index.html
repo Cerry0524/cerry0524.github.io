@@ -606,7 +606,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
     <div class="hero-copy">
       <div class="brand ink-in"><span class="seal" aria-hidden="true">手</span><span>隨便打・Suibianda</span></div>
       <p class="lead ink-in d2">為 macOS 而做的注音輸入法。照自己的節奏打，<strong>中文、英文、打錯的字都交給它判斷</strong>，一般句子不用手動選字。</p>
-      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.4/Suibianda-0.5.4.zip">下載 0.5.4（29 MB）</a><a class="btn" href="#changes">0.5.4 的新東西</a></div>
+      <div class="actions ink-in d3"><a class="btn seal-btn" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.5/Suibianda-0.5.5.zip">下載 0.5.5（30 MB）</a><a class="btn" href="#changes">0.5.5 的新東西</a></div>
       <p class="req ink-in d3">需要 macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
       <nav class="paths ink-in d3" aria-label="依你常打的內容看"><span>你常打的是</span><a href="#demo">中文</a><a href="#mixed">中英夾雜</a><a href="#code">程式</a><a href="#numbers">數字</a><a href="#ai-context">專業領域</a></nav>
     </div>
@@ -901,16 +901,26 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
   <section class="scene-sec" id="changes">
     <div class="s-head">
       <p class="eyebrow"><span class="num">捌</span>版本更新</p>
-      <h2>0.5.4 的新東西</h2>
+      <h2>0.5.5 的新東西</h2>
       <svg class="stroke" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C18,4.5 40,5.2 64,6.4 C86,7.4 104,6.2 118,4.2 C112,8.6 92,10.6 66,10.4 C40,10.2 18,11.6 4,11.2 Z" fill="currentColor"/></svg>
       <p class="s-lead">2026 年 10 月。舊版本的內容收在下面，點開才看得到。</p>
     </div>
     <div class="focus">
       <div class="card rows">
-        <div class="row"><span class="mark">一</span><div class="t"><b>句首的字也交給語言模型判斷</b><small>以前語言模型從第二個字才開始比，「不先給我看過？」會打成「部先」。現在第一個字也一起比：全部 3,869 題考題整句打對的由 3,607 題增加到 3,620 題，句首陷阱題 40 題由 36 題增加到 38 題。</small></div></div>
-        <div class="row"><span class="mark">二</span><div class="t"><b>英數詞換得比較謹慎</b><small>中文字的按鍵剛好也像英數詞（「次」的按鍵是 h4）時，要比中文明顯通順才換成英數詞。</small></div></div>
-        <div class="row"><span class="mark">三</span><div class="t"><b>回報問題</b><small>設定的「總覽 › 常用」和選單列面板多了「回報問題」，開一封寄給 ray0524work@gmail.com 的信，先填好隨便打與 macOS 的版本；不會自動寄出，也不會附上你打過的字。</small></div></div>
+        <div class="row"><span class="mark">一</span><div class="t"><b>不打聲調時「的／得」「是／時」選得更準</b><small>狂打＋中英混打、不打聲調時，「值的比較」以前會打成「值得比較」、「React Router 是常見的」打成「時常見的」。現在詞庫沒有的字組合會從各個聲調找字，交給語言模型比較。</small></div></div>
+        <div class="row"><span class="mark">二</span><div class="t"><b>讀音模型</b><small>新的小模型（約 14 MB）看得到每個字的注音，替不打聲調的句子提出最可能的字，再交給語言模型決定換不換。只在 Apple 晶片的 Mac 上，安裝程式自動下載。</small></div></div>
+        <div class="row"><span class="mark">三</span><div class="t"><b>中文後面的空白不再被吃掉</b><small>大千注音不打聲調時，中文後面按空白再打英文（「虛擬 DOM」），空白會留著。</small></div></div>
+        <div class="row"><span class="mark">四</span><div class="t"><b>異體字多了「分布／分佈」「盡量／儘量」</b><small>預設選教育部的標準寫法「分布」「盡量」，從舊版更新、沒改過預設的也會自動換上；想用另一種寫法，到設定視窗的「設定」頁 › 異體字選。</small></div></div>
+        <div class="row"><span class="mark">五</span><div class="t"><b>模擬測試</b><small>狂打＋中英混打、不打聲調：保留題 400 題多打對 13 題、易混字 1,162 題多打對 56 題。打聲調的 3,829 題：3,581 題增加到 3,586 題，沒有改壞的。</small></div></div>
       </div>
+      <details class="older">
+        <summary>0.5.4・句首的字也交給語言模型判斷</summary>
+        <div class="card rows">
+          <div class="row"><span class="mark">一</span><div class="t"><b>句首的字也交給語言模型判斷</b><small>以前語言模型從第二個字才開始比，「不先給我看過？」會打成「部先」。現在第一個字也一起比：全部 3,869 題考題整句打對的由 3,607 題增加到 3,620 題，句首陷阱題 40 題由 36 題增加到 38 題。</small></div></div>
+          <div class="row"><span class="mark">二</span><div class="t"><b>英數詞換得比較謹慎</b><small>中文字的按鍵剛好也像英數詞（「次」的按鍵是 h4）時，要比中文明顯通順才換成英數詞。</small></div></div>
+          <div class="row"><span class="mark">三</span><div class="t"><b>回報問題</b><small>設定的「總覽 › 常用」和選單列面板多了「回報問題」，開一封寄給 ray0524work@gmail.com 的信，先填好隨便打與 macOS 的版本；不會自動寄出，也不會附上你打過的字。</small></div></div>
+        </div>
+      </details>
       <details class="older">
         <summary>0.5.3・漢語拼音中英混打</summary>
         <div class="card rows">
@@ -1044,7 +1054,7 @@ footer.foot nav { display: flex; gap: 6px 18px; justify-content: center; flex-wr
       <p class="s-lead">免費下載。macOS 14 以上，Apple 晶片與 Intel Mac 都可以。</p>
     </div>
     <div class="focus">
-      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.4/Suibianda-0.5.4.zip">下載 0.5.4（29 MB）</a></div>
+      <div class="cta"><a class="btn seal-btn big" href="https://github.com/Cerry0524/suibianda-releases/releases/download/v0.5.5/Suibianda-0.5.5.zip">下載 0.5.5（30 MB）</a></div>
       <div class="card rows">
         <div class="row"><span class="mark">一</span><div class="t"><b>加入輸入法</b><small>解壓縮後打開安裝程式，按「安裝」；預設會同時下載整句重讀的模型（Apple 晶片約 0.8 GB，含判斷整句通順度的語言模型；Intel Mac 約 188 MB），在你加入輸入方式時一起下載，下載完才算完成；沒有模型也能先打字。第一次安裝時，安裝程式會請你登出一次（macOS 只在登入時讀取新安裝的輸入法），登入後自己打開，帶你在「系統設定」加入輸入方式：照畫面上的三個步驟做，清單裡的名稱是「隨便打-繁」（英文系統是「Suibianda-CHT」），加好了會自動往下，最後試打一句。</small></div></div>
         <div class="row"><span class="mark">二</span><div class="t"><b>系統需求</b><small>macOS 14 Sonoma 以上。Apple 晶片與 Intel Mac 都可以；語言模型判斷只在 Apple 晶片上。</small></div></div>
